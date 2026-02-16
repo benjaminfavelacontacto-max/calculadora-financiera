@@ -30,19 +30,11 @@
         h2 {
             text-align: center;
             margin-bottom: 25px;
-            font-weight: 700;
-            letter-spacing: 1px;
             color: #d4af37;
             text-transform: uppercase;
         }
         .input-group { margin-bottom: 15px; }
-        label {
-            display: block;
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: #d4af37;
-            opacity: 0.8;
-        }
+        label { display: block; font-size: 12px; margin-bottom: 5px; color: #d4af37; }
         input, select {
             width: 100%;
             padding: 12px;
@@ -51,163 +43,79 @@
             border: 1px solid #333;
             background: #0a0a0a;
             color: #f5d27a;
-            font-size: 15px;
-            transition: border 0.3s;
-        }
-        .buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
         }
         button {
+            width: 100%;
             padding: 14px;
+            margin-top: 10px;
             border-radius: 10px;
             border: none;
             background: #d4af37;
             color: black;
             font-weight: bold;
             cursor: pointer;
-            font-size: 15px;
-            transition: all 0.3s ease;
         }
-        button:hover { background: #f5d27a; transform: translateY(-2px); }
-        .secondary-btn { background: transparent; color: #d4af37; border: 1px solid #d4af37; }
-        .resumen {
-            margin-top: 25px;
-            font-size: 15px;
-            line-height: 1.8;
-            background: rgba(212, 175, 55, 0.05);
-            padding: 20px;
-            border-radius: 14px;
-            border: 1px dashed #d4af37;
-            display: none;
-        }
-        .resumen span { color: #fff; float: right; font-weight: bold; }
-        canvas { margin-top: 30px; max-height: 400px; }
+        #grafica { margin-top: 30px; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Estrategia de Inversión</h2>
-    <div class="input-group">
-        <label>Capital Inicial ($)</label>
-        <input type="number" id="capital" placeholder="Ej: 5000">
-    </div>
-    <div class="input-group">
-        <label>Aportación Mensual ($)</label>
-        <input type="number" id="aportacion" placeholder="Ej: 200">
-    </div>
-    <div class="input-group">
-        <label>Tasa de Rendimiento Anual (%)</label>
-        <input type="number" id="tasa" placeholder="Ej: 10">
-    </div>
-    <div class="input-group">
-        <label>Tiempo (Años)</label>
-        <input type="number" id="años" placeholder="Ej: 20">
-    </div>
-    <div class="input-group">
-        <label>Frecuencia de Capitalización</label>
-        <select id="frecuencia">
-            <option value="1">Anual</option>
-            <option value="12" selected>Mensual</option>
-        </select>
-    </div>
-    <div class="buttons">
+    <div class="container">
+        <h2>Estrategia de Inversión</h2>
+        <div class="input-group">
+            <label>Capital Inicial ($)</label>
+            <input type="number" id="capital" placeholder="Ej: 5000">
+        </div>
+        <div class="input-group">
+            <label>Aportación Mensual ($)</label>
+            <input type="number" id="aportacion" placeholder="Ej: 200">
+        </div>
+        <div class="input-group">
+            <label>Tasa Anual (%)</label>
+            <input type="number" id="tasa" placeholder="Ej: 10">
+        </div>
+        <div class="input-group">
+            <label>Tiempo (Años)</label>
+            <input type="number" id="años" placeholder="Ej: 20">
+        </div>
         <button onclick="calcular()">CALCULAR</button>
-        <button class="secondary-btn" onclick="descargarPDF()">PDF REPORTE</button>
+        <canvas id="grafica"></canvas>
     </div>
-    <div class="resumen" id="resumen"></div>
-    <canvas id="grafica"></canvas>
-</div>
 
-<script>
-let chart;
-let resultadoGlobal = {};
+    <script>
+        let chart;
+        function calcular() {
+            const capital = parseFloat(document.getElementById('capital').value) || 0;
+            const aportacion = parseFloat(document.getElementById('aportacion').value) || 0;
+            const tasa = (parseFloat(document.getElementById('tasa').value) / 100) / 12 || 0;
+            const meses = (parseInt(document.getElementById('años').value) || 0) * 12;
 
-function formatoMoneda(valor){
-    return "$" + Number(valor).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
-}
+            let saldo = capital;
+            let data = [capital];
+            let labels = ["Inicio"];
 
-function calcular() {
-    const capital = parseFloat(document.getElementById("capital").value) || 0;
-    const aportacion = parseFloat(document.getElementById("aportacion").value) || 0;
-    const tasaAnual = parseFloat(document.getElementById("tasa").value) / 100 || 0;
-    const años = parseInt(document.getElementById("años").value) || 0;
-
-    if (capital <= 0 || tasaAnual <= 0 || años <= 0) {
-        alert("Ingresa valores válidos.");
-        return;
-    }
-
-    let labels = [], simpleData = [], compuestoData = [];
-    let simple = capital, compuesto = capital, totalInvertido = capital;
-
-    for (let i = 0; i <= años; i++) {
-        labels.push("Año " + i);
-        if (i === 0) {
-            simpleData.push(capital);
-            compuestoData.push(capital);
-        } else {
-            totalInvertido += (aportacion * 12);
-            simple = capital + (capital * tasaAnual * i) + (aportacion * 12 * i);
-            for(let m = 0; m < 12; m++) {
-                compuesto = (compuesto + aportacion) * (1 + (tasaAnual / 12));
+            for (let i = 1; i <= meses; i++) {
+                saldo = (saldo + aportacion) * (1 + tasa);
+                if (i % 12 === 0) {
+                    data.push(saldo.toFixed(2));
+                    labels.push("Año " + (i / 12));
+                }
             }
-            simpleData.push(simple);
-            compuestoData.push(compuesto);
+
+            if (chart) chart.destroy();
+            const ctx = document.getElementById('grafica').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Interés Compuesto',
+                        data: data,
+                        borderColor: '#d4af37',
+                        fill: false
+                    }]
+                }
+            });
         }
-    }
-
-    resultadoGlobal = { simple, compuesto, invertido: totalInvertido, diferencia: compuesto - simple };
-
-    const resumenDiv = document.getElementById("resumen");
-    resumenDiv.style.display = "block";
-    resumenDiv.innerHTML = `
-        <div>Total Invertido: <span>${formatoMoneda(totalInvertido)}</span></div>
-        <div style="color: #d4af37;">Final Compuesto: <span>${formatoMoneda(compuesto)}</span></div>
-        <div style="font-weight: bold; margin-top:10px; border-top: 1px solid #333;">Ganancia Extra: <span>${formatoMoneda(resultadoGlobal.diferencia)}</span></div>
-    `;
-
-    if (chart) chart.destroy();
-    const ctx = document.getElementById("grafica").getContext("2d");
-    chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Interés Compuesto',
-                data: compuestoData,
-                borderColor: '#d4af37',
-                backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                fill: true,
-                tension: 0.4
-            }, {
-                label: 'Interés Simple',
-                data: simpleData,
-                borderColor: '#444',
-                borderDash: [5, 5]
-            }]
-        },
-        options: {
-            scales: {
-                y: { ticks: { color: '#aaa' } },
-                x: { ticks: { color: '#aaa' } }
-            },
-            plugins: { legend: { labels: { color: '#f5d27a' } } }
-        }
-    });
-}
-
-function descargarPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("REPORTE FINANCIERO - BENJAMIN FAVELA", 20, 20);
-    doc.text(`Total Invertido: ${formatoMoneda(resultadoGlobal.invertido)}`, 20, 40);
-    doc.text(`Resultado Final: ${formatoMoneda(resultadoGlobal.compuesto)}`, 20, 50);
-    doc.save("Reporte_Inversion.pdf");
-}
-</script>
+    </script>
 </body>
 </html>
