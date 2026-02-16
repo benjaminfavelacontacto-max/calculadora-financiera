@@ -1,121 +1,222 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Interés Compuesto | Benjamin Favela</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
-            color: #f5d27a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: #111111;
-            padding: 35px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 720px;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
-            border: 1px solid #d4af37;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #d4af37;
-            text-transform: uppercase;
-        }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-size: 12px; margin-bottom: 5px; color: #d4af37; }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            box-sizing: border-box;
-            border-radius: 10px;
-            border: 1px solid #333;
-            background: #0a0a0a;
-            color: #f5d27a;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            border-radius: 10px;
-            border: none;
-            background: #d4af37;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        #grafica { margin-top: 30px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Interés Compuesto | Benjamin Favela</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg,#000000,#0a0a0a);
+        color: #f5d27a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        background: #111111;
+        padding: 35px;
+        border-radius: 20px;
+        width: 720px;
+        box-shadow: 0 0 40px rgba(212,175,55,0.4);
+        border: 1px solid #d4af37;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #d4af37;
+    }
+    input, select {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 10px;
+        border: 1px solid #d4af37;
+        background: #000000;
+        color: #f5d27a;
+        font-size: 15px;
+    }
+    button {
+        width: 100%;
+        padding: 14px;
+        margin-top: 10px;
+        border-radius: 10px;
+        border: none;
+        background: #d4af37;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+    button:hover { background: #b8962e; }
+    .secondary-btn { background:#000000; color:#d4af37; border:1px solid #d4af37; }
+    .secondary-btn:hover { background:#1a1a1a; }
+    .resumen {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 1.7;
+        background: #000000;
+        padding: 18px;
+        border-radius: 14px;
+        border: 1px solid #d4af37;
+    }
+    canvas { margin-top: 30px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h2>Estrategia de Inversión</h2>
-        <div class="input-group">
-            <label>Capital Inicial ($)</label>
-            <input type="number" id="capital" placeholder="Ej: 5000">
-        </div>
-        <div class="input-group">
-            <label>Aportación Mensual ($)</label>
-            <input type="number" id="aportacion" placeholder="Ej: 200">
-        </div>
-        <div class="input-group">
-            <label>Tasa Anual (%)</label>
-            <input type="number" id="tasa" placeholder="Ej: 10">
-        </div>
-        <div class="input-group">
-            <label>Tiempo (Años)</label>
-            <input type="number" id="años" placeholder="Ej: 20">
-        </div>
-        <button onclick="calcular()">CALCULAR</button>
-        <canvas id="grafica"></canvas>
-    </div>
 
-    <script>
-        let chart;
-        function calcular() {
-            const capital = parseFloat(document.getElementById('capital').value) || 0;
-            const aportacion = parseFloat(document.getElementById('aportacion').value) || 0;
-            const tasa = (parseFloat(document.getElementById('tasa').value) / 100) / 12 || 0;
-            const meses = (parseInt(document.getElementById('años').value) || 0) * 12;
+<div class="container">
+    <h2>Calculadora Interés Simple vs Compuesto</h2>
 
-            let saldo = capital;
-            let data = [capital];
-            let labels = ["Inicio"];
+    <input type="number" id="capital" placeholder="Capital inicial ($)">
+    <input type="number" id="aportacion" placeholder="Aportación periódica ($)">
+    <input type="number" id="tasa" placeholder="Tasa anual (%)">
+    <input type="number" id="años" placeholder="Años">
 
-            for (let i = 1; i <= meses; i++) {
-                saldo = (saldo + aportacion) * (1 + tasa);
-                if (i % 12 === 0) {
-                    data.push(saldo.toFixed(2));
-                    labels.push("Año " + (i / 12));
+    <select id="frecuencia">
+        <option value="1">Capitalización Anual</option>
+        <option value="12">Capitalización Mensual</option>
+    </select>
+
+    <button onclick="calcular()">Calcular</button>
+    <button class="secondary-btn" onclick="descargarPDF()">Descargar PDF</button>
+
+    <div class="resumen" id="resumen"></div>
+
+    <canvas id="grafica"></canvas>
+</div>
+
+<script>
+let chart;
+let resultadoGlobal = {};
+
+function formatoMoneda(valor){
+    return "$" + Number(valor).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function calcular() {
+    let capital = parseFloat(document.getElementById("capital").value) || 0;
+    let aportacion = parseFloat(document.getElementById("aportacion").value) || 0;
+    let tasa = parseFloat(document.getElementById("tasa").value) / 100 || 0;
+    let años = parseInt(document.getElementById("años").value) || 0;
+    let frecuencia = parseInt(document.getElementById("frecuencia").value);
+
+    if (!capital || !tasa || !años) {
+        alert("Completa capital, tasa y años");
+        return;
+    }
+
+    let simpleData = [];
+    let compuestoData = [];
+    let labels = [];
+
+    let periodos = años * frecuencia;
+    let tasaPeriodo = tasa / frecuencia;
+
+    let simple = capital;
+    let compuesto = capital;
+
+    for (let i = 0; i <= periodos; i++) {
+        if (i > 0) {
+            simple += capital * tasaPeriodo;
+            compuesto = (compuesto + aportacion) * (1 + tasaPeriodo);
+        }
+        if (i % frecuencia === 0) {
+            labels.push("Año " + (i / frecuencia));
+            simpleData.push(simple);
+            compuestoData.push(compuesto);
+        }
+    }
+
+    let invertidoTotal = capital + (aportacion * periodos);
+    let diferencia = compuesto - simple;
+
+    resultadoGlobal = { simple, compuesto, invertido: invertidoTotal, diferencia };
+
+    document.getElementById("resumen").innerHTML = `
+        <strong>Total invertido:</strong> ${formatoMoneda(invertidoTotal)}<br>
+        <strong>Interés Simple:</strong> ${formatoMoneda(simple)}<br>
+        <strong>Interés Compuesto:</strong> ${formatoMoneda(compuesto)}<br>
+        <strong>Diferencia generada por el compuesto:</strong> ${formatoMoneda(diferencia)}
+    `;
+
+    if (chart) chart.destroy();
+
+    const ctx = document.getElementById("grafica").getContext("2d");
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Interés Simple ($)',
+                    data: simpleData,
+                    borderColor: '#00bcd4',
+                    backgroundColor: 'rgba(0,188,212,0.15)',
+                    borderWidth: 3,
+                    tension: 0.3
+                },
+                {
+                    label: 'Interés Compuesto ($)',
+                    data: compuestoData,
+                    borderColor: '#ff6b35',
+                    backgroundColor: 'rgba(255,107,53,0.15)',
+                    borderWidth: 4,
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            animation: { duration: 2000 },
+            scales: {
+                y: {
+                    ticks: {
+                        color: '#f5d27a',
+                        callback: function(value){ return '$' + value.toLocaleString(); }
+                    }
+                },
+                x: { ticks: { color: '#f5d27a' } }
+            },
+            plugins: {
+                legend: { labels: { color: '#f5d27a' } },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let value = context.parsed.y;
+                            return context.dataset.label + ': $' + Number(value).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+                        }
+                    }
                 }
             }
-
-            if (chart) chart.destroy();
-            const ctx = document.getElementById('grafica').getContext('2d');
-            chart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Interés Compuesto',
-                        data: data,
-                        borderColor: '#d4af37',
-                        fill: false
-                    }]
-                }
-            });
         }
-    </script>
+    });
+}
+
+async function descargarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text("Reporte Interés Simple vs Compuesto", 20, 20);
+
+    doc.setFontSize(12);
+    doc.text(`Total invertido: ${formatoMoneda(resultadoGlobal.invertido)}`, 20, 40);
+    doc.text(`Interés Simple: ${formatoMoneda(resultadoGlobal.simple)}`, 20, 50);
+    doc.text(`Interés Compuesto: ${formatoMoneda(resultadoGlobal.compuesto)}`, 20, 60);
+    doc.text(`Diferencia: ${formatoMoneda(resultadoGlobal.diferencia)}`, 20, 70);
+
+    doc.save("Reporte_Interes_Compuesto_Benjamin_Favela.pdf");
+}
+</script>
+
 </body>
 </html>
