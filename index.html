@@ -257,13 +257,39 @@ function calcular() {
     }
 
     document.getElementById("resumen").innerHTML = `
-        <strong>Total invertido:</strong> ${formatoMoneda(invertidoTotal)}<br>
-        <strong>Interés ganado (simple):</strong> ${formatoMoneda(interesSimpleGanado)}<br>
-        <strong>Interés ganado (compuesto):</strong> ${formatoMoneda(interesAcumulado)}<br>
-        <strong>Diferencia a favor del compuesto:</strong> ${formatoMoneda(diferencia)}<br>
-        ${inflacionAnual > 0 ? `<strong>Rendimiento real anual estimado:</strong> ${(rendimientoReal*100).toFixed(2)}%<br>` : ``}
-        ${añoSuperaAportaciones !== null ? `<strong>El interés supera tus aportaciones en el año:</strong> ${añoSuperaAportaciones}<br>` : ``}
-        ${meta > 0 ? (añoMetaAlcanzada !== null ? `<strong>Meta alcanzada en el año:</strong> ${añoMetaAlcanzada}` : `<strong>No se alcanza la meta en el periodo seleccionado</strong>`) : ``}
+        <div style="display:flex;gap:15px;flex-wrap:wrap;">
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #d4af37;text-align:center;min-width:200px;">
+                <div>Total invertido</div>
+                <h3>${formatoMoneda(invertidoTotal)}</h3>
+            </div>
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #00bcd4;text-align:center;min-width:200px;">
+                <div>Interés ganado (Simple)</div>
+                <h3>${formatoMoneda(interesSimpleGanado)}</h3>
+            </div>
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #ff6b35;text-align:center;min-width:200px;">
+                <div>Interés ganado (Compuesto)</div>
+                <h3>${formatoMoneda(interesAcumulado)}</h3>
+            </div>
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #d4af37;text-align:center;min-width:200px;">
+                <div>Diferencia a favor del compuesto</div>
+                <h3>${formatoMoneda(diferencia)}</h3>
+            </div>
+            ${inflacionAnual > 0 ? `
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #888;text-align:center;min-width:200px;">
+                <div>Rendimiento real anual</div>
+                <h3>${(rendimientoReal*100).toFixed(2)}%</h3>
+            </div>` : ``}
+            ${añoSuperaAportaciones !== null ? `
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #00bcd4;text-align:center;min-width:200px;">
+                <div>El interés supera aportaciones</div>
+                <h3>Año ${añoSuperaAportaciones}</h3>
+            </div>` : ``}
+            ${meta > 0 ? `
+            <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #ff6b35;text-align:center;min-width:200px;">
+                <div>Meta financiera</div>
+                <h3>${añoMetaAlcanzada !== null ? 'Año ' + añoMetaAlcanzada : 'No alcanzada'}</h3>
+            </div>` : ``}
+        </div>
     `;
 
     const porcentajeCapital = (capital / compuesto) * 100;
@@ -285,11 +311,26 @@ function calcular() {
         </div>
         <div style="flex-basis:100%;background:#000;padding:15px;border-radius:12px;border:1px solid #d4af37;margin-top:10px;">
             <div style="margin-bottom:8px;text-align:center;">Composición del total final (Compuesto)</div>
-            <div style="height:18px;background:#111;border-radius:10px;overflow:hidden;display:flex;">
-                <div style="width:${porcentajeCapital}%;background:#d4af37;"></div>
-                <div style="width:${porcentajeAportaciones}%;background:#00bcd4;"></div>
-                <div style="width:${porcentajeInteres}%;background:#ff6b35;"></div>
+            <div style="height:22px;background:#111;border-radius:10px;overflow:hidden;display:flex;cursor:pointer;">
+                <div title="Capital: ${formatoMoneda(capital)}" style="width:${porcentajeCapital}%;background:#d4af37;"></div>
+                <div title="Aportaciones: ${formatoMoneda(aportacionesTotales)}" style="width:${porcentajeAportaciones}%;background:#00bcd4;"></div>
+                <div title="Interés: ${formatoMoneda(interesAcumulado)}" style="width:${porcentajeInteres}%;background:#ff6b35;"></div>
             </div>
+            <div style="display:flex;justify-content:space-around;font-size:12px;margin-top:8px;align-items:center;">
+                <span style="display:flex;align-items:center;gap:6px;">
+                    <span style="width:12px;height:12px;background:#d4af37;border-radius:3px;display:inline-block;"></span>
+                    Capital
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;">
+                    <span style="width:12px;height:12px;background:#00bcd4;border-radius:3px;display:inline-block;"></span>
+                    Aportaciones
+                </span>
+                <span style="display:flex;align-items:center;gap:6px;">
+                    <span style="width:12px;height:12px;background:#ff6b35;border-radius:3px;display:inline-block;"></span>
+                    Interés
+                </span>
+            </div>
+        </div>
             <div style="display:flex;justify-content:space-between;font-size:12px;margin-top:6px;">
                 <span>Capital</span>
                 <span>Aportaciones</span>
