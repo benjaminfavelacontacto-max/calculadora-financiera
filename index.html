@@ -42,6 +42,36 @@
         color: #f5d27a;
         font-size: 15px;
     }
+
+    .input-money {
+        position: relative;
+    }
+
+    .input-money span {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #d4af37;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        text-shadow: 0 0 0px #d4af37;
+    }
+
+    .input-money input:focus + span,
+    .input-money input:focus ~ span {
+        color: #ffd700;
+        text-shadow: 0 0 8px #ffd700, 0 0 16px rgba(255,215,0,0.6);
+    }
+
+    .input-money:focus-within span {
+        color: #ffd700;
+        text-shadow: 0 0 8px #ffd700, 0 0 16px rgba(255,215,0,0.6);
+    }
+
+    .input-money input {
+        padding-left: 28px;
+    }
     button {
         width: 100%;
         padding: 14px;
@@ -73,11 +103,17 @@
 <div class="container">
     <h2>Calculadora Interés Simple vs Compuesto</h2>
 
-    <label>Capital inicial ($)</label>
-    <input type="number" id="capital" placeholder="Ej. 10000">
+    <label>Capital inicial</label>
+    <div class="input-money">
+        <span>$</span>
+        <input type="text" inputmode="decimal" id="capital" placeholder="10,000.00">
+    </div>
 
-    <label>Aportación periódica ($)</label>
-    <input type="number" id="aportacion" placeholder="Ej. 1000">
+    <label>Aportación periódica</label>
+    <div class="input-money">
+        <span>$</span>
+        <input type="text" inputmode="decimal" id="aportacion" placeholder="1,000.00">
+    </div>
 
     <label>Tasa de interés anual (%)</label>
     <input type="number" id="tasa" placeholder="Ej. 10">
@@ -93,7 +129,13 @@
     </select>
 
     <label>Inflación anual (%)</label>
-    <input type="number" id="inflacion" placeholder="Ej. 6">
+    <input type="text" inputmode="decimal" id="inflacion" placeholder="Ej. 6">
+
+    <label>Meta financiera</label>
+    <div class="input-money">
+        <span>$</span>
+        <input type="text" inputmode="decimal" id="meta" placeholder="1,000,000.00">
+    </div>
 
     <button id="btnCalcular">Calcular</button>
     
@@ -123,13 +165,29 @@ function formatoMoneda(valor){
     return "$" + Number(valor).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
 }
 
+function limpiarNumero(valor){
+    return parseFloat(valor.replace(/,/g,'')) || 0;
+}
+
+function formatearInput(input){
+    input.addEventListener('input', function(e){
+        let valor = e.target.value.replace(/,/g,'');
+        if(valor === '') return;
+        if(!isNaN(valor)){
+            const numero = parseFloat(valor);
+            e.target.value = numero.toLocaleString('en-US', {maximumFractionDigits:2});
+        }
+    });
+}
+
 function calcular() {
-    const capital = parseFloat(document.getElementById("capital").value) || 0;
-    const aportacion = parseFloat(document.getElementById("aportacion").value) || 0;
+    const capital = limpiarNumero(document.getElementById("capital").value);
+    const aportacion = limpiarNumero(document.getElementById("aportacion").value);
     const tasaAnual = (parseFloat(document.getElementById("tasa").value) || 0) / 100;
     const años = parseInt(document.getElementById("años").value) || 0;
     const frecuencia = parseInt(document.getElementById("frecuencia").value);
-    const inflacionAnual = (parseFloat(document.getElementById("inflacion").value) || 0) / 100;
+    const inflacionAnual = limpiarNumero(document.getElementById("inflacion").value) / 100;
+    const meta = limpiarNumero(document.getElementById("meta").value);
 
     if (capital <= 0 || tasaAnual <= 0 || años <= 0) {
         alert("Completa capital, tasa y años correctamente");
@@ -149,11 +207,9 @@ function calcular() {
 
     for (let i = 0; i <= periodos; i++) {
         if (i > 0) {
-            // Interés simple: solo el capital inicial genera interés
             simple += capital * tasaPeriodo;
-            simple += aportacion; // se suman aportaciones pero no generan interés adicional
+            simple += aportacion;
 
-            // Interés compuesto: capital + aportación generan interés
             compuesto = (compuesto + aportacion) * (1 + tasaPeriodo);
         }
 
@@ -176,20 +232,24 @@ function calcular() {
     const interesSimpleGanado = simple - invertidoTotal;
     const diferencia = compuesto - simple;
 
-    // rendimiento real descontando inflación
     let rendimientoReal = 0;
     if (inflacionAnual > 0) {
         rendimientoReal = ((1 + tasaAnual) / (1 + inflacionAnual)) - 1;
     }
 
-    // detectar año donde interés supera aportaciones
     let añoSuperaAportaciones = null;
+    let añoMetaAlcanzada = null;
+
     for (let i = 0; i < tabla.length; i++) {
-        const interesHastaEseMomento = tabla[i].compuesto - (capital + aportacion * (tabla[i].año * frecuencia));
-        const aportadoHastaEseMomento = aportacion * (tabla[i].año * frecuencia);
-        if (interesHastaEseMomento > aportadoHastaEseMomento) {
+        const aportadoHastaEseMomento = capital + (aportacion * (tabla[i].año * frecuencia));
+        const interesHastaEseMomento = tabla[i].compuesto - aportadoHastaEseMomento;
+
+        if (añoSuperaAportaciones === null && interesHastaEseMomento > (aportacion * (tabla[i].año * frecuencia))) {
             añoSuperaAportaciones = tabla[i].año;
-            break;
+        }
+
+        if (meta > 0 && añoMetaAlcanzada === null && tabla[i].compuesto >= meta) {
+            añoMetaAlcanzada = tabla[i].año;
         }
     }
 
@@ -199,8 +259,13 @@ function calcular() {
         <strong>Interés ganado (compuesto):</strong> ${formatoMoneda(interesAcumulado)}<br>
         <strong>Diferencia a favor del compuesto:</strong> ${formatoMoneda(diferencia)}<br>
         ${inflacionAnual > 0 ? `<strong>Rendimiento real anual estimado:</strong> ${(rendimientoReal*100).toFixed(2)}%<br>` : ``}
-        ${añoSuperaAportaciones !== null ? `<strong>El interés supera tus aportaciones en el año:</strong> ${añoSuperaAportaciones}` : ``}
+        ${añoSuperaAportaciones !== null ? `<strong>El interés supera tus aportaciones en el año:</strong> ${añoSuperaAportaciones}<br>` : ``}
+        ${meta > 0 ? (añoMetaAlcanzada !== null ? `<strong>Meta alcanzada en el año:</strong> ${añoMetaAlcanzada}` : `<strong>No se alcanza la meta en el periodo seleccionado</strong>`) : ``}
     `;
+
+    const porcentajeCapital = (capital / compuesto) * 100;
+    const porcentajeAportaciones = (aportacionesTotales / compuesto) * 100;
+    const porcentajeInteres = (interesAcumulado / compuesto) * 100;
 
     document.getElementById("cards").innerHTML = `
         <div style="flex:1;background:#000;padding:15px;border-radius:12px;border:1px solid #d4af37;text-align:center;">
@@ -215,9 +280,21 @@ function calcular() {
             <div>Total final interés compuesto</div>
             <h3>${formatoMoneda(compuesto)}</h3>
         </div>
+        <div style="flex-basis:100%;background:#000;padding:15px;border-radius:12px;border:1px solid #d4af37;margin-top:10px;">
+            <div style="margin-bottom:8px;text-align:center;">Composición del total final (Compuesto)</div>
+            <div style="height:18px;background:#111;border-radius:10px;overflow:hidden;display:flex;">
+                <div style="width:${porcentajeCapital}%;background:#d4af37;"></div>
+                <div style="width:${porcentajeAportaciones}%;background:#00bcd4;"></div>
+                <div style="width:${porcentajeInteres}%;background:#ff6b35;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-top:6px;">
+                <span>Capital</span>
+                <span>Aportaciones</span>
+                <span>Interés</span>
+            </div>
+        </div>
     `;
 
-    // Construir tabla
     const tbody = document.querySelector('#tablaResultados tbody');
     tbody.innerHTML = '';
     tabla.forEach(fila => {
@@ -269,6 +346,11 @@ function calcular() {
 
 window.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btnCalcular').addEventListener('click', calcular);
+
+    formatearInput(document.getElementById('capital'));
+    formatearInput(document.getElementById('aportacion'));
+    formatearInput(document.getElementById('inflacion'));
+    formatearInput(document.getElementById('meta'));
 });
 </script>
 
