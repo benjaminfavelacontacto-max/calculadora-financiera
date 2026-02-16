@@ -1,1 +1,213 @@
-<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"><style type="text/css">ol{margin:0;padding:0}table td,table th{padding:0}.c1{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:11pt;font-family:"Arial";font-style:normal}.c0{padding-top:0pt;padding-bottom:0pt;line-height:1.15;orphans:2;widows:2;text-align:left}.c3{background-color:#ffffff;max-width:451.4pt;padding:72pt 72pt 72pt 72pt}.c2{height:11pt}.title{padding-top:0pt;color:#000000;font-size:26pt;padding-bottom:3pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:15pt;padding-bottom:16pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:20pt;color:#000000;font-size:20pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:18pt;color:#000000;font-size:16pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:16pt;color:#434343;font-size:14pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:14pt;color:#666666;font-size:12pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}</style></head><body class="c3 doc-content"><div><p class="c0 c2"><span class="c1"></span></p></div><p class="c0"><span class="c1">&lt;!DOCTYPE html&gt;</span></p><p class="c0"><span class="c1">&lt;html lang=&quot;es&quot;&gt;</span></p><p class="c0"><span class="c1">&lt;head&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;meta charset=&quot;UTF-8&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;title&gt;Calculadora Inter&eacute;s Compuesto | Benjamin Favela&lt;/title&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;script src=&quot;https://cdn.jsdelivr.net/npm/chart.js&quot;&gt;&lt;/script&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js&quot;&gt;&lt;/script&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;style&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; body {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-family: &#39;Segoe UI&#39;, Tahoma, Geneva, Verdana, sans-serif;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #f5d27a;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; display: flex;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; justify-content: center;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; align-items: center;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; min-height: 100vh;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin: 0;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 20px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .container {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: #111111;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 35px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-radius: 20px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 100%;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; max-width: 720px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: 1px solid #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; h2 {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; text-align: center;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-bottom: 25px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-weight: 700;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; letter-spacing: 1px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; text-transform: uppercase;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .input-group {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-bottom: 15px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; label {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; display: block;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-size: 12px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-bottom: 5px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; opacity: 0.8;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; input, select {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 100%;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 12px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; box-sizing: border-box;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-radius: 10px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: 1px solid #333;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: #0a0a0a;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #f5d27a;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-size: 15px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; transition: border 0.3s;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; input:focus {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; outline: none;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-color: #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .buttons {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; display: grid;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; grid-template-columns: 1fr 1fr;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; gap: 15px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-top: 20px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; button {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 14px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-radius: 10px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: none;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: black;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-weight: bold;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cursor: pointer;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-size: 15px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; transition: all 0.3s ease;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; button:hover { </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: #f5d27a;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; transform: translateY(-2px);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .secondary-btn { </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: transparent; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #d4af37; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: 1px solid #d4af37; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .secondary-btn:hover { </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: rgba(212, 175, 55, 0.1); </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .resumen {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-top: 25px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-size: 15px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; line-height: 1.8;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; background: rgba(212, 175, 55, 0.05);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; padding: 20px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border-radius: 14px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; border: 1px dashed #d4af37;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; display: none; /* Se muestra al calcular */</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; .resumen span {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; color: #fff;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; float: right;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; font-weight: bold;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; canvas { </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; margin-top: 30px; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; max-height: 400px;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/style&gt;</span></p><p class="c0"><span class="c1">&lt;/head&gt;</span></p><p class="c0"><span class="c1">&lt;body&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&lt;div class=&quot;container&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;h2&gt;Estrategia de Inversi&oacute;n&lt;/h2&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;input-group&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;label&gt;Capital Inicial ($)&lt;/label&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type=&quot;number&quot; id=&quot;capital&quot; placeholder=&quot;Ej: 5000&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;input-group&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;label&gt;Aportaci&oacute;n Mensual ($)&lt;/label&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type=&quot;number&quot; id=&quot;aportacion&quot; placeholder=&quot;Ej: 200&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;input-group&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;label&gt;Tasa de Rendimiento Anual (%)&lt;/label&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type=&quot;number&quot; id=&quot;tasa&quot; placeholder=&quot;Ej: 10&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;input-group&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;label&gt;Tiempo (A&ntilde;os)&lt;/label&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;input type=&quot;number&quot; id=&quot;a&ntilde;os&quot; placeholder=&quot;Ej: 20&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;input-group&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;label&gt;Frecuencia de Capitalizaci&oacute;n&lt;/label&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;select id=&quot;frecuencia&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;option value=&quot;1&quot;&gt;Anual&lt;/option&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;option value=&quot;12&quot; selected&gt;Mensual&lt;/option&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;/select&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;buttons&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;button onclick=&quot;calcular()&quot;&gt;CALCULAR&lt;/button&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;button class=&quot;secondary-btn&quot; onclick=&quot;descargarPDF()&quot;&gt;PDF REPORTE&lt;/button&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;div class=&quot;resumen&quot; id=&quot;resumen&quot;&gt;&lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &lt;canvas id=&quot;grafica&quot;&gt;&lt;/canvas&gt;</span></p><p class="c0"><span class="c1">&lt;/div&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&lt;script&gt;</span></p><p class="c0"><span class="c1">let chart;</span></p><p class="c0"><span class="c1">let resultadoGlobal = {};</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">function formatoMoneda(valor){</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; return &quot;$&quot; + Number(valor).toLocaleString(&#39;es-MX&#39;, {minimumFractionDigits:2, maximumFractionDigits:2});</span></p><p class="c0"><span class="c1">}</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">function calcular() {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const capital = parseFloat(document.getElementById(&quot;capital&quot;).value) || 0;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const aportacion = parseFloat(document.getElementById(&quot;aportacion&quot;).value) || 0;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const tasaAnual = parseFloat(document.getElementById(&quot;tasa&quot;).value) / 100 || 0;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const a&ntilde;os = parseInt(document.getElementById(&quot;a&ntilde;os&quot;).value) || 0;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const frecuencia = parseInt(document.getElementById(&quot;frecuencia&quot;).value);</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; if (capital &lt;= 0 || tasaAnual &lt;= 0 || a&ntilde;os &lt;= 0) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; alert(&quot;Por favor, ingresa valores v&aacute;lidos para capital, tasa y a&ntilde;os.&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; return;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; }</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let labels = [];</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let simpleData = [];</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let compuestoData = [];</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let simple = capital;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let compuesto = capital;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; let totalInvertido = capital;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; // C&aacute;lculo a&ntilde;o tras a&ntilde;o para la gr&aacute;fica</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; for (let i = 0; i &lt;= a&ntilde;os; i++) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; labels.push(&quot;A&ntilde;o &quot; + i);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; if (i === 0) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; simpleData.push(capital);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compuestoData.push(capital);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; } else {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Inter&eacute;s Simple (sobre el capital inicial + aportaciones sin reinvertir intereses)</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; totalInvertido += (aportacion * 12);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; simple = capital + (capital * tasaAnual * i) + (aportacion * 12 * i);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Inter&eacute;s Compuesto</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for(let m = 0; m &lt; 12; m++) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compuesto = (compuesto + aportacion) * (1 + (tasaAnual / 12));</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; simpleData.push(simple);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; compuestoData.push(compuesto);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; }</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; resultadoGlobal = { </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; simple, </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; compuesto, </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; invertido: totalInvertido, </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; diferencia: compuesto - simple </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; };</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const resumenDiv = document.getElementById(&quot;resumen&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; resumenDiv.style.display = &quot;block&quot;;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; resumenDiv.innerHTML = `</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;div&gt;Total Invertido (Capital + Aportes): &lt;span&gt;${formatoMoneda(totalInvertido)}&lt;/span&gt;&lt;/div&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;div&gt;Final con Inter&eacute;s Simple: &lt;span&gt;${formatoMoneda(simple)}&lt;/span&gt;&lt;/div&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;div style=&quot;color: #d4af37;&quot;&gt;Final con Inter&eacute;s Compuesto: &lt;span&gt;${formatoMoneda(compuesto)}&lt;/span&gt;&lt;/div&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;hr style=&quot;border: 0.5px solid #333; margin: 10px 0;&quot;&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &lt;div style=&quot;font-weight: bold;&quot;&gt;Ganancia Extra por Inter&eacute;s Compuesto: &lt;span&gt;${formatoMoneda(resultadoGlobal.diferencia)}&lt;/span&gt;&lt;/div&gt;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; `;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; actualizarGrafica(labels, simpleData, compuestoData);</span></p><p class="c0"><span class="c1">}</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">function actualizarGrafica(labels, simpleData, compuestoData) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; if (chart) chart.destroy();</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const ctx = document.getElementById(&quot;grafica&quot;).getContext(&quot;2d&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; chart = new Chart(ctx, {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; type: &#39;line&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; data: {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; labels: labels,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; datasets: [</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; label: &#39;Inter&eacute;s Compuesto&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; data: compuestoData,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; borderColor: &#39;#d4af37&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; backgroundColor: &#39;rgba(212, 175, 55, 0.1)&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fill: true,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; borderWidth: 3,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; tension: 0.4</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; label: &#39;Inter&eacute;s Simple&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; data: simpleData,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; borderColor: &#39;#444&#39;,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; borderDash: [5, 5],</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; fill: false,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; borderWidth: 2</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ]</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; },</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; options: {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; responsive: true,</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; plugins: {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; legend: { labels: { color: &#39;#f5d27a&#39;, font: { size: 12 } } }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; },</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; scales: {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; y: { ticks: { color: &#39;#aaa&#39;, callback: v =&gt; &#39;$&#39; + v.toLocaleString() }, grid: { color: &#39;#222&#39; } },</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x: { ticks: { color: &#39;#aaa&#39; }, grid: { display: false } }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; });</span></p><p class="c0"><span class="c1">}</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">function descargarPDF() {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; if (!resultadoGlobal.compuesto) {</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; alert(&quot;Primero realiza un c&aacute;lculo.&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; &nbsp; &nbsp; return;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; }</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const { jsPDF } = window.jspdf;</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; const doc = new jsPDF();</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.setFont(&quot;helvetica&quot;, &quot;bold&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(&quot;REPORTE DE PROYECCI&Oacute;N FINANCIERA&quot;, 20, 20);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.setFont(&quot;helvetica&quot;, &quot;normal&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.setFontSize(12);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(`Consultor: Benjamin Favela`, 20, 30);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.line(20, 35, 190, 35);</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(`Total invertido: ${formatoMoneda(resultadoGlobal.invertido)}`, 20, 50);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(`Resultado Inter&eacute;s Simple: ${formatoMoneda(resultadoGlobal.simple)}`, 20, 60);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(`Resultado Inter&eacute;s Compuesto: ${formatoMoneda(resultadoGlobal.compuesto)}`, 20, 70);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; </span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.setFont(&quot;helvetica&quot;, &quot;bold&quot;);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.setTextColor(184, 150, 46);</span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.text(`Diferencia a favor: ${formatoMoneda(resultadoGlobal.diferencia)}`, 20, 85);</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&nbsp; &nbsp; doc.save(&quot;Reporte_Inversion_Benjamin_Favela.pdf&quot;);</span></p><p class="c0"><span class="c1">}</span></p><p class="c0"><span class="c1">&lt;/script&gt;</span></p><p class="c0 c2"><span class="c1"></span></p><p class="c0"><span class="c1">&lt;/body&gt;</span></p><p class="c0"><span class="c1">&lt;/html&gt;</span></p><p class="c0 c2"><span class="c1"></span></p></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Interés Compuesto | Benjamin Favela</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle, #1a1a1a 0%, #000000 100%);
+            color: #f5d27a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #111111;
+            padding: 35px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 720px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.2);
+            border: 1px solid #d4af37;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #d4af37;
+            text-transform: uppercase;
+        }
+        .input-group { margin-bottom: 15px; }
+        label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            color: #d4af37;
+            opacity: 0.8;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: 1px solid #333;
+            background: #0a0a0a;
+            color: #f5d27a;
+            font-size: 15px;
+            transition: border 0.3s;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            background: #d4af37;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+        button:hover { background: #f5d27a; transform: translateY(-2px); }
+        .secondary-btn { background: transparent; color: #d4af37; border: 1px solid #d4af37; }
+        .resumen {
+            margin-top: 25px;
+            font-size: 15px;
+            line-height: 1.8;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px dashed #d4af37;
+            display: none;
+        }
+        .resumen span { color: #fff; float: right; font-weight: bold; }
+        canvas { margin-top: 30px; max-height: 400px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Estrategia de Inversión</h2>
+    <div class="input-group">
+        <label>Capital Inicial ($)</label>
+        <input type="number" id="capital" placeholder="Ej: 5000">
+    </div>
+    <div class="input-group">
+        <label>Aportación Mensual ($)</label>
+        <input type="number" id="aportacion" placeholder="Ej: 200">
+    </div>
+    <div class="input-group">
+        <label>Tasa de Rendimiento Anual (%)</label>
+        <input type="number" id="tasa" placeholder="Ej: 10">
+    </div>
+    <div class="input-group">
+        <label>Tiempo (Años)</label>
+        <input type="number" id="años" placeholder="Ej: 20">
+    </div>
+    <div class="input-group">
+        <label>Frecuencia de Capitalización</label>
+        <select id="frecuencia">
+            <option value="1">Anual</option>
+            <option value="12" selected>Mensual</option>
+        </select>
+    </div>
+    <div class="buttons">
+        <button onclick="calcular()">CALCULAR</button>
+        <button class="secondary-btn" onclick="descargarPDF()">PDF REPORTE</button>
+    </div>
+    <div class="resumen" id="resumen"></div>
+    <canvas id="grafica"></canvas>
+</div>
+
+<script>
+let chart;
+let resultadoGlobal = {};
+
+function formatoMoneda(valor){
+    return "$" + Number(valor).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function calcular() {
+    const capital = parseFloat(document.getElementById("capital").value) || 0;
+    const aportacion = parseFloat(document.getElementById("aportacion").value) || 0;
+    const tasaAnual = parseFloat(document.getElementById("tasa").value) / 100 || 0;
+    const años = parseInt(document.getElementById("años").value) || 0;
+
+    if (capital <= 0 || tasaAnual <= 0 || años <= 0) {
+        alert("Ingresa valores válidos.");
+        return;
+    }
+
+    let labels = [], simpleData = [], compuestoData = [];
+    let simple = capital, compuesto = capital, totalInvertido = capital;
+
+    for (let i = 0; i <= años; i++) {
+        labels.push("Año " + i);
+        if (i === 0) {
+            simpleData.push(capital);
+            compuestoData.push(capital);
+        } else {
+            totalInvertido += (aportacion * 12);
+            simple = capital + (capital * tasaAnual * i) + (aportacion * 12 * i);
+            for(let m = 0; m < 12; m++) {
+                compuesto = (compuesto + aportacion) * (1 + (tasaAnual / 12));
+            }
+            simpleData.push(simple);
+            compuestoData.push(compuesto);
+        }
+    }
+
+    resultadoGlobal = { simple, compuesto, invertido: totalInvertido, diferencia: compuesto - simple };
+
+    const resumenDiv = document.getElementById("resumen");
+    resumenDiv.style.display = "block";
+    resumenDiv.innerHTML = `
+        <div>Total Invertido: <span>${formatoMoneda(totalInvertido)}</span></div>
+        <div style="color: #d4af37;">Final Compuesto: <span>${formatoMoneda(compuesto)}</span></div>
+        <div style="font-weight: bold; margin-top:10px; border-top: 1px solid #333;">Ganancia Extra: <span>${formatoMoneda(resultadoGlobal.diferencia)}</span></div>
+    `;
+
+    if (chart) chart.destroy();
+    const ctx = document.getElementById("grafica").getContext("2d");
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Interés Compuesto',
+                data: compuestoData,
+                borderColor: '#d4af37',
+                backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Interés Simple',
+                data: simpleData,
+                borderColor: '#444',
+                borderDash: [5, 5]
+            }]
+        },
+        options: {
+            scales: {
+                y: { ticks: { color: '#aaa' } },
+                x: { ticks: { color: '#aaa' } }
+            },
+            plugins: { legend: { labels: { color: '#f5d27a' } } }
+        }
+    });
+}
+
+function descargarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("REPORTE FINANCIERO - BENJAMIN FAVELA", 20, 20);
+    doc.text(`Total Invertido: ${formatoMoneda(resultadoGlobal.invertido)}`, 20, 40);
+    doc.text(`Resultado Final: ${formatoMoneda(resultadoGlobal.compuesto)}`, 20, 50);
+    doc.save("Reporte_Inversion.pdf");
+}
+</script>
+</body>
+</html>
