@@ -295,12 +295,12 @@
             
             <div class="input-group">
                 <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero que tienes hoy para empezar el plan. Es tu 'semilla' para arrancar.">?</i></label>
-                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="Ej: 10,000" class="money-input"></div>
+                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input"></div>
             </div>
 
             <div class="input-group">
                 <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero extra que añadirás según la frecuencia elegida.">?</i></label>
-                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="Ej: 1,000" class="money-input"></div>
+                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input"></div>
             </div>
 
             <div class="input-group">
@@ -316,20 +316,45 @@
 
             <div class="input-group">
                 <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa de interés anual esperada del mercado (Ej: 10%).">?</i></label>
-                <div class="field-wrapper"><input type="number" id="tasa" placeholder="Ej: 10" step="0.1"></div>
+                <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1"></div>
             </div>
 
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Comisión que cobra el broker o el ETF por gestionar tu dinero (Expense Ratio). Se descuenta automáticamente de tu saldo.">?</i></label>
-                <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="Ej: 0.1" step="0.01"><span class="suffix">%</span></div>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Comisión que cobra el broker o el ETF por gestionar tu dinero (Expense Ratio). Se descuenta automáticamente de tu saldo cada año.">?</i></label>
+                <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01"><span class="suffix">%</span></div>
             </div>
 
             <div class="input-group">
                 <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Años totales de la proyección.">?</i></label>
-                <div class="field-wrapper"><input type="number" id="años" placeholder="Ej: 20"></div>
+                <div class="field-wrapper"><input type="number" id="años" placeholder="0"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
+
+            <div class="input-group">
+                <label>¿Cuándo pagarás impuestos? <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar' simula inversiones donde pagas solo al vender (como Bolsa/ETFs), permitiendo que el interés se reinvierta libre. 'Cada año' simula retenciones constantes (como Bancos).">?</i></label>
+                <div class="field-wrapper">
+                    <select id="estrategiaFiscal">
+                        <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
+                        <option value="anual">Cada año (Cetes / Bancos)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias' es el estándar de la Bolsa. 'Sobre Capital' es el modelo de Cetes o Pagarés Bancarios (donde se retiene un % del saldo total).">?</i></label>
+                <div class="field-wrapper">
+                    <select id="baseFiscal">
+                        <option value="interes" selected>Sobre Ganancias</option>
+                        <option value="capital">Sobre Capital (Renta Fija)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto aplicable según tu estrategia.">?</i></label>
+                <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01"></div>
+            </div>
 
             <div class="input-group">
                 <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Sube tu ahorro anualmente según la inflación para no perder fuerza adquisitiva.">?</i></label>
@@ -342,40 +367,15 @@
             </div>
 
             <div class="input-group">
-                <label>Esquema Fiscal <i class="info-tip" tabindex="0" data-tooltip="'Cada año' es retención anual (ISR). 'Al final' es diferido (Bolsa).">?</i></label>
-                <div class="field-wrapper">
-                    <select id="estrategiaFiscal">
-                        <option value="final" selected>Al final de todo (Diferido)</option>
-                        <option value="anual">Cada año (Retención)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias' es para Bolsa/ETFs. 'Sobre Capital' es para Cetes, Bonos o Pagarés Bancarios.">?</i></label>
-                <div class="field-wrapper">
-                    <select id="baseFiscal">
-                        <option value="interes" selected>Sobre Ganancias (Bolsa)</option>
-                        <option value="capital">Sobre Capital (Cetes/Bancos)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="input-group">
-                <label>ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto aplicable según tu estrategia.">?</i></label>
-                <div class="field-wrapper"><input type="number" id="impuestos" placeholder="Ej: 10" step="0.01"></div>
-            </div>
-
-            <div class="input-group">
-                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Subida de precios promedio anual estimada.">?</i></label>
-                <div class="field-wrapper"><input type="number" id="inflacion" value="4.5" step="0.1"></div>
+                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Subida de precios promedio anual estimada. Sirve para calcular el poder de compra real.">?</i></label>
+                <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5" step="0.1"></div>
             </div>
 
             <span class="section-label">🎯 Estilo de Vida</span>
 
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Ingreso mensual ideal para tu retiro.">?</i></label>
-                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="Ej: 30,000" class="money-input"></div>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Ingreso mensual ideal para tu retiro. La meta será juntar 25 veces tu gasto anual.">?</i></label>
+                <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input"></div>
             </div>
 
             <button id="btnCalcular" class="btn-analyze">Calcular Mi Fortuna 🚀</button>
@@ -404,7 +404,7 @@
                 <div class="value" id="resTotal">$0</div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total acumulado para el SAT.">?</i></div>
+                <div class="label">Gastos & ISR <i class="info-tip" tabindex="0" data-tooltip="Total acumulado que se fue en comisiones de corretaje e impuestos del SAT.">?</i></div>
                 <div class="value" id="resTax">$0</div>
             </div>
             <div class="metric-card net">
@@ -568,7 +568,7 @@ function calcular() {
             ahorroSinInversion += aporteMes;
         }
 
-        // Aplicar comisión anual del broker/etf
+        // Aplicar comisión anual
         const feeAnual = totalBruto * feeRate;
         totalBruto -= feeAnual;
         totalFeeAcum += feeAnual;
@@ -595,7 +595,7 @@ function calcular() {
             <td style="color:var(--text-gold)">${fmt.format(ahorroEsteAño)}</td>
             <td>${fmt.format(inversionAcum)}</td>
             <td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td>
-            <td style="color:var(--red-tax)">-${fmt.format(impuestoEsteAño + (totalBruto * feeRate / 12 * 12))}</td>
+            <td style="color:var(--red-tax)">-${fmt.format(impuestoEsteAño + feeAnual)}</td>
             <td style="font-weight:bold">${fmt.format(totalNeto)}</td>
             <td style="color:var(--gold-bright); font-weight:bold;">+${fmt.format(totalNeto - inversionAcum)}</td>
         </tr>`);
@@ -606,7 +606,7 @@ function calcular() {
     const totalTax = estrategia.value === 'final' ? 
         (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate) : totalTaxAcum;
     const netoFinal = totalBruto - (estrategia.value === 'final' ? totalTax : 0);
-    const realFinal = netoFinal / Math.pow(1 + inflacion, tAños);
+    const realFinal = netoFinal / Math.pow(1 + (inflacion || 0.045), tAños);
     const mult = inversionAcum > 0 ? (netoFinal / inversionAcum).toFixed(1) : 1;
 
     const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
