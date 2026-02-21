@@ -19,8 +19,8 @@
             --text-gold: #f5d27a;
             --text-dim: #888888;
             --border: rgba(212, 175, 55, 0.4);
-            --green: #2ecc71;
-            --red-tax: #ff4d4d;
+            --green: #2ecc71; 
+            --red-tax: #ff4d4d; 
             --glow: 0 0 20px rgba(212, 175, 55, 0.2), 0 0 40px rgba(212, 175, 55, 0.1);
         }
 
@@ -45,7 +45,7 @@
             gap: 25px;
         }
 
-        /* Animación de entrada para los paneles */
+        /* Paneles con animación de revelado */
         .glass-panel {
             background: var(--bg-card);
             border: 2px solid var(--gold);
@@ -55,8 +55,8 @@
             position: relative;
             width: 100%;
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .glass-panel.visible {
@@ -169,7 +169,6 @@
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
-        /* PROGRESO DE JUBILACIÓN */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
@@ -250,7 +249,6 @@
             width: 100%;
         }
         
-        /* La barra inicia en 0% para la animación por scroll */
         .progress-fill { 
             height: 100%; 
             background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); 
@@ -305,6 +303,7 @@
             margin-bottom: 5px;
         }
 
+        /* Gráficas */
         .viz-container { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; width: 100%; }
         @media (min-width: 850px) { .viz-container { grid-template-columns: repeat(2, 1fr); } }
         .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 28px; padding: 20px; height: 400px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
@@ -473,7 +472,8 @@
 
 <script>
 let chartBarras, chartPie;
-let targetProgress = 0; // Guardamos el progreso para la animación por scroll
+let targetProgress = 0; 
+let finalRetirementAmount = 0; 
 const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
 const getVal = (id) => parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
@@ -488,6 +488,19 @@ function fitTextSizes() {
         else if (len > 9) el.style.fontSize = '1.1rem';
         else el.style.fontSize = '1.25rem';
     });
+}
+
+function animateRetirementValue(start, end, duration) {
+    const obj = document.getElementById('fireAmountDisplay');
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const currentVal = Math.floor(progress * (end - start) + start);
+        obj.innerHTML = `<span class="amount-callout">${fmt.format(currentVal)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
+        if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
 }
 
 function setupMoneyInputs() {
@@ -506,23 +519,24 @@ function setupMoneyInputs() {
     });
 }
 
-// Intersection Observer para disparar animaciones al scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             
-            // Animación de la barra de meta
+            // Animación de Barra y Cifra
             if (entry.target.id === 'fireSection') {
-                const bar = document.getElementById('progressBar');
-                bar.style.width = targetProgress + "%";
+                document.getElementById('progressBar').style.width = targetProgress + "%";
+                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 2000);
             }
             
-            // Refrescar animaciones de gráficas al entrar
+            // CORRECCIÓN: REINICIAR Y DISPARAR ANIMACIÓN DE GRÁFICAS CADA VEZ QUE ENTRAN EN VISTA
             if (entry.target.id === 'chartBoxBars' && chartBarras) {
+                chartBarras.reset();
                 chartBarras.update();
             }
             if (entry.target.id === 'chartBoxPie' && chartPie) {
+                chartPie.reset();
                 chartPie.update();
             }
         }
@@ -551,9 +565,9 @@ function calcular() {
 
     if (tAños <= 0) return;
 
-    // Reiniciar barra de progreso para la animación
+    // Reset de barra para que re-anime
     document.getElementById('progressBar').style.width = "0%";
-
+    
     let totalBruto = P, totalNeto = P, inversionAcum = P, ahorroSinInversion = P;
     let labels = ["Inicio"], dataP = [P], dataInt = [0];
     let rows = [];
@@ -591,8 +605,7 @@ function calcular() {
         dataInt.push(totalNeto - inversionAcum);
 
         const riquezaFila = totalNeto - inversionAcum;
-        const colorRiqueza = riquezaFila >= 0 ? 'var(--gold-bright)' : 'var(--red-tax)';
-        rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(impuestoAnual):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalNeto)}</td><td style="color:${colorRiqueza}; font-weight:bold;">${riquezaFila >= 0 ? '+' : ''}${fmt.format(riquezaFila)}</td></tr>`);
+        rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(impuestoAnual):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalNeto)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
         if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
     }
 
@@ -615,18 +628,18 @@ function calcular() {
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
     document.getElementById('achievedCapital').textContent = fmt.format(netoFinal);
-    
     targetProgress = metaFIRE > 0 ? Math.min((netoFinal / metaFIRE * 100), 100) : 0;
     document.getElementById('fireStatus').textContent = (metaFIRE > 0 ? (netoFinal / metaFIRE * 100).toFixed(1) : "0") + "%";
     
-    // Disparar animación de barra si ya es visible
+    finalRetirementAmount = (netoFinal * 0.04) / 12;
+    document.getElementById('retirementResultCard').style.display = 'flex';
+    
+    // Iniciar animaciones de meta
     if (document.getElementById('fireSection').classList.contains('visible')) {
         document.getElementById('progressBar').style.width = targetProgress + "%";
+        animateRetirementValue(0, finalRetirementAmount, 2000);
     }
 
-    document.getElementById('retirementResultCard').style.display = 'flex';
-    const gastoAlcanzado = (netoFinal * 0.04) / 12;
-    document.getElementById('fireAmountDisplay').innerHTML = `<span class="amount-callout">${fmt.format(gastoAlcanzado)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
     document.getElementById('simpleSummary').innerHTML = `Análisis completado para un plazo de ${tAños} años.`;
 
     if (netoFinal >= metaFIRE) {
@@ -637,7 +650,7 @@ function calcular() {
         const extraPorFreq = extraAnual / freq;
         const totalPorFreq = (getVal('aportacion') * freq + extraAnual) / freq;
         let fLabel = freq === 365 ? "diarios" : freq === 52 ? "semanales" : "mensuales";
-        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - targetProgress).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)}/mes</b>.`;
+        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (netoFinal / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)}/mes</b>.`;
         document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Para alcanzar el 100% de tu meta en el plazo establecido, necesitas ahorrar <strong>${fmt.format(extraPorFreq)} ${fLabel} extras</strong> (Aportación total necesaria: <strong>${fmt.format(totalPorFreq)}</strong> ${fLabel}).</div>`;
     }
 
@@ -646,20 +659,41 @@ function calcular() {
 }
 
 function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExpenses) {
-    const animationSettings = { duration: 1500, easing: 'easeOutQuart' };
-    
+    const commonAnimation = { duration: 2500, easing: 'easeOutQuart' };
+
     if (chartBarras) chartBarras.destroy();
     chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
         type: 'bar',
-        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }] },
-        options: { animation: animationSettings, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } }
+        data: { 
+            labels: labels, 
+            datasets: [
+                { label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, 
+                { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }
+            ] 
+        },
+        options: { 
+            animation: { ...commonAnimation, delay: (ctx) => ctx.dataIndex * 50 },
+            responsive: true, 
+            maintainAspectRatio: false, 
+            scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } 
+        }
     });
-    
+
     if (chartPie) chartPie.destroy();
     chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
         type: 'doughnut',
-        data: { labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
-        options: { animation: animationSettings, responsive: true, maintainAspectRatio: false, cutout: '70%' }
+        data: { 
+            labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], 
+            datasets: [{ 
+                data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], 
+                backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], 
+                borderColor: '#121212', borderWidth: 3 
+            }] 
+        },
+        options: { 
+            animation: { animateRotate: true, animateScale: true, duration: 2500, easing: 'easeOutQuart' },
+            responsive: true, maintainAspectRatio: false, cutout: '70%' 
+        }
     });
 }
 
@@ -671,8 +705,6 @@ document.getElementById('btnCalcular').addEventListener('click', () => {
 window.onload = function() {
     setupMoneyInputs();
     fitTextSizes();
-    
-    // Observar elementos para animaciones por scroll
     document.querySelectorAll('.glass-panel, .fire-status, .chart-box, .pie-box').forEach(el => observer.observe(el));
 };
 </script>
