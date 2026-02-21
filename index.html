@@ -269,7 +269,7 @@
 
         .status-display-box { display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(46, 204, 113, 0.03); border: 1px solid rgba(46, 204, 113, 0.15); padding: 20px; border-radius: 24px; text-align: center; }
         .status-display-box span.label { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; display: block; }
-        #fireStatus { color: var(--green); font-weight: 950; font-size: 2.4rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); display: block; }
+        #fireStatus { color: var(--green); font-weight: 900; font-size: 2.4rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); display: block; }
 
         .progress-track { background: #111; height: 22px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); width: 0%; transition: width 2.5s cubic-bezier(0.1, 0.8, 0.1, 1); box-shadow: 0 0 15px var(--gold); }
@@ -298,7 +298,6 @@
 </head>
 <body>
 
-<!-- SONIDO ACTIVADO POR DEFAULT (🔊) -->
 <button class="audio-toggle" id="audioToggle" title="Activar/Desactivar Sonido">🔊</button>
 
 <div class="container">
@@ -361,7 +360,7 @@
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar aportaciones con inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
+                <label>Aumentar aportaciones con inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -451,14 +450,13 @@ let finalRetirementAmount = 0;
 let animationTriggered = false; 
 const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
-// --- MOTOR DE AUDIO "FINE CRYSTAL & CASH COUNTER" ---
+// --- MOTOR DE AUDIO ELITE ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-let audioEnabled = true; // ACTIVADO POR DEFAULT
+let audioEnabled = true; 
 
-function playCrystalSound(freqs, duration, volume, stagger = 0, type = 'sine') {
+function playFintechSFX(freqs, duration, volume, stagger = 0, type = 'sine') {
     if (!audioEnabled) return;
     if (audioCtx.state === 'suspended') audioCtx.resume();
-    
     const now = audioCtx.currentTime;
     freqs.forEach((f, i) => {
         const osc = audioCtx.createOscillator();
@@ -476,18 +474,76 @@ function playCrystalSound(freqs, duration, volume, stagger = 0, type = 'sine') {
 }
 
 const SFX = {
-    click: () => playCrystalSound([2200], 0.15, 0.1),
+    click: () => playFintechSFX([2200], 0.15, 0.1),
     process: () => {
         let i = 0;
         const interval = setInterval(() => {
-            playCrystalSound([880, 1320], 0.2, 0.02);
+            playFintechSFX([880, 1320], 0.2, 0.02);
             if (++i > 8) clearInterval(interval);
         }, 120);
     },
-    moneyTick: () => playCrystalSound([1500], 0.05, 0.04, 0, 'triangle'), 
-    success: () => {
-        const notes = [523.25, 659.25, 783.99, 987.77, 1318.51];
-        playCrystalSound(notes, 2.5, 0.08, 150);
+    moneyTick: () => playFintechSFX([1500], 0.05, 0.04, 0, 'triangle'),
+    
+    // NUEVO: WHOOSH SUAVE PARA GRÁFICAS (Filtered Noise Sweep)
+    whoosh: () => {
+        if (!audioEnabled) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const dur = 1.2;
+
+        const bufferSize = audioCtx.sampleRate * dur;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.Q.setValueAtTime(5, now);
+        filter.frequency.setValueAtTime(200, now);
+        filter.frequency.exponentialRampToValueAtTime(3000, now + dur/2);
+        filter.frequency.exponentialRampToValueAtTime(200, now + dur);
+
+        const g = audioCtx.createGain();
+        g.gain.setValueAtTime(0, now);
+        g.gain.linearRampToValueAtTime(0.05, now + dur/2);
+        g.gain.linearRampToValueAtTime(0, now + dur);
+
+        noise.connect(filter);
+        filter.connect(g);
+        g.connect(audioCtx.destination);
+        noise.start();
+    },
+
+    // CAJA REGISTRADORA REAL (ELITE)
+    cashRegister: () => {
+        if (!audioEnabled) return;
+        const now = audioCtx.currentTime;
+        
+        // El golpe mecánico
+        const thud = audioCtx.createOscillator();
+        const thudG = audioCtx.createGain();
+        thud.type = 'triangle';
+        thud.frequency.setValueAtTime(120, now);
+        thudG.gain.setValueAtTime(0.3, now);
+        thudG.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+        thud.connect(thudG); thudG.connect(audioCtx.destination);
+        thud.start(); thud.stop(now + 0.15);
+
+        // La campana armónica
+        [2480, 4960, 1240, 3100].forEach((f, i) => {
+            const bell = audioCtx.createOscillator();
+            const bellG = audioCtx.createGain();
+            bell.frequency.setValueAtTime(f, now + 0.02);
+            bellG.gain.setValueAtTime(0, now + 0.02);
+            bellG.gain.linearRampToValueAtTime(i === 0 ? 0.2 : 0.1, now + 0.03);
+            const decay = i === 0 ? 1.8 : 0.8 / (i + 1);
+            bellG.gain.exponentialRampToValueAtTime(0.0001, now + 0.02 + decay);
+            bell.connect(bellG); bellG.connect(audioCtx.destination);
+            bell.start(now + 0.02); bell.stop(now + 0.02 + decay);
+        });
     }
 };
 
@@ -519,24 +575,14 @@ function animateRetirementValue(start, end, duration) {
     if (!obj) return;
     let startTimestamp = null;
     let lastSoundTime = 0;
-
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         const currentVal = Math.floor(progress * (end - start) + start);
-        
         obj.innerHTML = `<span class="amount-callout">${fmt.format(currentVal)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
-        
-        if (timestamp - lastSoundTime > 85 && progress < 1) {
-            SFX.moneyTick();
-            lastSoundTime = timestamp;
-        }
-
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        } else {
-            SFX.success();
-        }
+        if (timestamp - lastSoundTime > 85 && progress < 1) { SFX.moneyTick(); lastSoundTime = timestamp; }
+        if (progress < 1) window.requestAnimationFrame(step);
+        else SFX.cashRegister();
     };
     window.requestAnimationFrame(step);
 }
@@ -561,16 +607,20 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
+            
+            // ACTIVAR WHOOSH CUANDO LAS GRÁFICAS SON VISIBLES
+            if (entry.target.id === 'chartBoxBars' || entry.target.id === 'chartBoxPie') {
+                SFX.whoosh();
+                if (entry.target.id === 'chartBoxBars' && chartBarras) { chartBarras.reset(); chartBarras.update(); }
+                if (entry.target.id === 'chartBoxPie' && chartPie) { chartPie.reset(); chartPie.update(); }
+            }
+
             if (entry.target.id === 'fireSection' && !animationTriggered) {
                 const bar = document.getElementById('progressBar');
                 bar.style.width = targetProgress + "%";
-                if (finalRetirementAmount > 0) {
-                    animateRetirementValue(0, finalRetirementAmount, 2000); 
-                }
+                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 2000); 
                 animationTriggered = true;
             }
-            if (entry.target.id === 'chartBoxBars' && chartBarras) { chartBarras.reset(); chartBarras.update(); }
-            if (entry.target.id === 'chartBoxPie' && chartPie) { chartPie.reset(); chartPie.update(); }
         }
     });
 }, { threshold: 0.3 });
