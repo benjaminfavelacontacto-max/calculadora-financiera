@@ -105,7 +105,7 @@
         .has-prefix input { padding-left: 40px; }
         .has-suffix input { padding-right: 40px; }
 
-        /* Tooltip (?) - Redimensionado para evitar choques visuales */
+        /* Tooltip (?) */
         .info-tip {
             display: inline-flex; align-items: center; justify-content: center;
             width: 17px; height: 17px; min-width: 17px; min-height: 17px; 
@@ -125,16 +125,52 @@
         .info-tip.down::after { bottom: auto; top: 190%; transform: translateX(-50%) translateY(-10px); }
         .info-tip:hover::after, .info-tip:focus::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
+        /* BOTÓN CON ANIMACIÓN MEJORADA */
         .btn-analyze {
             grid-column: 1 / -1; padding: 22px; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             border: none; border-radius: 18px; color: black; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.3s; font-size: 1.1rem; margin-top: 15px;
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            font-size: 1.1rem; margin-top: 15px; position: relative; overflow: hidden;
         }
+        
         .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
+        .btn-analyze:active { transform: scale(0.96) translateY(0); }
+        
+        /* Efecto de carga en el botón */
+        .btn-analyze.loading {
+            background: var(--gold-dark);
+            color: rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+        
+        .btn-analyze.loading::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: sweep 1.5s infinite;
+        }
+
+        @keyframes sweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .btn-analyze.loading span.emoji {
+            display: inline-block;
+            animation: shake 0.2s infinite;
+        }
 
         .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
-        /* GRID DE TARJETAS CORREGIDO PARA SIMETRÍA TOTAL */
+        /* GRID DE TARJETAS */
         .metrics-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
@@ -387,7 +423,7 @@
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input"></div>
             </div>
 
-            <button id="btnCalcular" class="btn-analyze">Calcular Mi Fortuna 🚀</button>
+            <button id="btnCalcular" class="btn-analyze"><span>Calcular Mi Fortuna</span> <span class="emoji">🚀</span></button>
         </div>
     </header>
 
@@ -396,52 +432,52 @@
 
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión el día 1.">?</i></div>
+                <div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión el día 1 del proyecto.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Total de ahorro propio.">?</i></div>
+                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de todo el ahorro extra que tú pusiste con el tiempo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia total de mercado.">?</i></div>
+                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Intereses generados por el mercado antes de cualquier gasto.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo antes de gastos/ISR.">?</i></div>
+                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total acumulado antes de descontar impuestos y comisiones.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total pagado al SAT.">?</i></div>
+                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total acumulado retenido por el SAT durante todo el plan.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Veces que creció tu dinero.">?</i></div>
+                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Cuántas veces se multiplicó tu ahorro invertido.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div>
                 <div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia limpia total.">?</i></div>
+                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre real después de todos los costos e impuestos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div>
             </div>
             <div class="metric-card">
-                <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Dinero neto disponible.">?</i></div>
+                <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital neto total disponible al final del plazo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Equivalente a dinero de hoy.">?</i></div>
+                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor de tu dinero al final, ajustado a precios de hoy (sin inflación).">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resReal">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Si solo guardas el efectivo.">?</i></div>
+                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Resultado proyectado si solo hubieras guardado el efectivo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resLost">$0</div></div>
                 <div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div>
             </div>
@@ -499,19 +535,14 @@ const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN',
 
 const getVal = (id) => parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
 
-// FUNCIÓN PARA AJUSTAR TAMAÑO DE TEXTO - MÁS AGRESIVA Y PRECISA
 function fitTextSizes() {
     const elements = document.querySelectorAll('.auto-size');
     elements.forEach(el => {
         const container = el.closest('.value-container');
         if (!container) return;
-        
-        let size = 1.45; // rem inicial
+        let size = 1.45; 
         el.style.fontSize = size + "rem";
-        
         const maxWidth = container.offsetWidth - 10;
-        
-        // Reducir hasta que el ancho del texto sea menor al ancho disponible
         while (el.scrollWidth > maxWidth && size > 0.65) {
             size -= 0.05;
             el.style.fontSize = size + "rem";
@@ -575,7 +606,7 @@ function solvePMT(target, present, rate, years) {
     return (target - present * factor) / ((factor - 1) / rate);
 }
 
-function calcular() {
+function runCalculationLogic() {
     const P = getVal('capital');
     let basePMT = getVal('aportacion');
     const freq = parseInt(document.getElementById('frecuencia').value);
@@ -648,7 +679,7 @@ function calcular() {
     document.getElementById('resLost').textContent = fmt.format(ahorroSinInversion);
     document.getElementById('resMult').textContent = inversionAcum > 0 ? (netoFinal / inversionAcum).toFixed(1) + "x" : "1.0x";
 
-    setTimeout(fitTextSizes, 50); 
+    fitTextSizes();
 
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
@@ -661,7 +692,7 @@ function calcular() {
     
     if (document.getElementById('fireSection').classList.contains('visible')) {
         document.getElementById('progressBar').style.width = targetProgress + "%";
-        animateRetirementValue(0, finalRetirementAmount, 2000);
+        animateRetirementValue(0, finalRetirementAmount, 1500);
     }
 
     document.getElementById('simpleSummary').innerHTML = `Análisis completado para un plazo de ${tAños} años.`;
@@ -698,9 +729,28 @@ function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExp
     });
 }
 
-document.getElementById('btnCalcular').addEventListener('click', () => {
-    document.getElementById('resultsPanel').classList.add('visible');
-    calcular();
+document.getElementById('btnCalcular').addEventListener('click', function() {
+    const btn = this;
+    const originalContent = btn.innerHTML;
+    
+    // Activar estado visual de carga
+    btn.classList.add('loading');
+    btn.innerHTML = `<span>Analizando Patrimonio...</span> <span class="emoji">🚀</span>`;
+    
+    // Simular tiempo de "procesamiento" para mejorar UX
+    setTimeout(() => {
+        btn.classList.remove('loading');
+        btn.innerHTML = originalContent;
+        
+        // Mostrar resultados
+        const resultsPanel = document.getElementById('resultsPanel');
+        resultsPanel.classList.add('visible');
+        
+        runCalculationLogic();
+        
+        // Scroll suave hacia los resultados
+        resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 700);
 });
 
 window.onload = function() {
