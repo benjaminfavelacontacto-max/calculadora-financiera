@@ -19,8 +19,8 @@
             --text-gold: #f5d27a;
             --text-dim: #888888;
             --border: rgba(212, 175, 55, 0.4);
-            --green: #2ecc71; /* Verde vibrante solicitado */
-            --red-tax: #ff4d4d; /* Rojo vibrante solicitado */
+            --green: #2ecc71;
+            --red-tax: #ff4d4d;
             --glow: 0 0 20px rgba(212, 175, 55, 0.2), 0 0 40px rgba(212, 175, 55, 0.1);
         }
 
@@ -45,6 +45,7 @@
             gap: 25px;
         }
 
+        /* Animación de entrada para los paneles */
         .glass-panel {
             background: var(--bg-card);
             border: 2px solid var(--gold);
@@ -53,6 +54,14 @@
             box-shadow: var(--glow);
             position: relative;
             width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .glass-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         h1 {
@@ -160,6 +169,7 @@
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
+        /* PROGRESO DE JUBILACIÓN */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
@@ -240,11 +250,12 @@
             width: 100%;
         }
         
+        /* La barra inicia en 0% para la animación por scroll */
         .progress-fill { 
             height: 100%; 
             background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); 
             width: 0%; 
-            transition: width 1.5s cubic-bezier(0.1, 0.5, 0.2, 1); 
+            transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1); 
             box-shadow: 0 0 15px var(--gold);
         }
         
@@ -299,6 +310,7 @@
         .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 28px; padding: 20px; height: 400px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
         .chart-wrapper { position: relative; height: 100%; width: 100%; }
 
+        /* Tabla */
         .table-section { margin-top: 30px; width: 100%; }
         .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 450px; overflow: auto; width: 100%; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 800px; }
@@ -317,7 +329,7 @@
 <body>
 
 <div class="container">
-    <header class="glass-panel">
+    <header class="glass-panel visible">
         <h1>Wealth Architect</h1>
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
@@ -391,7 +403,7 @@
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta que quieres recibir.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta que quieres recibir de por vida.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input"></div>
             </div>
 
@@ -399,7 +411,7 @@
         </div>
     </header>
 
-    <main class="glass-panel" style="overflow: visible;">
+    <main class="glass-panel" id="resultsPanel" style="overflow: visible;">
         <div class="results-summary" id="simpleSummary">Ingresa tus datos para proyectar tu futuro.</div>
 
         <div class="metrics-grid">
@@ -415,7 +427,7 @@
             <div class="metric-card tax"><div class="label">Sin Invertir</div><div class="value auto-size" id="resLost">$0</div><span class="badge red">💤 Bajo Colchón</span></div>
         </div>
 
-        <div class="fire-status">
+        <div class="fire-status" id="fireSection">
             <div class="fire-header-grid">
                 <div class="meta-display-box goal"><span>Meta de Capital Requerida</span><strong id="metaCapital">$0</strong></div>
                 <div class="meta-display-box achieved"><span>Capital Alcanzado</span><strong id="achievedCapital">$0</strong></div>
@@ -461,26 +473,20 @@
 
 <script>
 let chartBarras, chartPie;
+let targetProgress = 0; // Guardamos el progreso para la animación por scroll
 const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
 const getVal = (id) => parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
 
-// FUNCIÓN PARA AJUSTAR TAMAÑO DE TEXTO AUTOMÁTICAMENTE
 function fitTextSizes() {
     const elements = document.querySelectorAll('.auto-size');
     elements.forEach(el => {
         const text = el.textContent;
         const len = text.length;
-        
-        if (len > 14) {
-            el.style.fontSize = '0.85rem';
-        } else if (len > 11) {
-            el.style.fontSize = '1rem';
-        } else if (len > 9) {
-            el.style.fontSize = '1.1rem';
-        } else {
-            el.style.fontSize = '1.25rem';
-        }
+        if (len > 14) el.style.fontSize = '0.85rem';
+        else if (len > 11) el.style.fontSize = '1rem';
+        else if (len > 9) el.style.fontSize = '1.1rem';
+        else el.style.fontSize = '1.25rem';
     });
 }
 
@@ -495,30 +501,33 @@ function setupMoneyInputs() {
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             e.target.value = parts.join('.');
             let newLength = e.target.value.length;
-            cursorPosition = cursorPosition + (newLength - originalLength);
-            e.target.setSelectionRange(cursorPosition, cursorPosition);
+            e.target.setSelectionRange(cursorPosition + (newLength - originalLength), cursorPosition + (newLength - originalLength));
         });
     });
 }
 
-document.addEventListener('click', (e) => {
-    const activeTip = document.activeElement;
-    if (activeTip?.classList.contains('info-tip') && !activeTip.contains(e.target)) activeTip.blur();
-    const card = e.target.closest('.metric-card');
-    if (card) {
-        document.querySelectorAll('.metric-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-    }
-});
-
+// Intersection Observer para disparar animaciones al scroll
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            if (entry.target.id === 'chartBoxBars' && chartBarras) chartBarras.update();
-            if (entry.target.id === 'chartBoxPie' && chartPie) chartPie.update();
+            entry.target.classList.add('visible');
+            
+            // Animación de la barra de meta
+            if (entry.target.id === 'fireSection') {
+                const bar = document.getElementById('progressBar');
+                bar.style.width = targetProgress + "%";
+            }
+            
+            // Refrescar animaciones de gráficas al entrar
+            if (entry.target.id === 'chartBoxBars' && chartBarras) {
+                chartBarras.update();
+            }
+            if (entry.target.id === 'chartBoxPie' && chartPie) {
+                chartPie.update();
+            }
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: 0.15 });
 
 function solvePMT(target, present, rate, years) {
     if (rate <= 0) return (target - present) / years;
@@ -542,6 +551,9 @@ function calcular() {
 
     if (tAños <= 0) return;
 
+    // Reiniciar barra de progreso para la animación
+    document.getElementById('progressBar').style.width = "0%";
+
     let totalBruto = P, totalNeto = P, inversionAcum = P, ahorroSinInversion = P;
     let labels = ["Inicio"], dataP = [P], dataInt = [0];
     let rows = [];
@@ -558,7 +570,6 @@ function calcular() {
             inversionAcum += aporteMes;
             ahorroSinInversion += aporteMes;
         }
-
         const feeAnual = totalBruto * feeRate;
         totalBruto -= feeAnual;
         totalFeeAcum += feeAnual;
@@ -581,19 +592,7 @@ function calcular() {
 
         const riquezaFila = totalNeto - inversionAcum;
         const colorRiqueza = riquezaFila >= 0 ? 'var(--gold-bright)' : 'var(--red-tax)';
-        const prefixRiqueza = riquezaFila >= 0 ? '+' : '';
-
-        rows.push(`<tr>
-            <td>A${año}</td>
-            <td>${fmt.format(ahorroEsteAño)}</td>
-            <td>${fmt.format(inversionAcum)}</td>
-            <td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td>
-            <td>-${fmt.format(feeAnual)}</td>
-            <td style="color:var(--red-tax)">${estrategia.value === 'anual' ? '-' + fmt.format(impuestoAnual) : 'Diferido'}</td>
-            <td style="font-weight:bold">${fmt.format(totalNeto)}</td>
-            <td style="color:${colorRiqueza}; font-weight:bold;">${prefixRiqueza}${fmt.format(riquezaFila)}</td>
-        </tr>`);
-
+        rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(impuestoAnual):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalNeto)}</td><td style="color:${colorRiqueza}; font-weight:bold;">${riquezaFila >= 0 ? '+' : ''}${fmt.format(riquezaFila)}</td></tr>`);
         if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
     }
 
@@ -616,15 +615,18 @@ function calcular() {
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
     document.getElementById('achievedCapital').textContent = fmt.format(netoFinal);
-    const pctFire = metaFIRE > 0 ? (netoFinal / metaFIRE * 100) : 0;
-    document.getElementById('fireStatus').textContent = pctFire.toFixed(1) + "%";
-    document.getElementById('progressBar').style.width = Math.min(pctFire, 100) + "%";
     
+    targetProgress = metaFIRE > 0 ? Math.min((netoFinal / metaFIRE * 100), 100) : 0;
+    document.getElementById('fireStatus').textContent = (metaFIRE > 0 ? (netoFinal / metaFIRE * 100).toFixed(1) : "0") + "%";
+    
+    // Disparar animación de barra si ya es visible
+    if (document.getElementById('fireSection').classList.contains('visible')) {
+        document.getElementById('progressBar').style.width = targetProgress + "%";
+    }
+
     document.getElementById('retirementResultCard').style.display = 'flex';
     const gastoAlcanzado = (netoFinal * 0.04) / 12;
-    
-    document.getElementById('fireAmountDisplay').innerHTML = `<span class="amount-callout">${fmt.format(gastoAlcanzado)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; letter-spacing:0px; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
-    
+    document.getElementById('fireAmountDisplay').innerHTML = `<span class="amount-callout">${fmt.format(gastoAlcanzado)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
     document.getElementById('simpleSummary').innerHTML = `Análisis completado para un plazo de ${tAños} años.`;
 
     if (netoFinal >= metaFIRE) {
@@ -635,8 +637,7 @@ function calcular() {
         const extraPorFreq = extraAnual / freq;
         const totalPorFreq = (getVal('aportacion') * freq + extraAnual) / freq;
         let fLabel = freq === 365 ? "diarios" : freq === 52 ? "semanales" : "mensuales";
-        
-        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - pctFire).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)}/mes</b>.`;
+        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - targetProgress).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)}/mes</b>.`;
         document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Para alcanzar el 100% de tu meta en el plazo establecido, necesitas ahorrar <strong>${fmt.format(extraPorFreq)} ${fLabel} extras</strong> (Aportación total necesaria: <strong>${fmt.format(totalPorFreq)}</strong> ${fLabel}).</div>`;
     }
 
@@ -645,25 +646,34 @@ function calcular() {
 }
 
 function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExpenses) {
+    const animationSettings = { duration: 1500, easing: 'easeOutQuart' };
+    
     if (chartBarras) chartBarras.destroy();
     chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
         type: 'bar',
         data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } }
+        options: { animation: animationSettings, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } }
     });
+    
     if (chartPie) chartPie.destroy();
     chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
         type: 'doughnut',
         data: { labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '70%' }
+        options: { animation: animationSettings, responsive: true, maintainAspectRatio: false, cutout: '70%' }
     });
-    observer.observe(document.getElementById('chartBoxBars'));
 }
 
-document.getElementById('btnCalcular').addEventListener('click', calcular);
+document.getElementById('btnCalcular').addEventListener('click', () => {
+    document.getElementById('resultsPanel').classList.add('visible');
+    calcular();
+});
+
 window.onload = function() {
     setupMoneyInputs();
-    fitTextSizes(); 
+    fitTextSizes();
+    
+    // Observar elementos para animaciones por scroll
+    document.querySelectorAll('.glass-panel, .fire-status, .chart-box, .pie-box').forEach(el => observer.observe(el));
 };
 </script>
 </body>
