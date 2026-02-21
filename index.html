@@ -32,45 +32,42 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            padding: 10px;
+            padding: 15px;
             line-height: 1.4;
             overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1150px;
             display: flex;
             flex-direction: column;
             gap: 25px;
         }
 
-        /* Paneles con animación de revelado */
+        /* Paneles principales */
         .glass-panel {
             background: var(--bg-card);
             border: 2px solid var(--gold);
             border-radius: 32px;
-            padding: 30px;
+            padding: clamp(20px, 4vw, 35px);
             box-shadow: var(--glow);
             position: relative;
             width: 100%;
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        .glass-panel.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .glass-panel.visible { opacity: 1; transform: translateY(0); }
 
         h1 {
-            font-size: clamp(1.2rem, 5vw, 1.7rem);
+            font-size: clamp(1.3rem, 5vw, 1.8rem);
             text-transform: uppercase;
             letter-spacing: 6px;
             color: var(--gold);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             font-weight: 900;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
@@ -108,21 +105,24 @@
         .has-prefix input { padding-left: 40px; }
         .has-suffix input { padding-right: 40px; }
 
+        /* Tooltip (?) - Redimensionado para evitar choques visuales */
         .info-tip {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 18px; height: 18px; min-width: 18px; min-height: 18px; 
+            width: 17px; height: 17px; min-width: 17px; min-height: 17px; 
             background: rgba(212, 175, 55, 0.15); color: var(--gold); border: 1px solid var(--gold); 
-            border-radius: 50%; font-size: 11px; cursor: help; margin-left: 8px; position: relative; font-style: normal; outline: none;
+            border-radius: 50%; font-size: 10px; cursor: help; margin-left: 6px; position: relative; font-style: normal; outline: none;
+            z-index: 100;
         }
         
         .info-tip::after {
-            content: attr(data-tooltip); position: absolute; bottom: 160%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            background: #1a1a1a; color: #fff; border: 1px solid var(--gold); padding: 15px; border-radius: 12px; 
-            font-size: 0.8rem; width: 240px; max-width: 85vw; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,1); 
-            z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none;
+            content: attr(data-tooltip); position: absolute; bottom: 190%; left: 50%; transform: translateX(-50%) translateY(10px); 
+            background: #111; color: #fff; border: 1px solid var(--gold); padding: 12px; border-radius: 10px; 
+            font-size: 0.75rem; width: 210px; max-width: 80vw; text-align: center; box-shadow: 0 15px 45px rgba(0,0,0,1); 
+            z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none;
+            line-height: 1.4; font-weight: normal; text-transform: none; letter-spacing: normal;
         }
 
-        .info-tip.down::after { bottom: auto; top: 160%; transform: translateX(-50%) translateY(-10px); }
+        .info-tip.down::after { bottom: auto; top: 190%; transform: translateX(-50%) translateY(-10px); }
         .info-tip:hover::after, .info-tip:focus::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
         .btn-analyze {
@@ -132,56 +132,79 @@
         }
         .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
 
-        .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1rem; margin-bottom: 25px; transition: 0.3s; }
+        .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
+        /* GRID DE TARJETAS CORREGIDO PARA SIMETRÍA TOTAL */
         .metrics-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-            gap: 12px; 
-            margin-bottom: 30px; 
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 35px; 
+            width: 100%;
             overflow: visible;
         }
         
-        @media (min-width: 850px) {
+        @media (min-width: 1000px) {
             .metrics-grid { grid-template-columns: repeat(5, 1fr); gap: 15px; }
         }
 
         .metric-card {
-            background: #000; border: 1px solid #222; border-radius: 20px; padding: 12px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; flex-direction: column; justify-content: center; position: relative; min-height: 100px; cursor: pointer;
-            min-width: 0; 
+            background: #000; border: 1px solid #222; border-radius: 24px; 
+            padding: 16px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex; flex-direction: column; justify-content: space-between; 
+            position: relative; min-height: 125px; cursor: pointer;
+            width: 100%; overflow: visible;
         }
 
-        .metric-card.active { border-color: var(--gold); box-shadow: var(--glow); transform: translateY(-5px) scale(1.02); background: rgba(212, 175, 55, 0.05); }
+        .metric-card.active { border-color: var(--gold); box-shadow: var(--glow); transform: translateY(-5px) scale(1.02); background: rgba(212, 175, 55, 0.05); z-index: 10; }
 
-        .metric-card .label { font-size: 0.58rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 0.8px; white-space: nowrap; }
+        .metric-card .label { 
+            font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; 
+            margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; 
+            letter-spacing: 0.8px; white-space: nowrap; flex-shrink: 0;
+        }
         
+        .metric-card .value-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            width: 100%;
+        }
+
         .metric-card .value { 
-            font-size: 1.25rem; 
+            font-size: 1.4rem; 
             font-weight: 800; 
             color: var(--text-gold); 
             white-space: nowrap;
-            overflow: hidden;
-            line-height: 1.2;
+            line-height: 1;
             transition: font-size 0.2s ease;
+            display: block;
         }
         
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
+        .metric-card .bottom-badge {
+            flex-shrink: 0;
+            margin-top: 10px;
+        }
+
+        /* PROGRESO DE JUBILACIÓN */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
             border-radius: 32px; 
-            padding: 30px; 
+            padding: clamp(20px, 4vw, 35px); 
             margin-bottom: 30px; 
+            width: 100%;
         }
         
         .fire-header-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         @media (max-width: 850px) {
@@ -191,7 +214,7 @@
         .meta-display-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px;
+            padding: 22px;
             border-radius: 20px;
             text-align: center;
         }
@@ -205,10 +228,10 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        .meta-display-box strong { font-size: 1.35rem; font-weight: 900; display: block; }
+        .meta-display-box strong { font-size: 1.35rem; font-weight: 900; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .meta-display-box.goal strong { color: var(--gold-bright); }
         .meta-display-box.achieved strong { color: var(--green); }
 
@@ -222,72 +245,45 @@
             border-radius: 20px;
         }
 
-        .fire-label {
-            font-weight: 800; 
-            letter-spacing: 1.5px; 
-            font-size: 0.7rem; 
-            color: var(--text-gold);
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-        
-        #fireStatus {
-            color: var(--green); 
-            font-weight: 900; 
-            font-size: 1.8rem;
-            line-height: 1;
-            text-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
-        }
+        .fire-label { font-weight: 800; letter-spacing: 1.5px; font-size: 0.75rem; color: var(--text-gold); text-transform: uppercase; margin-bottom: 8px; }
+        #fireStatus { color: var(--green); font-weight: 900; font-size: 2.1rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
-        .progress-track { 
-            background: #111; 
-            height: 18px; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            margin: 0 0 30px 0; 
-            border: 1px solid #222;
-            width: 100%;
-        }
-        
-        .progress-fill { 
-            height: 100%; 
-            background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); 
-            width: 0%; 
-            transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            box-shadow: 0 0 15px var(--gold);
-        }
+        .progress-track { background: #111; height: 22px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); width: 0%; transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 15px var(--gold); }
         
         .retirement-result-card {
             background: #000;
             border: 1px solid #222;
-            border-radius: 24px;
-            padding: 35px;
-            margin-top: 10px;
+            border-radius: 32px;
+            padding: 45px;
+            margin-top: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
+            box-shadow: inset 0 0 25px rgba(212, 175, 55, 0.05);
+            width: 100%;
         }
 
         .amount-callout {
             display: inline-block;
-            font-size: 2.8rem;
+            font-size: clamp(2rem, 7.5vw, 3.5rem);
             font-weight: 950;
             color: var(--gold-bright);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 35px rgba(212, 175, 55, 0.5);
             margin: 15px 0;
-            letter-spacing: -1.5px;
+            letter-spacing: -2px;
+            white-space: nowrap;
         }
 
         .suggestion-box {
-            margin-top: 25px;
-            padding: 20px;
+            margin-top: 30px;
+            padding: 25px;
             background: rgba(212, 175, 55, 0.05);
             border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 16px;
-            font-size: 0.95rem;
+            border-radius: 20px;
+            font-size: 1.05rem;
             color: var(--text-main);
             width: 100%;
             line-height: 1.6;
@@ -295,34 +291,19 @@
 
         .suggestion-box strong { color: var(--gold-bright); font-weight: 800; }
 
-        #fireTxt {
-            font-size: 1.05rem;
-            color: var(--text-main);
-            line-height: 1.6;
-            max-width: 600px;
-            margin-bottom: 5px;
-        }
-
-        /* Gráficas */
         .viz-container { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; width: 100%; }
         @media (min-width: 850px) { .viz-container { grid-template-columns: repeat(2, 1fr); } }
-        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 28px; padding: 20px; height: 400px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
+        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 32px; padding: 25px; height: 440px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
         .chart-wrapper { position: relative; height: 100%; width: 100%; }
 
-        /* Tabla */
-        .table-section { margin-top: 30px; width: 100%; }
-        .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 450px; overflow: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 800px; }
-        th { background: #111; color: var(--gold); padding: 18px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.7rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1px; }
-        td { padding: 14px 18px; border-bottom: 1px solid #111; }
-        tr:hover { background: rgba(212, 175, 55, 0.03); }
+        .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 500px; overflow: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 900px; }
+        th { background: #111; color: var(--gold); padding: 22px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.72rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1.2px; }
+        td { padding: 18px 22px; border-bottom: 1px solid #111; }
 
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-
-        .badge { display: inline-block; padding: 5px 10px; border-radius: 8px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; margin-top: 10px; }
-        .badge.green { background: rgba(46, 204, 113, 0.1); color: var(--green); }
-        .badge.red { background: rgba(231, 76, 60, 0.1); color: var(--red-tax); }
+        .badge { display: inline-block; padding: 6px 12px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+        .badge.green { background: rgba(46, 204, 113, 0.12); color: var(--green); }
+        .badge.red { background: rgba(231, 76, 60, 0.12); color: var(--red-tax); }
     </style>
 </head>
 <body>
@@ -333,15 +314,15 @@
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
             <div class="input-group">
-                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero para empezar hoy.">?</i></label>
+                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Capital con el que inicias tu proyecto hoy mismo.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input"></div>
             </div>
             <div class="input-group">
-                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Tus ahorros periódicos.">?</i></label>
+                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás según la frecuencia elegida.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input"></div>
             </div>
             <div class="input-group">
-                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="¿Cada cuánto ahorras el monto de arriba?">?</i></label>
+                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Cada cuánto tiempo harás tus depósitos adicionales.">?</i></label>
                 <div class="field-wrapper">
                     <select id="frecuencia">
                         <option value="12" selected>Mensual</option>
@@ -351,21 +332,21 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual esperada.">?</i></label>
+                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa de interés anual que esperas ganar del mercado.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo del broker/ETF.">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
-                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Duración del plan.">?</i></label>
+                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años para esta proyección financiera.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="años" placeholder="0"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar' Bolsa. 'Cada año' Cetes/Bancos.">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Pagas al vender (Bolsa). 'Anual': Retención constante.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -374,7 +355,7 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias' (Bolsa) o 'Sobre Capital' (Renta Fija).">?</i></label>
+                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias': Solo pagas por lo ganado. 'Sobre Capital': Modelo Renta Fija.">?</i></label>
                 <div class="field-wrapper">
                     <select id="baseFiscal">
                         <option value="interes" selected>Sobre Ganancias</option>
@@ -383,11 +364,11 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto aplicable.">?</i></label>
+                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica a tu inversión.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Subir ahorro según inflación.">?</i></label>
+                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro crecerá anualmente para mantener el poder adquisitivo.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -396,13 +377,13 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Subida estimada de precios anual.">?</i></label>
+                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios por año.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5" step="0.1"></div>
             </div>
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta que quieres recibir de por vida.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Cantidad de dinero que quieres recibir mensualmente para jubilarte.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input"></div>
             </div>
 
@@ -414,16 +395,56 @@
         <div class="results-summary" id="simpleSummary">Ingresa tus datos para proyectar tu futuro.</div>
 
         <div class="metrics-grid">
-            <div class="metric-card"><div class="label">Cap. Inicial</div><div class="value auto-size" id="resInitial">$0</div></div>
-            <div class="metric-card"><div class="label">Aportaciones</div><div class="value auto-size" id="resAportTotal">$0</div></div>
-            <div class="metric-card"><div class="label">Int. Brutos</div><div class="value auto-size" id="resTotalInt">$0</div></div>
-            <div class="metric-card"><div class="label">Monto Bruto</div><div class="value auto-size" id="resTotal">$0</div></div>
-            <div class="metric-card tax"><div class="label">Impuestos</div><div class="value auto-size" id="resTax">$0</div></div>
-            <div class="metric-card net"><div class="label">Multiplicador</div><div class="value auto-size" id="resMult">1.0x</div><span class="badge green">🔥 Rendimiento</span></div>
-            <div class="metric-card net"><div class="label">Utilidad Neta</div><div class="value auto-size" id="resProfit">$0</div><span class="badge green">📈 Ganancia Real</span></div>
-            <div class="metric-card"><div class="label">Saldo Final</div><div class="value auto-size" id="resNeto">$0</div></div>
-            <div class="metric-card net"><div class="label">Poder de Compra</div><div class="value auto-size" id="resReal">$0</div><span class="badge green">🛒 Equiv. a hoy</span></div>
-            <div class="metric-card tax"><div class="label">Sin Invertir</div><div class="value auto-size" id="resLost">$0</div><span class="badge red">💤 Bajo Colchón</span></div>
+            <div class="metric-card">
+                <div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión el día 1.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Total de ahorro propio.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia total de mercado.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo antes de gastos/ISR.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card tax">
+                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total pagado al SAT.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card net">
+                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Veces que creció tu dinero.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div>
+                <div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div>
+            </div>
+            <div class="metric-card net">
+                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia limpia total.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div>
+                <div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div>
+            </div>
+            <div class="metric-card">
+                <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Dinero neto disponible.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
+            <div class="metric-card net">
+                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Equivalente a dinero de hoy.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resReal">$0</div></div>
+                <div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div>
+            </div>
+            <div class="metric-card tax">
+                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Si solo guardas el efectivo.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resLost">$0</div></div>
+                <div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div>
+            </div>
         </div>
 
         <div class="fire-status" id="fireSection">
@@ -435,9 +456,9 @@
             <div class="progress-track"><div class="progress-bar progress-fill" id="progressBar"></div></div>
             
             <div class="retirement-result-card" id="retirementResultCard" style="display:none;">
-                <p style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim);">Con este capital podrías retirar:</p>
+                <p style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim);">Con este capital podrías retirar:</p>
                 <div id="fireAmountDisplay"></div>
-                <p id="fireTxt"></p>
+                <p id="fireTxt" style="margin-top:15px; font-size: 1.05rem; color: #fff;"></p>
                 <div id="adviceBox"></div>
             </div>
         </div>
@@ -478,20 +499,29 @@ const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN',
 
 const getVal = (id) => parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
 
+// FUNCIÓN PARA AJUSTAR TAMAÑO DE TEXTO - MÁS AGRESIVA Y PRECISA
 function fitTextSizes() {
     const elements = document.querySelectorAll('.auto-size');
     elements.forEach(el => {
-        const text = el.textContent;
-        const len = text.length;
-        if (len > 14) el.style.fontSize = '0.85rem';
-        else if (len > 11) el.style.fontSize = '1rem';
-        else if (len > 9) el.style.fontSize = '1.1rem';
-        else el.style.fontSize = '1.25rem';
+        const container = el.closest('.value-container');
+        if (!container) return;
+        
+        let size = 1.45; // rem inicial
+        el.style.fontSize = size + "rem";
+        
+        const maxWidth = container.offsetWidth - 10;
+        
+        // Reducir hasta que el ancho del texto sea menor al ancho disponible
+        while (el.scrollWidth > maxWidth && size > 0.65) {
+            size -= 0.05;
+            el.style.fontSize = size + "rem";
+        }
     });
 }
 
 function animateRetirementValue(start, end, duration) {
     const obj = document.getElementById('fireAmountDisplay');
+    if (!obj) return;
     let startTimestamp = null;
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
@@ -523,14 +553,10 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            
-            // Animación de Barra y Cifra
             if (entry.target.id === 'fireSection') {
                 document.getElementById('progressBar').style.width = targetProgress + "%";
                 if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 2000);
             }
-            
-            // CORRECCIÓN: REINICIAR Y DISPARAR ANIMACIÓN DE GRÁFICAS CADA VEZ QUE ENTRAN EN VISTA
             if (entry.target.id === 'chartBoxBars' && chartBarras) {
                 chartBarras.reset();
                 chartBarras.update();
@@ -565,7 +591,6 @@ function calcular() {
 
     if (tAños <= 0) return;
 
-    // Reset de barra para que re-anime
     document.getElementById('progressBar').style.width = "0%";
     
     let totalBruto = P, totalNeto = P, inversionAcum = P, ahorroSinInversion = P;
@@ -623,7 +648,7 @@ function calcular() {
     document.getElementById('resLost').textContent = fmt.format(ahorroSinInversion);
     document.getElementById('resMult').textContent = inversionAcum > 0 ? (netoFinal / inversionAcum).toFixed(1) + "x" : "1.0x";
 
-    fitTextSizes();
+    setTimeout(fitTextSizes, 50); 
 
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
@@ -634,7 +659,6 @@ function calcular() {
     finalRetirementAmount = (netoFinal * 0.04) / 12;
     document.getElementById('retirementResultCard').style.display = 'flex';
     
-    // Iniciar animaciones de meta
     if (document.getElementById('fireSection').classList.contains('visible')) {
         document.getElementById('progressBar').style.width = targetProgress + "%";
         animateRetirementValue(0, finalRetirementAmount, 2000);
@@ -643,7 +667,7 @@ function calcular() {
     document.getElementById('simpleSummary').innerHTML = `Análisis completado para un plazo de ${tAños} años.`;
 
     if (netoFinal >= metaFIRE) {
-        document.getElementById('fireTxt').innerHTML = `¡Felicidades! Independencia lograda en el <b>Año ${fireAño}</b>. Tu capital es suficiente para retirar este monto mensualmente para siempre.`;
+        document.getElementById('fireTxt').innerHTML = `¡Independencia lograda en el <b>Año ${fireAño}</b>! Tu capital es suficiente para retirar este monto mensualmente para siempre.`;
         document.getElementById('adviceBox').innerHTML = "";
     } else {
         const extraAnual = Math.max(0, solvePMT(metaFIRE, P, rAnual - feeRate, tAños) - (getVal('aportacion') * freq));
@@ -660,40 +684,17 @@ function calcular() {
 
 function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExpenses) {
     const commonAnimation = { duration: 2500, easing: 'easeOutQuart' };
-
     if (chartBarras) chartBarras.destroy();
     chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
         type: 'bar',
-        data: { 
-            labels: labels, 
-            datasets: [
-                { label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, 
-                { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }
-            ] 
-        },
-        options: { 
-            animation: { ...commonAnimation, delay: (ctx) => ctx.dataIndex * 50 },
-            responsive: true, 
-            maintainAspectRatio: false, 
-            scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } 
-        }
+        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }] },
+        options: { animation: { ...commonAnimation, delay: (ctx) => ctx.dataIndex * 50 }, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } }
     });
-
     if (chartPie) chartPie.destroy();
     chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
         type: 'doughnut',
-        data: { 
-            labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], 
-            datasets: [{ 
-                data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], 
-                backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], 
-                borderColor: '#121212', borderWidth: 3 
-            }] 
-        },
-        options: { 
-            animation: { animateRotate: true, animateScale: true, duration: 2500, easing: 'easeOutQuart' },
-            responsive: true, maintainAspectRatio: false, cutout: '70%' 
-        }
+        data: { labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
+        options: { animation: { animateRotate: true, animateScale: true, duration: 2500, easing: 'easeOutQuart' }, responsive: true, maintainAspectRatio: false, cutout: '70%' }
     });
 }
 
@@ -707,6 +708,8 @@ window.onload = function() {
     fitTextSizes();
     document.querySelectorAll('.glass-panel, .fire-status, .chart-box, .pie-box').forEach(el => observer.observe(el));
 };
+
+window.addEventListener('resize', fitTextSizes); 
 </script>
 </body>
 </html>
