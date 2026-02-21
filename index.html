@@ -64,7 +64,7 @@
         .glass-panel.visible { opacity: 1; transform: translateY(0); }
 
         h1 {
-            font-size: clamp(1.4rem, 6vw, 2.2rem);
+            font-size: clamp(1.4rem, 5vw, 2.2rem);
             text-transform: uppercase;
             letter-spacing: 6px;
             color: var(--gold);
@@ -117,6 +117,7 @@
             z-index: 500;
         }
         
+        /* Globo de información - Comportamiento Desktop */
         .info-tip::after {
             content: attr(data-tooltip); 
             position: absolute; 
@@ -157,9 +158,33 @@
             z-index: 999999;
         }
 
+        /* Ajuste específico para móvil (Pantallas pequeñas) */
+        @media (max-width: 600px) {
+            .info-tip::after {
+                left: auto;
+                right: 0;
+                transform: translateX(0) translateY(10px);
+                text-align: left;
+            }
+            .info-tip::before {
+                left: auto;
+                right: 5px;
+                transform: translateX(0) translateY(10px);
+            }
+            .info-tip:hover::after, .info-tip:focus::after { transform: translateX(0) translateY(0); }
+            .info-tip:hover::before, .info-tip:focus::before { transform: translateX(0) translateY(0); }
+        }
+
         .info-tip:hover::after, .info-tip:focus::after,
         .info-tip:hover::before, .info-tip:focus::before { 
-            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); 
+            opacity: 1; visibility: visible; 
+        }
+
+        @media (min-width: 601px) {
+            .info-tip:hover::after, .info-tip:focus::after,
+            .info-tip:hover::before, .info-tip:focus::before { 
+                transform: translateX(-50%) translateY(0); 
+            }
         }
 
         .btn-analyze {
@@ -177,7 +202,7 @@
 
         .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1.1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
-        /* GRID DE TARJETAS CORREGIDO PARA MÁXIMA LEGIBILIDAD */
+        /* GRID DE TARJETAS */
         .metrics-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
@@ -201,7 +226,7 @@
             flex-direction: column; 
             justify-content: space-between; 
             position: relative; 
-            min-height: 145px; /* Más alta para que el número no se encime */
+            min-height: 145px; 
             cursor: pointer;
             width: 100%; 
             overflow: visible; 
@@ -250,7 +275,7 @@
         }
 
         .metric-card .value { 
-            font-size: 1.7rem; /* Número base mucho más grande */
+            font-size: 1.7rem; 
             font-weight: 800; 
             color: var(--text-gold); 
             white-space: nowrap;
@@ -360,7 +385,7 @@
         .chart-wrapper { position: relative; height: 100%; width: 100%; }
 
         .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 500px; overflow: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 900px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 900px; }
         th { background: #111; color: var(--gold); padding: 22px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.72rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1.2px; }
         td { padding: 18px 22px; border-bottom: 1px solid #111; }
 
@@ -378,15 +403,15 @@
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
             <div class="input-group">
-                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo tu proyecto de inversión.">?</i></label>
+                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo tu proyecto de inversión inicial.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente según tu plan.">?</i></label>
+                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente para acelerar tu crecimiento.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Intervalo de tiempo entre cada ahorro adicional.">?</i></label>
+                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Intervalo de tiempo entre cada ahorro adicional (mensual, semanal o diario).">?</i></label>
                 <div class="field-wrapper">
                     <select id="frecuencia">
                         <option value="12" selected>Mensual</option>
@@ -396,21 +421,21 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual esperada de tu inversión basada en el mercado.">?</i></label>
+                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual promedio esperada basada en el comportamiento histórico del mercado.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo (Expense Ratio).">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo de inversión (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01" inputmode="decimal"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
-                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años de este plan de inversión.">?</i></label>
+                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años durante los cuales tu dinero trabajará e invertirá.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="años" placeholder="0" inputmode="numeric"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa. 'Anual': Modelo de Banco o Cetes.">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Pagas ISR al vender (Bolsa). 'Anual': Modelo de Cetes/Banco.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -419,7 +444,7 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias' para Bolsa (Renta Variable). 'Sobre Capital' para Renta Fija.">?</i></label>
+                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias': Solo pagas por lo ganado. 'Sobre Capital': Modelo Renta Fija.">?</i></label>
                 <div class="field-wrapper">
                     <select id="baseFiscal">
                         <option value="interes" selected>Sobre Ganancias (Renta Variable)</option>
@@ -428,11 +453,11 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica según tu instrumento.">?</i></label>
+                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica según tu estrategia fiscal elegida.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar aportaciones con inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real.">?</i></label>
+                <label>Aumentar aportaciones con inflación <i class="info-tip" tabindex="0" data-tooltip="SÍ: Tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -441,13 +466,13 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios anual para el cálculo del poder de compra real.">?</i></label>
+                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios anual para el cálculo del poder de compra.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5" step="0.1" inputmode="decimal"></div>
             </div>
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas recibir para tu retiro.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas percibir de por vida para alcanzar tu libertad.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
 
@@ -465,47 +490,47 @@
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de todo el ahorro extra aportado de tu bolsillo durante los años.">?</i></div>
+                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de todo el ahorro extra aportado de tu bolsillo con el tiempo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia total generada por el mercado antes de gastos e impuestos.">?</i></div>
+                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia generada por el mercado antes de cualquier descuento fiscal.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total acumulado antes de restar comisiones e impuestos.">?</i></div>
+                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total acumulado antes de restar impuestos y comisiones.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total de ISR retenido por el SAT durante todo el periodo analizado.">?</i></div>
+                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total acumulado retenido por el SAT durante todo el plan analizado.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Indica cuántas veces lograste multiplicar tu ahorro gracias a la inversión inteligente.">?</i></div>
+                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor que indica cuántas veces creció tu ahorro invertido inicial.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div>
                 <div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia real limpia tras inversión, costos e impuestos.">?</i></div>
+                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia real limpia tras inversión, costos y retenciones de ISR.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div>
             </div>
             <div class="metric-card final-result">
-                <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital neto total disponible al finalizar el plazo.">?</i></div>
+                <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital neto total disponible al finalizar el plazo del plan.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
                 <div class="bottom-badge"><span class="badge gold">💰 CAPITAL NETO</span></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor de tu dinero al final, ajustado a precios de hoy (sin inflación).">?</i></div>
+                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor de tu dinero al final, ajustado a precios de hoy sin inflación.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resReal">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Resultado proyectado si solo hubieras ahorrado el dinero sin invertirlo.">?</i></div>
+                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Saldo proyectado si solo hubieras ahorrado el efectivo bajo el colchón.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resLost">$0</div></div>
                 <div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div>
             </div>
@@ -563,7 +588,6 @@ const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN',
 
 const getVal = (id) => parseFloat(document.getElementById(id).value.replace(/,/g, '')) || 0;
 
-// FUNCIÓN PARA AJUSTAR TAMAÑO DE TEXTO - CORREGIDA PARA SER MÁS RESPETUOSA CON EL TAMAÑO MÍNIMO
 function fitTextSizes() {
     const elements = document.querySelectorAll('.auto-size');
     elements.forEach(el => {
@@ -573,9 +597,9 @@ function fitTextSizes() {
         let size = 1.7; // Tamaño base ideal
         el.style.fontSize = size + "rem";
         
-        const maxWidth = container.clientWidth - 10; 
+        const maxWidth = container.clientWidth - 5; 
         
-        // Reducimos solo si es necesario, pero el límite mínimo es 1.1rem para que sea siempre legible
+        // Reducimos solo si es necesario, pero el límite mínimo es 1.1rem para legibilidad superior
         while (el.scrollWidth > maxWidth && size > 1.1) {
             size -= 0.05;
             el.style.fontSize = size + "rem";
@@ -619,7 +643,7 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.classList.add('visible');
             if (entry.target.id === 'fireSection') {
                 document.getElementById('progressBar').style.width = targetProgress + "%";
-                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 1200); // Un poco más rápida la animación
+                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 1200);
             }
             if (entry.target.id === 'chartBoxBars' && chartBarras) {
                 chartBarras.reset();
