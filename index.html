@@ -22,6 +22,7 @@
             --green: #2ecc71; 
             --red-tax: #ff4d4d; 
             --glow: 0 0 20px rgba(212, 175, 55, 0.2), 0 0 40px rgba(212, 175, 55, 0.1);
+            --hover-glow: 0 0 30px rgba(212, 175, 55, 0.4), 0 0 60px rgba(212, 175, 55, 0.2);
         }
 
         * { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
@@ -32,14 +33,14 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            padding: 15px;
+            padding: 10px;
             line-height: 1.4;
             overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 1150px;
+            max-width: 1100px;
             display: flex;
             flex-direction: column;
             gap: 25px;
@@ -50,13 +51,14 @@
             background: var(--bg-card);
             border: 2px solid var(--gold);
             border-radius: 32px;
-            padding: clamp(20px, 4vw, 35px);
+            padding: clamp(15px, 5vw, 30px);
             box-shadow: var(--glow);
             position: relative;
             width: 100%;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            overflow: visible; 
         }
 
         .glass-panel.visible { opacity: 1; transform: translateY(0); }
@@ -67,7 +69,7 @@
             letter-spacing: 6px;
             color: var(--gold);
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             font-weight: 900;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
@@ -105,68 +107,77 @@
         .has-prefix input { padding-left: 40px; }
         .has-suffix input { padding-right: 40px; }
 
-        /* Tooltip (?) */
+        /* Icono de Ayuda (?) */
         .info-tip {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 17px; height: 17px; min-width: 17px; min-height: 17px; 
+            width: 20px; height: 20px; min-width: 20px; min-height: 20px; 
             background: rgba(212, 175, 55, 0.15); color: var(--gold); border: 1px solid var(--gold); 
-            border-radius: 50%; font-size: 10px; cursor: help; margin-left: 6px; position: relative; font-style: normal; outline: none;
-            z-index: 100;
+            border-radius: 50%; font-size: 10px; cursor: help; margin-left: 8px; 
+            position: relative; font-style: normal; outline: none;
+            z-index: 500;
         }
         
+        /* Globo de texto */
         .info-tip::after {
-            content: attr(data-tooltip); position: absolute; bottom: 190%; left: 50%; transform: translateX(-50%) translateY(10px); 
-            background: #111; color: #fff; border: 1px solid var(--gold); padding: 12px; border-radius: 10px; 
-            font-size: 0.75rem; width: 210px; max-width: 80vw; text-align: center; box-shadow: 0 15px 45px rgba(0,0,0,1); 
-            z-index: 9999; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none;
-            line-height: 1.4; font-weight: normal; text-transform: none; letter-spacing: normal;
-        }
-
-        .info-tip.down::after { bottom: auto; top: 190%; transform: translateX(-50%) translateY(-10px); }
-        .info-tip:hover::after, .info-tip:focus::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-
-        /* BOTÓN CON ANIMACIÓN MEJORADA */
-        .btn-analyze {
-            grid-column: 1 / -1; padding: 22px; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border: none; border-radius: 18px; color: black; font-weight: 900;
-            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            font-size: 1.1rem; margin-top: 15px; position: relative; overflow: hidden;
-        }
-        
-        .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
-        .btn-analyze:active { transform: scale(0.96) translateY(0); }
-        
-        /* Efecto de carga en el botón */
-        .btn-analyze.loading {
-            background: var(--gold-dark);
-            color: rgba(0,0,0,0.5);
+            content: attr(data-tooltip); 
+            position: absolute; 
+            bottom: calc(100% + 14px); 
+            left: 50%; 
+            transform: translateX(-50%) translateY(10px); 
+            background: #111; 
+            color: #fff; 
+            border: 1px solid var(--gold); 
+            padding: 16px; 
+            border-radius: 14px; 
+            font-size: 0.82rem; 
+            width: 280px; 
+            max-width: 85vw; 
+            text-align: center; 
+            box-shadow: 0 15px 45px rgba(0,0,0,1); 
+            z-index: 999999;
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); 
             pointer-events: none;
+            line-height: 1.5; font-weight: normal; text-transform: none; letter-spacing: normal;
+            white-space: normal;
         }
-        
-        .btn-analyze.loading::after {
+
+        /* Triángulo conector */
+        .info-tip::before {
             content: "";
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: sweep 1.5s infinite;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            border-width: 8px 8px 0 8px;
+            border-style: solid;
+            border-color: var(--gold) transparent transparent transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            z-index: 999999;
         }
 
-        @keyframes sweep {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .info-tip:hover::after, .info-tip:focus::after,
+        .info-tip:hover::before, .info-tip:focus::before { 
+            opacity: 1; 
+            visibility: visible; 
+            transform: translateX(-50%) translateY(0); 
         }
 
-        @keyframes shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
+        .btn-analyze {
+            grid-column: 1 / -1; padding: 20px; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none; border-radius: 18px; color: black; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.3s; font-size: 1.05rem; margin-top: 10px;
+            position: relative; overflow: hidden;
         }
+        .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
+        .btn-analyze:active { transform: scale(0.96); }
 
-        .btn-analyze.loading span.emoji {
-            display: inline-block;
-            animation: shake 0.2s infinite;
-        }
+        .btn-analyze.loading { background: var(--gold-dark); color: rgba(0,0,0,0.5); pointer-events: none; }
+        .btn-analyze.loading span.emoji { display: inline-block; animation: shake 0.2s infinite; }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
 
         .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
@@ -174,85 +185,128 @@
         .metrics-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 35px; 
+            gap: 12px; 
+            margin-bottom: 30px; 
             width: 100%;
             overflow: visible;
         }
         
-        @media (min-width: 1000px) {
-            .metrics-grid { grid-template-columns: repeat(5, 1fr); gap: 15px; }
+        @media (min-width: 900px) {
+            .metrics-grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
         }
 
         .metric-card {
-            background: #000; border: 1px solid #222; border-radius: 24px; 
-            padding: 16px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; flex-direction: column; justify-content: space-between; 
-            position: relative; min-height: 125px; cursor: pointer;
-            width: 100%; overflow: visible;
+            background: #000; 
+            border: 1px solid #222; 
+            border-radius: 20px; 
+            padding: 15px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            position: relative; 
+            min-height: 120px; 
+            cursor: pointer;
+            width: 100%; 
+            overflow: visible; 
         }
 
-        .metric-card.active { border-color: var(--gold); box-shadow: var(--glow); transform: translateY(-5px) scale(1.02); background: rgba(212, 175, 55, 0.05); z-index: 10; }
+        /* DISEÑO ESPECIAL PARA SALDO FINAL */
+        .metric-card.final-result {
+            border: 2px solid var(--gold-bright);
+            background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.15) 0%, #000 100%);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+        
+        .metric-card.final-result .value {
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            font-weight: 900;
+        }
+
+        .metric-card.final-result:hover {
+            border-color: #fff;
+            box-shadow: 0 0 35px rgba(212, 175, 55, 0.5);
+            background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.25) 0%, #000 100%);
+        }
+
+        .metric-card:hover {
+            border-color: var(--gold-bright);
+            box-shadow: var(--hover-glow);
+            transform: translateY(-8px) scale(1.03);
+            background: rgba(212, 175, 55, 0.1);
+            z-index: 100;
+        }
+
+        .metric-card.active { 
+            border-color: var(--gold); 
+            box-shadow: var(--glow); 
+            background: rgba(212, 175, 55, 0.05); 
+            z-index: 50; 
+        }
 
         .metric-card .label { 
-            font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; 
-            margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between; 
-            letter-spacing: 0.8px; white-space: nowrap; flex-shrink: 0;
+            font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; 
+            margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; 
+            letter-spacing: 0.8px; white-space: nowrap;
         }
         
         .metric-card .value-container {
-            flex-grow: 1;
             display: flex;
             align-items: center;
-            overflow: hidden;
             width: 100%;
+            height: 35px;
+            overflow: hidden;
         }
 
         .metric-card .value { 
-            font-size: 1.4rem; 
+            font-size: 1.35rem; 
             font-weight: 800; 
             color: var(--text-gold); 
             white-space: nowrap;
             line-height: 1;
             transition: font-size 0.2s ease;
-            display: block;
         }
-        
+
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
-        .metric-card .bottom-badge {
-            flex-shrink: 0;
-            margin-top: 10px;
-        }
+        .metric-card .bottom-badge { margin-top: 10px; transition: 0.3s; }
+        .metric-card:hover .bottom-badge { transform: scale(1.05); }
 
         /* PROGRESO DE JUBILACIÓN */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
             border-radius: 32px; 
-            padding: clamp(20px, 4vw, 35px); 
+            padding: clamp(15px, 4vw, 30px); 
             margin-bottom: 30px; 
             width: 100%;
+            overflow: visible;
         }
         
         .fire-header-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 30px;
         }
         
         @media (max-width: 850px) {
-            .fire-header-grid { grid-template-columns: 1fr; gap: 15px; }
+            .fire-header-grid { grid-template-columns: 1fr; gap: 12px; }
         }
 
         .meta-display-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 22px;
+            padding: 18px;
             border-radius: 20px;
             text-align: center;
+            transition: 0.3s;
+        }
+        .meta-display-box:hover {
+            border-color: rgba(212, 175, 55, 0.4);
+            background: rgba(212, 175, 55, 0.05);
         }
         
         .meta-display-box.goal { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.15); }
@@ -264,10 +318,10 @@
             text-transform: uppercase;
             letter-spacing: 1.2px;
             display: block;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
-        .meta-display-box strong { font-size: 1.35rem; font-weight: 900; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .meta-display-box strong { font-size: 1.2rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .meta-display-box.goal strong { color: var(--gold-bright); }
         .meta-display-box.achieved strong { color: var(--green); }
 
@@ -277,49 +331,49 @@
             justify-content: center;
             align-items: center;
             background: rgba(255, 255, 255, 0.02);
-            padding: 15px;
+            padding: 12px;
             border-radius: 20px;
         }
 
-        .fire-label { font-weight: 800; letter-spacing: 1.5px; font-size: 0.75rem; color: var(--text-gold); text-transform: uppercase; margin-bottom: 8px; }
-        #fireStatus { color: var(--green); font-weight: 900; font-size: 2.1rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+        .fire-label { font-weight: 800; letter-spacing: 1.5px; font-size: 0.7rem; color: var(--text-gold); text-transform: uppercase; margin-bottom: 6px; }
+        #fireStatus { color: var(--green); font-weight: 900; font-size: 2rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
-        .progress-track { background: #111; height: 22px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
+        .progress-track { background: #111; height: 18px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); width: 0%; transition: width 2s cubic-bezier(0.34, 1.56, 0.64, 1); box-shadow: 0 0 15px var(--gold); }
         
         .retirement-result-card {
             background: #000;
             border: 1px solid #222;
             border-radius: 32px;
-            padding: 45px;
+            padding: 40px;
             margin-top: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: inset 0 0 25px rgba(212, 175, 55, 0.05);
+            box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
             width: 100%;
         }
 
         .amount-callout {
             display: inline-block;
-            font-size: clamp(2rem, 7.5vw, 3.5rem);
+            font-size: clamp(2rem, 7vw, 3.2rem);
             font-weight: 950;
             color: var(--gold-bright);
-            text-shadow: 0 0 35px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
             margin: 15px 0;
-            letter-spacing: -2px;
+            letter-spacing: -1.5px;
             white-space: nowrap;
         }
 
         .suggestion-box {
-            margin-top: 30px;
-            padding: 25px;
+            margin-top: 25px;
+            padding: 20px;
             background: rgba(212, 175, 55, 0.05);
             border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            font-size: 1.05rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
             color: var(--text-main);
             width: 100%;
             line-height: 1.6;
@@ -329,17 +383,18 @@
 
         .viz-container { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; width: 100%; }
         @media (min-width: 850px) { .viz-container { grid-template-columns: repeat(2, 1fr); } }
-        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 32px; padding: 25px; height: 440px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
+        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 32px; padding: 25px; height: 420px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
         .chart-wrapper { position: relative; height: 100%; width: 100%; }
 
-        .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 500px; overflow: auto; width: 100%; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 900px; }
-        th { background: #111; color: var(--gold); padding: 22px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.72rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1.2px; }
-        td { padding: 18px 22px; border-bottom: 1px solid #111; }
+        .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 480px; overflow: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 850px; }
+        th { background: #111; color: var(--gold); padding: 20px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.7rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1.2px; }
+        td { padding: 16px 20px; border-bottom: 1px solid #111; }
 
         .badge { display: inline-block; padding: 6px 12px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
         .badge.green { background: rgba(46, 204, 113, 0.12); color: var(--green); }
         .badge.red { background: rgba(231, 76, 60, 0.12); color: var(--red-tax); }
+        .badge.gold { background: var(--gold); color: black; font-weight: 900; }
     </style>
 </head>
 <body>
@@ -350,15 +405,15 @@
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
             <div class="input-group">
-                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Capital con el que inicias tu proyecto hoy mismo.">?</i></label>
+                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input"></div>
             </div>
             <div class="input-group">
-                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás según la frecuencia elegida.">?</i></label>
+                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente según tu plan.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input"></div>
             </div>
             <div class="input-group">
-                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Cada cuánto tiempo harás tus depósitos adicionales.">?</i></label>
+                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Intervalo de tiempo entre cada ahorro adicional.">?</i></label>
                 <div class="field-wrapper">
                     <select id="frecuencia">
                         <option value="12" selected>Mensual</option>
@@ -368,21 +423,21 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa de interés anual que esperas ganar del mercado.">?</i></label>
+                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual esperada de tu inversión.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo (Expense Ratio).">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del fondo (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
-                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años para esta proyección financiera.">?</i></label>
+                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años de este plan.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="años" placeholder="0"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Pagas al vender (Bolsa). 'Anual': Retención constante.">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa. 'Anual': Cetes/Bancos.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -391,7 +446,7 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias': Solo pagas por lo ganado. 'Sobre Capital': Modelo Renta Fija.">?</i></label>
+                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias': Solo pagas de lo ganado. 'Sobre Capital': Modelo Bancario.">?</i></label>
                 <div class="field-wrapper">
                     <select id="baseFiscal">
                         <option value="interes" selected>Sobre Ganancias</option>
@@ -400,11 +455,11 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica a tu inversión.">?</i></label>
+                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro crecerá anualmente para mantener el poder adquisitivo.">?</i></label>
+                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Tu ahorro subirá año con año para no perder valor real.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -413,13 +468,13 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios por año.">?</i></label>
+                <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios anual.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5" step="0.1"></div>
             </div>
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Cantidad de dinero que quieres recibir mensualmente para jubilarte.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta neta mensual deseada para tu retiro.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input"></div>
             </div>
 
@@ -432,52 +487,53 @@
 
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión el día 1 del proyecto.">?</i></div>
+                <div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión el día 1.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de todo el ahorro extra que tú pusiste con el tiempo.">?</i></div>
+                <div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Total de ahorro propio acumulado.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Intereses generados por el mercado antes de cualquier gasto.">?</i></div>
+                <div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia total de mercado antes de impuestos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card">
-                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total acumulado antes de descontar impuestos y comisiones.">?</i></div>
+                <div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total antes de descontar impuestos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total acumulado retenido por el SAT durante todo el plan.">?</i></div>
+                <div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Total pagado al SAT en el periodo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
                 <div class="bottom-badge"></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Cuántas veces se multiplicó tu ahorro invertido.">?</i></div>
+                <div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Veces que multiplicaste tu ahorro.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div>
                 <div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre real después de todos los costos e impuestos.">?</i></div>
+                <div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre real tras inversión e impuestos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div>
             </div>
-            <div class="metric-card">
+            <!-- TARJETA DESTACADA: SALDO FINAL -->
+            <div class="metric-card final-result">
                 <div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital neto total disponible al final del plazo.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
-                <div class="bottom-badge"></div>
+                <div class="bottom-badge"><span class="badge gold">💰 CAPITAL NETO</span></div>
             </div>
             <div class="metric-card net">
-                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor de tu dinero al final, ajustado a precios de hoy (sin inflación).">?</i></div>
+                <div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor de tu dinero final a precios de hoy.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resReal">$0</div></div>
                 <div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div>
             </div>
             <div class="metric-card tax">
-                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Resultado proyectado si solo hubieras guardado el efectivo.">?</i></div>
+                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Si solo guardas el efectivo bajo el colchón.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resLost">$0</div></div>
                 <div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div>
             </div>
@@ -540,10 +596,12 @@ function fitTextSizes() {
     elements.forEach(el => {
         const container = el.closest('.value-container');
         if (!container) return;
+        
         let size = 1.45; 
         el.style.fontSize = size + "rem";
-        const maxWidth = container.offsetWidth - 10;
-        while (el.scrollWidth > maxWidth && size > 0.65) {
+        const maxWidth = container.clientWidth - 5;
+        
+        while (el.scrollWidth > maxWidth && size > 0.55) {
             size -= 0.05;
             el.style.fontSize = size + "rem";
         }
@@ -586,7 +644,7 @@ const observer = new IntersectionObserver((entries) => {
             entry.target.classList.add('visible');
             if (entry.target.id === 'fireSection') {
                 document.getElementById('progressBar').style.width = targetProgress + "%";
-                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 2000);
+                if (finalRetirementAmount > 0) animateRetirementValue(0, finalRetirementAmount, 1500);
             }
             if (entry.target.id === 'chartBoxBars' && chartBarras) {
                 chartBarras.reset();
@@ -695,10 +753,10 @@ function runCalculationLogic() {
         animateRetirementValue(0, finalRetirementAmount, 1500);
     }
 
-    document.getElementById('simpleSummary').innerHTML = `Análisis completado para un plazo de ${tAños} años.`;
+    document.getElementById('simpleSummary').innerHTML = `Análisis patrimonial finalizado.`;
 
     if (netoFinal >= metaFIRE) {
-        document.getElementById('fireTxt').innerHTML = `¡Independencia lograda en el <b>Año ${fireAño}</b>! Tu capital es suficiente para retirar este monto mensualmente para siempre.`;
+        document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>! Tu capital es suficiente para retirar este monto mensualmente para siempre.`;
         document.getElementById('adviceBox').innerHTML = "";
     } else {
         const extraAnual = Math.max(0, solvePMT(metaFIRE, P, rAnual - feeRate, tAños) - (getVal('aportacion') * freq));
@@ -732,23 +790,14 @@ function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExp
 document.getElementById('btnCalcular').addEventListener('click', function() {
     const btn = this;
     const originalContent = btn.innerHTML;
-    
-    // Activar estado visual de carga
     btn.classList.add('loading');
     btn.innerHTML = `<span>Analizando Patrimonio...</span> <span class="emoji">🚀</span>`;
-    
-    // Simular tiempo de "procesamiento" para mejorar UX
     setTimeout(() => {
         btn.classList.remove('loading');
         btn.innerHTML = originalContent;
-        
-        // Mostrar resultados
         const resultsPanel = document.getElementById('resultsPanel');
         resultsPanel.classList.add('visible');
-        
         runCalculationLogic();
-        
-        // Scroll suave hacia los resultados
         resultsPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 700);
 });
