@@ -223,7 +223,7 @@
 
         .metric-card {
             background: #000; border: 1px solid #222; border-radius: 24px; padding: 20px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; flex-direction: column; justify-content: space-between; position: relative; min-height: 145px; cursor: pointer;
+            display: flex; flex-direction: column; justify-content: space-between; position: relative; min-height: 150px; cursor: pointer;
             width: 100%; overflow: visible; 
         }
 
@@ -244,7 +244,7 @@
         .metric-card.tax .value { color: var(--red-tax) !important; }
         .metric-card .bottom-badge { margin-top: 15px; transition: 0.3s; }
 
-        /* PROGRESO DE JUBILACIÓN - CORRECCIÓN ARQUITECTÓNICA */
+        /* PROGRESO DE JUBILACIÓN */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
@@ -274,14 +274,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-height: 100px;
         }
         .meta-display-box.goal { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.15); }
         .meta-display-box.achieved { background: rgba(46, 204, 113, 0.03); border: 1px solid rgba(46, 204, 113, 0.12); }
         
         .meta-display-box span, .meta-display-box label { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 12px; }
-        .meta-display-box strong { font-size: 1.5rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .meta-display-box strong { font-size: 1.4rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* PROGRESO ACTUAL REFORMADO */
         .status-display-box { 
             display: flex; 
             flex-direction: column; 
@@ -293,14 +293,8 @@
             border-radius: 24px; 
             text-align: center;
         }
-        .status-display-box .label-text {
-            color: var(--text-dim);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
-        }
-        #fireStatus { color: var(--green); font-weight: 950; font-size: 2.5rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
+        .status-display-box .label-text { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+        #fireStatus { color: var(--green); font-weight: 950; font-size: 2.2rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
         .progress-track { background: #111; height: 22px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); width: 0%; transition: width 2.5s cubic-bezier(0.1, 0.8, 0.1, 1); box-shadow: 0 0 15px var(--gold); }
@@ -393,7 +387,7 @@
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="SÍ: Tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
+                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -408,7 +402,7 @@
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas percibir de por vida para alcanzar tu libertad financiera.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas recibir para alcanzar tu libertad financiera.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
 
@@ -427,7 +421,7 @@
             <div class="metric-card tax"><div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Retenciones proyectadas del SAT.">?</i></div><div class="value-container"><div class="value auto-size" id="resTax">$0</div></div><div class="bottom-badge"></div></div>
             <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div></div>
             <div class="metric-card net"><div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre tras costos e impuestos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div></div>
-            <div class="metric-card final-result"><div class="label">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold">💰 CAPITAL NETO</span></div></div>
+            <div class="metric-card final-result" id="finalResultCard"><div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div></div>
             <div class="metric-card net"><div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor real ajustado por inflación.">?</i></div><div class="value-container"><div class="value auto-size" id="resReal">$0</div></div><div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div></div>
             <div class="metric-card tax"><div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Saldo si solo guardas efectivo.">?</i></div><div class="value-container"><div class="value auto-size" id="resLost">$0</div></div><div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div></div>
         </div>
@@ -485,7 +479,6 @@ let finalRetirementAmountGross = 0;
 let animationTriggered = false; 
 const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
-// --- MOTOR DE AUDIO ELITE ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let audioEnabled = true; 
 
@@ -532,12 +525,11 @@ const SFX = {
     cashRegister: () => {
         if (!audioEnabled) return;
         const now = audioCtx.currentTime;
-        // Golpe mecánico del cajón
         const thud = audioCtx.createOscillator(); const thudG = audioCtx.createGain();
         thud.type = 'triangle'; thud.frequency.setValueAtTime(100, now);
         thudG.gain.setValueAtTime(0.4, now); thudG.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-        thud.connect(thudG); thudG.connect(audioCtx.destination); thud.start(); thud.stop(now + 0.2);
-        // Campana metálica (armonía real)
+        thud.connect(thudG); thudG.connect(audioCtx.destination);
+        thud.start(); thud.stop(now + 0.2);
         [2480, 4960, 1240, 3100].forEach((f, i) => {
             const bell = audioCtx.createOscillator(); const bellG = audioCtx.createGain();
             bell.frequency.setValueAtTime(f, now + 0.02);
@@ -573,6 +565,8 @@ function fitTextSizes() {
 function animateRetirementValue(start, end, duration) {
     const obj = document.getElementById('fireAmountDisplay');
     const breakdownObj = document.getElementById('taxBreakdownDisplay');
+    const est = document.getElementById('estrategiaFiscal').value;
+    const base = document.getElementById('baseFiscal').value;
     if (!obj) return;
     let startTimestamp = null;
     let lastSoundTime = 0;
@@ -585,11 +579,8 @@ function animateRetirementValue(start, end, duration) {
         if (progress < 1) window.requestAnimationFrame(step);
         else {
             SFX.cashRegister();
-            // Mostrar desglose fiscal según configuración
-            const est = document.getElementById('estrategiaFiscal').value;
-            const base = document.getElementById('baseFiscal').value;
             if (est === 'anual' || base === 'capital') {
-                breakdownObj.innerHTML = `Monto neto. Los impuestos ya han sido descontados en la proyección anual de capital.`;
+                breakdownObj.innerHTML = `Monto neto. Los impuestos ya han sido descontados año con año en tu capital.`;
             } else {
                 breakdownObj.innerHTML = `Desglose: ${fmt.format(finalRetirementAmountGross)} Brutos — ISR (aprox. 10% s/ganancia del retiro) = ${fmt.format(finalRetirementAmountNet)} Netos.`;
             }
@@ -673,48 +664,50 @@ function runCalculationLogic() {
             let impuestoAnual = (baseFiscal === 'capital') ? totalBruto * taxRate : interesAñoBruto * taxRate;
             totalBruto -= impuestoAnual; totalTaxAcum += impuestoAnual;
         }
-        let currentNet = totalBruto;
-        if (estrategia.value === 'final') {
-            let taxDeferred = (baseFiscal === 'capital') ? totalBruto * taxRate : Math.max(0, (totalBruto - inversionAcum) * taxRate);
-            currentNet = totalBruto - taxDeferred;
-        }
-        if (fireAño === -1 && (currentNet * 0.04) / 12 >= gastosMes) fireAño = año;
-        labels.push("A" + año); dataP.push(inversionAcum); dataInt.push(currentNet - inversionAcum);
-        const riquezaFila = currentNet - inversionAcum;
-        rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(totalTaxAcum/año):'Diferido'}</td><td style="font-weight:bold">${fmt.format(currentNet)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
+        // Calculamos patrimonio actual (bruto si es al final, neto si es anual)
+        let currentWealth = totalBruto;
+        if (fireAño === -1 && (currentWealth * 0.04) / 12 >= gastosMes) fireAño = año;
+        labels.push("A" + año); dataP.push(inversionAcum); dataInt.push(totalBruto - inversionAcum);
+        const riquezaFila = totalBruto - inversionAcum;
+        rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(totalTaxAcum/año):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalBruto)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
         if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
     }
 
-    const totalTaxFinal = estrategia.value === 'final' ? (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate) : totalTaxAcum;
-    const netoFinal = totalBruto - (estrategia.value === 'final' ? totalTaxFinal : 0);
+    // CORRECCIÓN LÓGICA: Saldo Final es Bruto si es 'final', Neto si es 'anual'
+    const totalTaxDiferido = (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate);
+    const wealthFinal = (estrategia.value === 'final') ? totalBruto : totalBruto; // Ambas son la misma base ahora
+    const isrLabel = (estrategia.value === 'final') ? "Diferido" : "Pagado";
 
     document.getElementById('resInitial').textContent = fmt.format(P);
     document.getElementById('resAportTotal').textContent = fmt.format(inversionAcum - P);
-    document.getElementById('resTotalInt').textContent = fmt.format(totalBruto - inversionAcum + totalTaxFinal + totalFeeAcum);
-    document.getElementById('resTotal').textContent = fmt.format(totalBruto + (estrategia.value==='final'?totalTaxFinal:0));
-    document.getElementById('resTax').textContent = fmt.format(totalTaxFinal + totalFeeAcum);
-    document.getElementById('resProfit').textContent = fmt.format(netoFinal - inversionAcum);
-    document.getElementById('resNeto').textContent = fmt.format(netoFinal);
-    document.getElementById('resReal').textContent = fmt.format(netoFinal / Math.pow(1 + (inflacion || 0.045), tAños));
+    document.getElementById('resTotalInt').textContent = fmt.format(totalBruto - inversionAcum + totalFeeAcum);
+    document.getElementById('resTotal').textContent = fmt.format(totalBruto);
+    document.getElementById('resTax').textContent = isrLabel + ": " + fmt.format(estrategia.value === 'final' ? totalTaxDiferido : totalTaxAcum);
+    document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
+    
+    // El SALDO FINAL resaltado ahora es el patrimonio bruto si se paga al final
+    document.getElementById('resNeto').textContent = fmt.format(totalBruto);
+    document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital acumulado antes de vender tus activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
+    document.getElementById('finalBadge').textContent = (estrategia.value === 'final') ? "💰 PATRIMONIO" : "💰 CAPITAL NETO";
+
+    document.getElementById('resReal').textContent = fmt.format(totalBruto / Math.pow(1 + (inflacion || 0.045), tAños));
     document.getElementById('resLost').textContent = fmt.format(ahorroSinInversion);
-    document.getElementById('resMult').textContent = inversionAcum > 0 ? (netoFinal / inversionAcum).toFixed(1) + "x" : "1.0x";
+    document.getElementById('resMult').textContent = inversionAcum > 0 ? (totalBruto / inversionAcum).toFixed(1) + "x" : "1.0x";
 
     fitTextSizes();
 
+    // RETIRO (4%) - AQUÍ SÍ APLICAMOS LA CORRECCIÓN
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
-    document.getElementById('achievedCapital').textContent = fmt.format(netoFinal);
-    targetProgress = metaFIRE > 0 ? Math.min((netoFinal / metaFIRE * 100), 100) : 0;
-    document.getElementById('fireStatus').textContent = (metaFIRE > 0 ? (netoFinal / metaFIRE * 100).toFixed(1) : "0") + "%";
+    document.getElementById('achievedCapital').textContent = fmt.format(totalBruto);
+    targetProgress = metaFIRE > 0 ? Math.min((totalBruto / metaFIRE * 100), 100) : 0;
+    document.getElementById('fireStatus').textContent = (metaFIRE > 0 ? (totalBruto / metaFIRE * 100).toFixed(1) : "0") + "%";
     
-    // --- LÓGICA DE RETIRO CORREGIDA ---
-    finalRetirementAmountGross = (netoFinal * 0.04) / 12;
+    finalRetirementAmountGross = (totalBruto * 0.04) / 12;
     if (estrategia.value === 'anual' || baseFiscal === 'capital') {
-        // Si el ISR ya se pagó anualmente o es sobre capital, el retiro es libre de impuestos extra.
         finalRetirementAmountNet = finalRetirementAmountGross;
     } else {
-        // Escenario Bolsa (Diferido): Retiro del 4% bruto -> 10% de ISR solo sobre la porción de ganancia del retiro
-        const gainPortion = Math.max(0, (netoFinal - inversionAcum) / netoFinal);
+        const gainPortion = Math.max(0, (totalBruto - inversionAcum) / totalBruto);
         const taxOnWithdrawal = finalRetirementAmountGross * gainPortion * 0.10;
         finalRetirementAmountNet = finalRetirementAmountGross - taxOnWithdrawal;
     }
@@ -728,33 +721,33 @@ function runCalculationLogic() {
         animateRetirementValue(0, finalRetirementAmountNet, 2000); animationTriggered = true;
     }
 
-    document.getElementById('simpleSummary').innerHTML = `Análisis patrimonial finalizado con éxito.`;
+    document.getElementById('simpleSummary').innerHTML = `Análisis patrimonio finalizado.`;
 
-    if (netoFinal >= metaFIRE) {
+    if (totalBruto >= metaFIRE) {
         document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>!`;
     } else {
         const extraAnual = Math.max(0, solvePMT(metaFIRE, P, rAnual - feeRate, tAños) - (getVal('aportacion') * freq));
         const extraPorFreq = extraAnual / freq;
         let fLabel = freq === 365 ? "diarios" : freq === 52 ? "semanales" : "mensuales";
-        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (netoFinal / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro neto de <b>${fmt.format(gastosMes)}/mes</b>.`;
-        document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Para recibir el monto neto deseado hoy mismo, deberías aumentar tu ahorro en <strong>${fmt.format(extraPorFreq)} ${fLabel} adicionales</strong>.</div>`;
+        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (totalBruto / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro neto de <b>${fmt.format(gastosMes)}/mes</b>.`;
+        document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Para recibir el monto neto deseado, deberías aumentar tu ahorro en <strong>${fmt.format(extraPorFreq)} ${fLabel} adicionales</strong>.</div>`;
     }
 
     document.querySelector("#tablaProyeccion tbody").innerHTML = rows.join('');
-    updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalTaxFinal + totalFeeAcum);
+    updateCharts(labels, dataP, dataInt, inversionAcum, totalBruto, totalTaxAcum + totalFeeAcum);
 }
 
-function updateCharts(labels, dataP, dataInt, inversionAcum, netoFinal, totalExpenses) {
+function updateCharts(labels, dataP, dataInt, inversionAcum, totalWealth, totalExpenses) {
     if (chartBarras) chartBarras.destroy();
     chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
         type: 'bar',
-        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Riqueza Creada', data: dataInt, backgroundColor: dataInt.map(v => v >= 0 ? '#d4af37' : '#ff4d4d') }] },
+        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Crecimiento', data: dataInt, backgroundColor: '#d4af37' }] },
         options: { animation: { duration: 2500, easing: 'easeOutQuart' }, responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } }
     });
     if (chartPie) chartPie.destroy();
     chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
         type: 'doughnut',
-        data: { labels: ['Tu Dinero', 'Ganancia Neta', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, netoFinal - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
+        data: { labels: ['Tu Dinero', 'Ganancia', 'Gastos/Comisión'], datasets: [{ data: [inversionAcum, Math.max(0, totalWealth - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
         options: { animation: { animateRotate: true, animateScale: true, duration: 2500 }, responsive: true, maintainAspectRatio: false, cutout: '70%' }
     });
 }
