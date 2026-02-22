@@ -242,7 +242,7 @@
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo de gestión del fondo (Expense Ratio).">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del fondo (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01" inputmode="decimal"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
@@ -252,7 +252,7 @@
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Cetes/Banco.">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Modelo de Cetes/Banco.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -273,6 +273,16 @@
                 <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal aplicado.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
             </div>
+            <!-- RESTAURADO: OPCIÓN INVERSOR INTELIGENTE -->
+            <div class="input-group">
+                <label>Aumentar aportaciones con inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real.">?</i></label>
+                <div class="field-wrapper">
+                    <select id="ajusteAhorro">
+                        <option value="si" selected>SÍ (Inversor Inteligente)</option>
+                        <option value="no">NO (Ahorro Fijo)</option>
+                    </select>
+                </div>
+            </div>
             <div class="input-group">
                 <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios anual.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5 (Ejemplo)" step="0.1" inputmode="decimal"></div>
@@ -292,13 +302,9 @@
         <div class="metrics-grid">
             <div class="metric-card"><div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión inicial.">?</i></div><div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div><div class="bottom-badge"></div></div>
             <div class="metric-card"><div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Total ahorro propio.">?</i></div><div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia de mercado total generada.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo acumulado antes de gastos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card tax">
-                <div class="label" id="taxLabel">Impuestos y Comisiones <i class="info-tip" tabindex="0" data-tooltip="Costos de gestión y retenciones ISR.">?</i></div>
-                <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
-                <div class="bottom-badge" id="taxStatusBadge"></div>
-            </div>
+            <div class="metric-card"><div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia de mercado total.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo antes de gastos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card tax"><div class="label">Impuestos y Comisiones <i class="info-tip" tabindex="0" data-tooltip="Costos de gestión y retenciones ISR.">?</i></div><div class="value-container"><div class="value auto-size" id="resTax">$0</div></div><div class="bottom-badge" id="taxStatusBadge"></div></div>
             <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div></div>
             <div class="metric-card net"><div class="label" id="profitLabel">Utilidad Real <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre de costos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div></div>
             <div class="metric-card final-result" id="finalResultCard"><div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div></div>
@@ -313,7 +319,6 @@
                 <div class="status-display-box"><span class="label-text">Tu Progreso Actual</span><strong id="fireStatus">0%</strong></div>
             </div>
             <div class="progress-track"><div class="progress-bar progress-fill" id="progressBar"></div></div>
-            
             <div class="retirement-result-card" id="retirementResultCard" style="display:none;">
                 <p style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim);">Con este capital podrías retirar (Regla del 4%):</p>
                 <div id="fireAmountDisplay"></div>
@@ -405,16 +410,18 @@ const SFX = {
         if (!audioEnabled) return;
         const now = audioCtx.currentTime;
         const thud = audioCtx.createOscillator(); const thudG = audioCtx.createGain();
-        thud.type = 'triangle'; thud.frequency.setValueAtTime(100, now);
+        thud.type = 'triangle'; thud.frequency.setValueAtTime(110, now);
         thudG.gain.setValueAtTime(0.4, now); thudG.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-        thud.connect(thudG); thudG.connect(audioCtx.destination); thud.start(); thud.stop(now + 0.2);
+        thud.connect(thudG); thudG.connect(audioCtx.destination);
+        thud.start(); thud.stop(now + 0.2);
         [2480, 4960, 1240, 3100].forEach((f, i) => {
             const bell = audioCtx.createOscillator(); const bellG = audioCtx.createGain();
             bell.frequency.setValueAtTime(f, now + 0.02);
             bellG.gain.setValueAtTime(0, now + 0.02); bellG.gain.linearRampToValueAtTime(i === 0 ? 0.25 : 0.1, now + 0.04);
             const decay = i === 0 ? 2.0 : 0.8;
             bellG.gain.exponentialRampToValueAtTime(0.0001, now + 0.04 + decay);
-            bell.connect(bellG); bellG.connect(audioCtx.destination); bell.start(now + 0.02); bell.stop(now + 0.04 + decay);
+            bell.connect(bellG); bellG.connect(audioCtx.destination);
+            bell.start(now + 0.02); bell.stop(now + 0.04 + decay);
         });
     }
 };
@@ -457,7 +464,7 @@ function animateRetirementValue(start, end, duration) {
         else {
             SFX.cashRegister();
             if (est === 'anual' || base === 'capital') {
-                breakdownObj.innerHTML = `Monto neto total. El ISR ya fue descontado año con año de tu capital acumulado.`;
+                breakdownObj.innerHTML = `Monto neto total. El ISR ya fue descontado año con año de tu capital.`;
             } else {
                 breakdownObj.innerHTML = `Desglose: ${fmt.format(finalRetirementAmountGross)} Brutos — Retención 10% s/ganancia = ${fmt.format(finalRetirementAmountNet)} Netos.`;
             }
@@ -518,6 +525,7 @@ function runCalculationLogic() {
     const estrategia = document.getElementById('estrategiaFiscal');
     const baseFiscal = document.getElementById('baseFiscal').value;
     const inflacion = (parseFloat(document.getElementById('inflacion').value) || 0) / 100;
+    const ajustarAhorro = document.getElementById('ajusteAhorro').value === 'si';
     const gastosMes = getVal('gastos');
 
     if (tAños <= 0) return;
@@ -544,10 +552,9 @@ function runCalculationLogic() {
         labels.push("A" + año); dataP.push(inversionAcum); dataInt.push(totalBruto - inversionAcum);
         const riquezaFila = totalBruto - inversionAcum;
         rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(totalTaxAcum/año):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalBruto)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
-        basePMT *= (1 + (inflacion || 0.045));
+        if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
     }
 
-    // CORRECCIÓN LÓGICA: En Bolsa, los impuestos son diferidos. NO se descuentan del capital principal.
     const totalTaxDiferido = (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate);
     
     document.getElementById('resInitial').textContent = fmt.format(P);
@@ -555,16 +562,15 @@ function runCalculationLogic() {
     document.getElementById('resTotalInt').textContent = fmt.format(totalBruto - inversionAcum + totalFeeAcum);
     document.getElementById('resTotal').textContent = fmt.format(totalBruto);
     
-    // CAJA DE IMPUESTOS Y COMISIONES: Si es Bolsa, el capital es bruto, por lo tanto solo restamos comisiones.
     const displayTaxValue = (estrategia.value === 'final') ? totalFeeAcum : (totalTaxAcum + totalFeeAcum);
     document.getElementById('resTax').textContent = fmt.format(displayTaxValue);
     document.getElementById('taxStatusBadge').innerHTML = (estrategia.value === 'final') ? `<span class="badge gold">ISR: DIFERIDO $${Math.floor(totalTaxDiferido).toLocaleString()}</span>` : `<span class="badge red">ISR: PAGADO</span>`;
 
     document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
-    document.getElementById('profitLabel').innerHTML = (estrategia.value === 'final') ? "Utilidad Bruta <i class='info-tip' data-tooltip='Ganancia total de mercado antes de vender.'>?</i>" : "Utilidad Real <i class='info-tip' data-tooltip='Ganancia libre tras impuestos.'>?</i>";
+    document.getElementById('profitLabel').innerHTML = (estrategia.value === 'final') ? "Utilidad Bruta <i class='info-tip' data-tooltip='Ganancia total de mercado antes de vender activos.'>?</i>" : "Utilidad Real <i class='info-tip' data-tooltip='Ganancia libre tras impuestos.'>?</i>";
 
     document.getElementById('resNeto').textContent = fmt.format(totalBruto);
-    document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital total sin vender activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
+    document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital acumulado sin vender activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
     document.getElementById('finalBadge').textContent = (estrategia.value === 'final') ? "💰 PATRIMONIO" : "💰 CAPITAL NETO";
 
     document.getElementById('resReal').textContent = fmt.format(totalBruto / Math.pow(1 + (inflacion || 0.045), tAños));
@@ -573,7 +579,6 @@ function runCalculationLogic() {
 
     fitTextSizes();
 
-    // RETIRO (4%) - APLICAMOS EL IMPUESTO SOLO AQUÍ PARA BOLSA
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
     document.getElementById('achievedCapital').textContent = fmt.format(totalBruto);
@@ -590,17 +595,21 @@ function runCalculationLogic() {
     }
 
     document.getElementById('retirementResultCard').style.display = 'flex';
-    if (document.getElementById('fireSection').classList.contains('visible')) {
+    const fireSection = document.getElementById('fireSection');
+    if (fireSection.classList.contains('visible')) {
         document.getElementById('progressBar').style.width = targetProgress + "%";
         animateRetirementValue(0, finalRetirementAmountNet, 2000); animationTriggered = true;
     }
+
     document.getElementById('simpleSummary').innerHTML = `Análisis patrimonio finalizado.`;
-    if (totalBruto >= metaFIRE) document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>!`;
-    else {
+
+    if (totalBruto >= metaFIRE) {
+        document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>!`;
+    } else {
         const extraAnual = Math.max(0, solvePMT(metaFIRE, P, rAnual - feeRate, tAños) - (getVal('aportacion') * freq));
         const extraPorFreq = extraAnual / freq;
         let fLabel = freq === 365 ? "diarios" : freq === 52 ? "semanales" : "mensuales";
-        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (totalBruto / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)} netos</b>.`;
+        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (totalBruto / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro neto de <b>${fmt.format(gastosMes)}/mes</b>.`;
         document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Aumenta tu ahorro en <strong>${fmt.format(extraPorFreq)} ${fLabel}</strong> para lograr tu meta neta.</div>`;
     }
     document.querySelector("#tablaProyeccion tbody").innerHTML = rows.join('');
