@@ -207,7 +207,7 @@
 
         .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1.1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
-        /* GRID DE TARJETAS */
+        /* GRID DE TARJETAS CORREGIDO */
         .metrics-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
@@ -223,7 +223,7 @@
 
         .metric-card {
             background: #000; border: 1px solid #222; border-radius: 24px; padding: 20px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; flex-direction: column; justify-content: space-between; position: relative; min-height: 150px; cursor: pointer;
+            display: flex; flex-direction: column; justify-content: space-between; position: relative; min-height: 160px; cursor: pointer;
             width: 100%; overflow: visible; 
         }
 
@@ -234,7 +234,6 @@
         }
         
         .metric-card.final-result .value { color: #fff !important; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); font-weight: 950; }
-
         .metric-card:hover { border-color: var(--gold-bright); box-shadow: var(--hover-glow); transform: translateY(-8px) scale(1.03); background: rgba(212, 175, 55, 0.1); z-index: 100; }
 
         .metric-card .label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; letter-spacing: 1.2px; white-space: nowrap; }
@@ -244,7 +243,7 @@
         .metric-card.tax .value { color: var(--red-tax) !important; }
         .metric-card .bottom-badge { margin-top: 15px; transition: 0.3s; }
 
-        /* PROGRESO DE JUBILACIÓN */
+        /* PROGRESO DE JUBILACIÓN - ALINEACIÓN DE CAJAS */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
             border: 1px solid #333; 
@@ -274,13 +273,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 100px;
+            min-height: 120px;
         }
         .meta-display-box.goal { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.15); }
         .meta-display-box.achieved { background: rgba(46, 204, 113, 0.03); border: 1px solid rgba(46, 204, 113, 0.12); }
         
         .meta-display-box span, .meta-display-box label { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 12px; }
-        .meta-display-box strong { font-size: 1.4rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .meta-display-box strong { font-size: 1.5rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .status-display-box { 
             display: flex; 
@@ -292,6 +291,7 @@
             padding: 20px; 
             border-radius: 24px; 
             text-align: center;
+            min-height: 120px;
         }
         .status-display-box .label-text { color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
         #fireStatus { color: var(--green); font-weight: 950; font-size: 2.2rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
@@ -333,11 +333,11 @@
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
             <div class="input-group">
-                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo tu proyecto de inversión inicial.">?</i></label>
+                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente para acelerar tu crecimiento.">?</i></label>
+                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
@@ -351,21 +351,21 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual promedio esperada basada en el comportamiento histórico del mercado.">?</i></label>
+                <label>Rendimiento (%) <i class="info-tip" tabindex="0" data-tooltip="Tasa anual promedio esperada.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo de inversión (Expense Ratio).">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01" inputmode="decimal"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
-                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de años durante los cuales tu dinero trabajará e invertirá.">?</i></label>
+                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de este plan de inversión.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="años" placeholder="0" inputmode="numeric"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Modelo de Cetes/Banco (Pagas año con año).">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Cetes/Bancos.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -387,7 +387,7 @@
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
+                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="SÍ: Tu ahorro subirá cada año para no perder valor real.">?</i></label>
                 <div class="field-wrapper">
                     <select id="ajusteAhorro">
                         <option value="si" selected>SÍ (Inversor Inteligente)</option>
@@ -402,7 +402,7 @@
 
             <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas recibir para alcanzar tu libertad financiera.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas recibir para alcanzar tu libertad.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
 
@@ -417,11 +417,15 @@
             <div class="metric-card"><div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión inicial.">?</i></div><div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div><div class="bottom-badge"></div></div>
             <div class="metric-card"><div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de ahorro propio.">?</i></div><div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div><div class="bottom-badge"></div></div>
             <div class="metric-card"><div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia de mercado antes de impuestos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo pre-gastos e impuestos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card tax"><div class="label">Impuestos <i class="info-tip" tabindex="0" data-tooltip="Retenciones proyectadas del SAT.">?</i></div><div class="value-container"><div class="value auto-size" id="resTax">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total acumulado antes de gastos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card tax">
+                <div class="label">Impuestos y Comisiones <i class="info-tip" tabindex="0" data-tooltip="Suma total de retenciones ISR y costos de gestión acumulados.">?</i></div>
+                <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
+                <div class="bottom-badge"></div>
+            </div>
             <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div></div>
             <div class="metric-card net"><div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre tras costos e impuestos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div></div>
-            <div class="metric-card final-result" id="finalResultCard"><div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div></div>
+            <div class="metric-card final-result" id="finalResultCard"><div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital acumulado disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div></div>
             <div class="metric-card net"><div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor real ajustado por inflación.">?</i></div><div class="value-container"><div class="value auto-size" id="resReal">$0</div></div><div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div></div>
             <div class="metric-card tax"><div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Saldo si solo guardas efectivo.">?</i></div><div class="value-container"><div class="value auto-size" id="resLost">$0</div></div><div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div></div>
         </div>
@@ -479,6 +483,7 @@ let finalRetirementAmountGross = 0;
 let animationTriggered = false; 
 const fmt = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 });
 
+// --- MOTOR DE AUDIO ELITE ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 let audioEnabled = true; 
 
@@ -580,7 +585,7 @@ function animateRetirementValue(start, end, duration) {
         else {
             SFX.cashRegister();
             if (est === 'anual' || base === 'capital') {
-                breakdownObj.innerHTML = `Monto neto. Los impuestos ya han sido descontados año con año en tu capital.`;
+                breakdownObj.innerHTML = `Monto neto. Los impuestos ya han sido descontados año con año en tu capital acumulado.`;
             } else {
                 breakdownObj.innerHTML = `Desglose: ${fmt.format(finalRetirementAmountGross)} Brutos — ISR (aprox. 10% s/ganancia del retiro) = ${fmt.format(finalRetirementAmountNet)} Netos.`;
             }
@@ -664,28 +669,26 @@ function runCalculationLogic() {
             let impuestoAnual = (baseFiscal === 'capital') ? totalBruto * taxRate : interesAñoBruto * taxRate;
             totalBruto -= impuestoAnual; totalTaxAcum += impuestoAnual;
         }
-        // Calculamos patrimonio actual (bruto si es al final, neto si es anual)
-        let currentWealth = totalBruto;
-        if (fireAño === -1 && (currentWealth * 0.04) / 12 >= gastosMes) fireAño = año;
+        if (fireAño === -1 && (totalBruto * 0.04) / 12 >= gastosMes) fireAño = año;
         labels.push("A" + año); dataP.push(inversionAcum); dataInt.push(totalBruto - inversionAcum);
         const riquezaFila = totalBruto - inversionAcum;
         rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(totalTaxAcum/año):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalBruto)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
         if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
     }
 
-    // CORRECCIÓN LÓGICA: Saldo Final es Bruto si es 'final', Neto si es 'anual'
     const totalTaxDiferido = (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate);
-    const wealthFinal = (estrategia.value === 'final') ? totalBruto : totalBruto; // Ambas son la misma base ahora
     const isrLabel = (estrategia.value === 'final') ? "Diferido" : "Pagado";
 
     document.getElementById('resInitial').textContent = fmt.format(P);
     document.getElementById('resAportTotal').textContent = fmt.format(inversionAcum - P);
     document.getElementById('resTotalInt').textContent = fmt.format(totalBruto - inversionAcum + totalFeeAcum);
     document.getElementById('resTotal').textContent = fmt.format(totalBruto);
-    document.getElementById('resTax').textContent = isrLabel + ": " + fmt.format(estrategia.value === 'final' ? totalTaxDiferido : totalTaxAcum);
-    document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
     
-    // El SALDO FINAL resaltado ahora es el patrimonio bruto si se paga al final
+    // CAJA DE IMPUESTOS Y COMISIONES: Suma de ISR y Comisiones
+    const displayTaxValue = (estrategia.value === 'final') ? totalTaxDiferido : totalTaxAcum;
+    document.getElementById('resTax').textContent = fmt.format(displayTaxValue + totalFeeAcum);
+    
+    document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
     document.getElementById('resNeto').textContent = fmt.format(totalBruto);
     document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital acumulado antes de vender tus activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
     document.getElementById('finalBadge').textContent = (estrategia.value === 'final') ? "💰 PATRIMONIO" : "💰 CAPITAL NETO";
@@ -696,7 +699,7 @@ function runCalculationLogic() {
 
     fitTextSizes();
 
-    // RETIRO (4%) - AQUÍ SÍ APLICAMOS LA CORRECCIÓN
+    // RETIRO (4%) 
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
     document.getElementById('achievedCapital').textContent = fmt.format(totalBruto);
