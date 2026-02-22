@@ -48,71 +48,43 @@
 
         /* Control de Audio Elite */
         .audio-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 9999;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
-            backdrop-filter: blur(15px);
+            position: fixed; top: 20px; right: 20px;
+            background: rgba(0, 0, 0, 0.85); border: 1px solid var(--gold);
+            color: var(--gold); padding: 10px; border-radius: 50%;
+            cursor: pointer; z-index: 9999; width: 45px; height: 45px;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; backdrop-filter: blur(15px);
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
         }
         .audio-toggle:hover { transform: scale(1.1); border-color: #fff; color: #fff; }
 
         .glass-panel {
-            background: var(--bg-card);
-            border: 2px solid var(--gold);
-            border-radius: 32px;
-            padding: clamp(15px, 5vw, 30px);
-            box-shadow: var(--glow);
-            position: relative;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(20px);
+            background: var(--bg-card); border: 2px solid var(--gold);
+            border-radius: 32px; padding: clamp(15px, 5vw, 30px);
+            box-shadow: var(--glow); position: relative; width: 100%;
+            opacity: 0; transform: translateY(20px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             overflow: visible; 
         }
-
         .glass-panel.visible { opacity: 1; transform: translateY(0); }
 
         h1 {
-            font-size: clamp(1.4rem, 5vw, 2.2rem);
-            text-transform: uppercase;
-            letter-spacing: 6px;
-            color: var(--gold);
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 900;
+            font-size: clamp(1.4rem, 5vw, 2.2rem); text-transform: uppercase;
+            letter-spacing: 6px; color: var(--gold); text-align: center;
+            margin-bottom: 30px; font-weight: 900;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
         }
 
         .config-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .section-label {
-            font-size: 0.75rem;
-            color: var(--text-gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            display: flex; align-items: center; gap: 8px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding-bottom: 8px;
-            grid-column: 1 / -1;
-            margin-top: 15px;
+            font-size: 0.75rem; color: var(--text-gold); text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding-bottom: 8px;
+            grid-column: 1 / -1; margin-top: 15px;
         }
 
         .input-group { margin-bottom: 5px; }
@@ -134,205 +106,102 @@
             width: 20px; height: 20px; min-width: 20px; min-height: 20px; 
             background: rgba(212, 175, 55, 0.15); color: var(--gold); border: 1px solid var(--gold); 
             border-radius: 50%; font-size: 10px; cursor: help; margin-left: 8px; 
-            position: relative; font-style: normal; outline: none;
-            z-index: 500;
+            position: relative; font-style: normal; outline: none; z-index: 500;
         }
         
         .info-tip::after {
-            content: attr(data-tooltip); 
-            position: absolute; 
-            bottom: calc(100% + 14px); 
-            left: 50%; 
-            transform: translateX(-50%) translateY(10px); 
-            background: #111; 
-            color: #fff; 
-            border: 1px solid var(--gold); 
-            padding: 16px; 
-            border-radius: 14px; 
-            font-size: 0.82rem; 
-            width: 280px; 
-            max-width: 85vw; 
-            text-align: center; 
-            box-shadow: 0 15px 45px rgba(0,0,0,1); 
-            z-index: 999999;
-            opacity: 0; 
-            visibility: hidden; 
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); 
-            pointer-events: none;
-            line-height: 1.5; font-weight: normal; text-transform: none; letter-spacing: normal;
-            white-space: normal;
+            content: attr(data-tooltip); position: absolute; bottom: calc(100% + 14px); left: 50%; 
+            transform: translateX(-50%) translateY(10px); background: #111; color: #fff; 
+            border: 1px solid var(--gold); padding: 16px; border-radius: 14px; font-size: 0.82rem; 
+            width: 280px; max-width: 85vw; text-align: center; box-shadow: 0 15px 45px rgba(0,0,0,1); 
+            z-index: 999999; opacity: 0; visibility: hidden; transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            pointer-events: none; line-height: 1.5;
         }
 
         .info-tip::before {
-            content: "";
-            position: absolute;
-            bottom: calc(100% + 6px);
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            border-width: 8px 8px 0 8px;
-            border-style: solid;
-            border-color: var(--gold) transparent transparent transparent;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            content: ""; position: absolute; bottom: calc(100% + 6px); left: 50%;
+            transform: translateX(-50%) translateY(10px); border-width: 8px 8px 0 8px;
+            border-style: solid; border-color: var(--gold) transparent transparent transparent;
+            opacity: 0; visibility: hidden; transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
             z-index: 999999;
         }
 
         @media (max-width: 600px) {
             .info-tip::after { left: auto; right: 0; transform: translateX(0) translateY(10px); text-align: left; }
             .info-tip::before { left: auto; right: 5px; transform: translateX(0) translateY(10px); }
-            .info-tip:hover::after, .info-tip:focus::after { transform: translateX(0) translateY(0); }
-            .info-tip:hover::before, .info-tip:focus::before { transform: translateX(0) translateY(0); }
-        }
-
-        .info-tip:hover::after, .info-tip:focus::after,
-        .info-tip:hover::before, .info-tip:focus::before { opacity: 1; visibility: visible; }
-
-        @media (min-width: 601px) {
-            .info-tip:hover::after, .info-tip:focus::after,
-            .info-tip:hover::before, .info-tip:focus::before { transform: translateX(-50%) translateY(0); }
+            .info-tip:hover::after, .info-tip:focus::after, .info-tip:hover::before, .info-tip:focus::before { opacity: 1; visibility: visible; transform: translateX(0) translateY(0); }
         }
 
         .btn-analyze {
             grid-column: 1 / -1; padding: 22px; background: linear-gradient(135deg, var(--gold), var(--gold-dark));
             border: none; border-radius: 18px; color: black; font-weight: 900;
             text-transform: uppercase; letter-spacing: 3px; cursor: pointer; transition: 0.3s; font-size: 1.1rem; margin-top: 10px;
-            position: relative; overflow: hidden;
         }
         .btn-analyze:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(212, 175, 55, 0.6); }
-        .btn-analyze:active { transform: scale(0.96); }
-
         .btn-analyze.loading { background: var(--gold-dark); color: rgba(0,0,0,0.5); pointer-events: none; }
-        .btn-analyze.loading span.emoji { display: inline-block; animation: shake 0.2s infinite; }
 
         .results-summary { text-align: center; padding: 18px; background: rgba(212, 175, 55, 0.05); border: 1px dashed var(--gold); border-radius: 20px; color: var(--gold-light); font-size: 1.1rem; margin-bottom: 25px; transition: 0.3s; width: 100%; }
 
-        /* GRID DE TARJETAS CORREGIDO PARA SIMETRÍA ABSOLUTA */
+        /* GRID DE TARJETAS - SIMETRÍA FORZADA */
         .metrics-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 30px; 
-            width: 100%;
-            overflow: visible;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+            gap: 15px; margin-bottom: 30px; width: 100%; overflow: visible;
         }
-        
-        @media (min-width: 900px) {
-            .metrics-grid { grid-template-columns: repeat(5, 1fr); gap: 15px; }
-        }
+        @media (min-width: 900px) { .metrics-grid { grid-template-columns: repeat(5, 1fr); } }
 
         .metric-card {
             background: #000; border: 1px solid #222; border-radius: 24px; padding: 18px; 
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            display: flex; flex-direction: column; justify-content: flex-start; 
-            position: relative; 
-            min-height: 165px; /* ALTURA FIJA PARA SIMETRÍA */
-            cursor: pointer;
-            width: 100%; overflow: visible; 
+            display: flex; flex-direction: column; 
+            min-height: 165px; /* ALTURA UNIFORME */
+            cursor: pointer; width: 100%; overflow: visible; 
         }
-
-        .metric-card.final-result {
-            border: 2px solid var(--gold-bright);
-            background: radial-gradient(circle at top left, rgba(212, 175, 55, 0.2) 0%, #000 100%);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-        }
-        
-        .metric-card.final-result .value { color: #fff !important; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); font-weight: 950; }
-        .metric-card:hover { border-color: var(--gold-bright); box-shadow: var(--hover-glow); transform: translateY(-8px) scale(1.03); background: rgba(212, 175, 55, 0.1); z-index: 100; }
+        .metric-card:hover { border-color: var(--gold-bright); box-shadow: var(--hover-glow); transform: translateY(-8px); background: rgba(212, 175, 55, 0.05); z-index: 100; }
 
         .metric-card .label { 
             font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; 
-            margin-bottom: 12px; display: flex; align-items: flex-start; justify-content: space-between; 
-            letter-spacing: 1px; line-height: 1.3;
-            min-height: 28px; /* ESPACIO RESERVADO PARA ETIQUETAS DE 2 LÍNEAS */
+            letter-spacing: 1px; line-height: 1.3; min-height: 32px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: flex-start;
         }
-        
-        .metric-card .value-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            height: 40px; 
-            overflow: hidden;
-            margin-top: 2px;
-        }
-
-        .metric-card .value { 
-            font-size: 1.6rem; 
-            font-weight: 800; 
-            color: var(--text-gold); 
-            white-space: nowrap;
-            line-height: 1;
-            transition: font-size 0.2s ease;
-        }
+        .metric-card .value-container { display: flex; align-items: center; width: 100%; height: 42px; overflow: hidden; }
+        .metric-card .value { font-size: 1.6rem; font-weight: 800; color: var(--text-gold); white-space: nowrap; line-height: 1; }
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
-        /* ANCLAJE DEL BADGE AL FONDO */
-        .metric-card .bottom-badge { 
-            margin-top: auto; 
-            padding-top: 12px;
-            transition: 0.3s; 
-        }
+        .metric-card .bottom-badge { margin-top: auto; padding-top: 10px; }
 
-        /* PROGRESO DE JUBILACIÓN */
+        /* SECCIÓN FIRE SIMÉTRICA */
         .fire-status { 
             background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); 
-            border: 1px solid #333; 
-            border-radius: 32px; 
-            padding: clamp(15px, 5vw, 30px); 
-            margin-bottom: 30px; 
-            width: 100%;
-            overflow: visible;
+            border: 1px solid #333; border-radius: 32px; padding: clamp(20px, 5vw, 35px); 
+            margin-bottom: 30px; width: 100%;
         }
-        
-        .fire-header-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; 
-            margin-bottom: 30px; 
-            align-items: stretch;
-        }
-        @media (max-width: 850px) { .fire-header-grid { grid-template-columns: 1fr; gap: 12px; } }
+        .fire-header-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; align-items: stretch; }
+        @media (max-width: 850px) { .fire-header-grid { grid-template-columns: 1fr; } }
 
         .meta-display-box, .status-display-box { 
-            background: rgba(255, 255, 255, 0.02); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            padding: 20px; 
-            border-radius: 24px; 
-            text-align: center; 
-            transition: 0.3s; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 110px;
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); 
+            padding: 20px; border-radius: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 110px;
         }
-        .meta-display-box.goal { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.15); }
-        .meta-display-box.achieved { background: rgba(46, 204, 113, 0.03); border: 1px solid rgba(46, 204, 113, 0.12); }
-        .status-display-box { background: rgba(46, 204, 113, 0.05); border: 1px solid rgba(46, 204, 113, 0.2); }
-        
-        .meta-display-box span, .status-display-box .label-text { color: var(--text-dim); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 10px; }
-        .meta-display-box strong { font-size: 1.4rem; font-weight: 950; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .meta-display-box strong { font-size: 1.4rem; font-weight: 950; display: block; white-space: nowrap; }
         #fireStatus { color: var(--green); font-weight: 950; font-size: 2.2rem; line-height: 1; text-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
 
-        .progress-track { background: #111; height: 20px; border-radius: 25px; overflow: hidden; margin: 0 0 35px 0; border: 1px solid #222; width: 100%; }
+        .progress-track { background: #111; height: 20px; border-radius: 25px; overflow: hidden; margin-bottom: 35px; border: 1px solid #222; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dark), var(--gold-bright)); width: 0%; transition: width 2.5s cubic-bezier(0.1, 0.8, 0.1, 1); box-shadow: 0 0 15px var(--gold); }
         
-        .retirement-result-card { background: #000; border: 1px solid #222; border-radius: 35px; padding: 40px; margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05); width: 100%; }
-        .amount-callout { display: inline-block; font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 950; color: var(--gold-bright); text-shadow: 0 0 35px rgba(212, 175, 55, 0.5); margin: 15px 0; letter-spacing: -1.5px; white-space: nowrap; }
+        .retirement-result-card { background: #000; border: 1px solid #222; border-radius: 35px; padding: 40px; margin-top: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .amount-callout { display: inline-block; font-size: clamp(2.2rem, 8vw, 3.8rem); font-weight: 950; color: var(--gold-bright); text-shadow: 0 0 35px rgba(212, 175, 55, 0.5); margin: 15px 0; }
 
         .tax-breakdown { font-size: 0.82rem; color: var(--text-dim); margin-top: 8px; font-weight: 500; line-height: 1.4; }
 
-        .suggestion-box { margin-top: 30px; padding: 25px; background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; font-size: 1rem; color: var(--text-main); width: 100%; line-height: 1.6; }
-        .suggestion-box strong { color: var(--gold-bright); font-weight: 800; }
-
         .viz-container { display: grid; grid-template-columns: 1fr; gap: 25px; margin-bottom: 30px; width: 100%; }
         @media (min-width: 850px) { .viz-container { grid-template-columns: repeat(2, 1fr); } }
-        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 35px; padding: 25px; height: 420px; display: flex; flex-direction: column; justify-content: center; width: 100%; overflow: hidden; }
+        .chart-box, .pie-box { background: #000; border: 1px solid #222; border-radius: 35px; padding: 25px; height: 420px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
         .chart-wrapper { position: relative; height: 100%; width: 100%; }
 
         .table-wrapper { background: #000; border: 1px solid #222; border-radius: 24px; max-height: 500px; overflow: auto; width: 100%; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 900px; }
-        th { background: #111; color: var(--gold); padding: 22px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.72rem; border-bottom: 1px solid var(--border); z-index: 10; letter-spacing: 1.2px; }
+        th { background: #111; color: var(--gold); padding: 22px; position: sticky; top: 0; text-align: left; text-transform: uppercase; font-size: 0.72rem; border-bottom: 1px solid var(--border); z-index: 10; }
         td { padding: 18px 22px; border-bottom: 1px solid #111; }
 
         .badge { display: inline-block; padding: 7px 14px; border-radius: 12px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
@@ -351,15 +220,15 @@
         <div class="config-grid">
             <span class="section-label">🌱 Estrategia de Inversión</span>
             <div class="input-group">
-                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total con el que arrancas hoy mismo tu proyecto de inversión.">?</i></label>
+                <label>Capital Inicial <i class="info-tip down" tabindex="0" data-tooltip="Dinero total invertido el día 1.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="capital" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional que depositarás periódicamente.">?</i></label>
+                <label>Monto de Aportación <i class="info-tip down" tabindex="0" data-tooltip="Dinero adicional periódico.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="aportacion" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Cada cuánto tiempo haces tu ahorro adicional.">?</i></label>
+                <label>Frecuencia de Ahorro <i class="info-tip down" tabindex="0" data-tooltip="Intervalo de ahorro adicional.">?</i></label>
                 <div class="field-wrapper">
                     <select id="frecuencia">
                         <option value="12" selected>Mensual</option>
@@ -373,17 +242,17 @@
                 <div class="field-wrapper"><input type="number" id="tasa" placeholder="0" step="0.1" inputmode="decimal"></div>
             </div>
             <div class="input-group">
-                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo anual de gestión del broker o fondo (Expense Ratio).">?</i></label>
+                <label>Comisión Anual (%) <i class="info-tip" tabindex="0" data-tooltip="Costo de gestión del fondo (Expense Ratio).">?</i></label>
                 <div class="field-wrapper has-suffix"><input type="number" id="comision" placeholder="0" step="0.01" inputmode="decimal"><span class="suffix">%</span></div>
             </div>
             <div class="input-group">
-                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Plazo total de este plan de inversión.">?</i></label>
+                <label>Tiempo (Años) <i class="info-tip" tabindex="0" data-tooltip="Duración total del plan.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="años" placeholder="0" inputmode="numeric"></div>
             </div>
 
             <span class="section-label">⚖️ Fiscalidad & Mercado</span>
             <div class="input-group">
-                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Modelo de Cetes/Banco.">?</i></label>
+                <label>Pago de Impuestos <i class="info-tip" tabindex="0" data-tooltip="'Al finalizar': Bolsa/ETFs. 'Anual': Cetes/Banco.">?</i></label>
                 <div class="field-wrapper">
                     <select id="estrategiaFiscal">
                         <option value="final" selected>Al finalizar (Bolsa / ETFs)</option>
@@ -392,7 +261,7 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias' para Bolsa (Renta Variable). 'Sobre Capital' para Renta Fija.">?</i></label>
+                <label>Base del ISR <i class="info-tip" tabindex="0" data-tooltip="'Sobre Ganancias': Solo pagas por lo ganado. 'Sobre Capital': Modelo Renta Fija.">?</i></label>
                 <div class="field-wrapper">
                     <select id="baseFiscal">
                         <option value="interes" selected>Sobre Ganancias (Renta Variable)</option>
@@ -401,26 +270,15 @@
                 </div>
             </div>
             <div class="input-group">
-                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal que aplica según tu estrategia fiscal elegida.">?</i></label>
+                <label>Tasa ISR (%) <i class="info-tip" tabindex="0" data-tooltip="Porcentaje de impuesto federal aplicado.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="impuestos" placeholder="0" step="0.01" inputmode="decimal"></div>
-            </div>
-            <div class="input-group">
-                <label>Aumentar c/Inflación <i class="info-tip" tabindex="0" data-tooltip="Si marcas SÍ, tu ahorro subirá cada año para no perder valor real frente a la inflación.">?</i></label>
-                <div class="field-wrapper">
-                    <select id="ajusteAhorro">
-                        <option value="si" selected>SÍ (Inversor Inteligente)</option>
-                        <option value="no">NO (Ahorro Fijo)</option>
-                    </select>
-                </div>
             </div>
             <div class="input-group">
                 <label>Inflación (%) <i class="info-tip" tabindex="0" data-tooltip="Aumento promedio estimado de precios anual.">?</i></label>
                 <div class="field-wrapper"><input type="number" id="inflacion" placeholder="4.5 (Ejemplo)" step="0.1" inputmode="decimal"></div>
             </div>
-
-            <span class="section-label">🎯 Estilo de Vida</span>
             <div class="input-group">
-                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta que deseas recibir para alcanzar tu libertad.">?</i></label>
+                <label>Gasto Mensual Ideal <i class="info-tip" tabindex="0" data-tooltip="Renta mensual neta deseada.">?</i></label>
                 <div class="field-wrapper has-prefix"><span class="prefix">$</span><input type="text" id="gastos" placeholder="0" class="money-input" inputmode="decimal"></div>
             </div>
 
@@ -432,37 +290,20 @@
         <div class="results-summary" id="simpleSummary">Ingresa tus datos para proyectar tu futuro.</div>
 
         <div class="metrics-grid">
-            <!-- CAJAS MÉTRICAS CON ALTURA FIJA PARA SIMETRÍA -->
-            <div class="metric-card"><div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión inicial d-0.">?</i></div><div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Suma total de ahorro propio acumulado.">?</i></div><div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia de mercado generada.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div><div class="bottom-badge"></div></div>
-            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo total antes de gastos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
-            
-            <!-- CAJA "IMPUESTOS Y COMISIONES" - CORREGIDA -->
+            <div class="metric-card"><div class="label">Cap. Inicial <i class="info-tip" tabindex="0" data-tooltip="Inversión inicial.">?</i></div><div class="value-container"><div class="value auto-size" id="resInitial">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card"><div class="label">Aportaciones <i class="info-tip" tabindex="0" data-tooltip="Total ahorro propio.">?</i></div><div class="value-container"><div class="value auto-size" id="resAportTotal">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card"><div class="label">Int. Brutos <i class="info-tip" tabindex="0" data-tooltip="Ganancia de mercado total generada.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotalInt">$0</div></div><div class="bottom-badge"></div></div>
+            <div class="metric-card"><div class="label">Monto Bruto <i class="info-tip" tabindex="0" data-tooltip="Saldo acumulado antes de gastos.">?</i></div><div class="value-container"><div class="value auto-size" id="resTotal">$0</div></div><div class="bottom-badge"></div></div>
             <div class="metric-card tax">
-                <div class="label">Impuestos y Comisiones <i class="info-tip" tabindex="0" data-tooltip="Total acumulado de retenciones ISR y costos de gestión.">?</i></div>
+                <div class="label" id="taxLabel">Impuestos y Comisiones <i class="info-tip" tabindex="0" data-tooltip="Costos de gestión y retenciones ISR.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resTax">$0</div></div>
-                <div class="bottom-badge"></div>
+                <div class="bottom-badge" id="taxStatusBadge"></div>
             </div>
-
-            <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial logrado.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div></div>
-            <div class="metric-card net"><div class="label">Utilidad Neta <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre real tras costos e impuestos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div></div>
-            
-            <!-- CAJA "SALDO FINAL" -->
-            <div class="metric-card final-result" id="finalResultCard">
-                <div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado disponible.">?</i></div>
-                <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
-                <div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div>
-            </div>
-
-            <div class="metric-card net"><div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor real ajustado por inflación acumulada.">?</i></div><div class="value-container"><div class="value auto-size" id="resReal">$0</div></div><div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div></div>
-            
-            <!-- CAJA "SIN INVERTIR" - CORREGIDA -->
-            <div class="metric-card tax">
-                <div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Saldo proyectado si solo guardas el efectivo bajo el colchón.">?</i></div>
-                <div class="value-container"><div class="value auto-size" id="resLost">$0</div></div>
-                <div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div>
-            </div>
+            <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge green">🔥 Rendimiento</span></div></div>
+            <div class="metric-card net"><div class="label" id="profitLabel">Utilidad Real <i class="info-tip" tabindex="0" data-tooltip="Ganancia libre de costos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge green">📈 Ganancia Real</span></div></div>
+            <div class="metric-card final-result" id="finalResultCard"><div class="label" id="finalLabel">Saldo Final <i class="info-tip" tabindex="0" data-tooltip="Capital total disponible.">?</i></div><div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div><div class="bottom-badge"><span class="badge gold" id="finalBadge">💰 PATRIMONIO</span></div></div>
+            <div class="metric-card net"><div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor real a dinero de hoy.">?</i></div><div class="value-container"><div class="value auto-size" id="resReal">$0</div></div><div class="bottom-badge"><span class="badge green">🛒 Equiv. a hoy</span></div></div>
+            <div class="metric-card tax"><div class="label">Sin Invertir <i class="info-tip" tabindex="0" data-tooltip="Si solo guardas efectivo.">?</i></div><div class="value-container"><div class="value auto-size" id="resLost">$0</div></div><div class="bottom-badge"><span class="badge red">💤 Bajo Colchón</span></div></div>
         </div>
 
         <div class="fire-status" id="fireSection">
@@ -499,7 +340,7 @@
                             <th>Ganancia Bruta</th>
                             <th>Comisión</th>
                             <th>ISR Retenido</th>
-                            <th>Saldo Neto</th>
+                            <th>Patrimonio Bruto</th>
                             <th>Riqueza Creada</th>
                         </tr>
                     </thead>
@@ -564,14 +405,14 @@ const SFX = {
         if (!audioEnabled) return;
         const now = audioCtx.currentTime;
         const thud = audioCtx.createOscillator(); const thudG = audioCtx.createGain();
-        thud.type = 'triangle'; thud.frequency.setValueAtTime(110, now);
-        thudG.gain.setValueAtTime(0.35, now); thudG.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-        thud.connect(thudG); thudG.connect(audioCtx.destination); thud.start(); thud.stop(now + 0.18);
+        thud.type = 'triangle'; thud.frequency.setValueAtTime(100, now);
+        thudG.gain.setValueAtTime(0.4, now); thudG.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        thud.connect(thudG); thudG.connect(audioCtx.destination); thud.start(); thud.stop(now + 0.2);
         [2480, 4960, 1240, 3100].forEach((f, i) => {
             const bell = audioCtx.createOscillator(); const bellG = audioCtx.createGain();
             bell.frequency.setValueAtTime(f, now + 0.02);
-            bellG.gain.setValueAtTime(0, now + 0.02); bellG.gain.linearRampToValueAtTime(i === 0 ? 0.22 : 0.08, now + 0.04);
-            const decay = i === 0 ? 1.9 : 0.7;
+            bellG.gain.setValueAtTime(0, now + 0.02); bellG.gain.linearRampToValueAtTime(i === 0 ? 0.25 : 0.1, now + 0.04);
+            const decay = i === 0 ? 2.0 : 0.8;
             bellG.gain.exponentialRampToValueAtTime(0.0001, now + 0.04 + decay);
             bell.connect(bellG); bellG.connect(audioCtx.destination); bell.start(now + 0.02); bell.stop(now + 0.04 + decay);
         });
@@ -610,15 +451,15 @@ function animateRetirementValue(start, end, duration) {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
         const currentVal = Math.floor(progress * (end - start) + start);
-        obj.innerHTML = `<span class="amount-callout">${fmt.format(currentVal)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">mensuales</span></span>`;
+        obj.innerHTML = `<span class="amount-callout">${fmt.format(currentVal)} <span style="font-size:1.1rem; color:var(--text-dim); font-weight:600; vertical-align: middle; margin-left: 10px;">netos</span></span>`;
         if (timestamp - lastSoundTime > 85 && progress < 1) { SFX.moneyTick(); lastSoundTime = timestamp; }
         if (progress < 1) window.requestAnimationFrame(step);
         else {
             SFX.cashRegister();
             if (est === 'anual' || base === 'capital') {
-                breakdownObj.innerHTML = `Monto neto. Los impuestos ya han sido descontados año con año en tu capital acumulado.`;
+                breakdownObj.innerHTML = `Monto neto total. El ISR ya fue descontado año con año de tu capital acumulado.`;
             } else {
-                breakdownObj.innerHTML = `Desglose: ${fmt.format(finalRetirementAmountGross)} Brutos — ISR (aprox. 10% s/ganancia del retiro) = ${fmt.format(finalRetirementAmountNet)} Netos.`;
+                breakdownObj.innerHTML = `Desglose: ${fmt.format(finalRetirementAmountGross)} Brutos — Retención 10% s/ganancia = ${fmt.format(finalRetirementAmountNet)} Netos.`;
             }
         }
     };
@@ -677,7 +518,6 @@ function runCalculationLogic() {
     const estrategia = document.getElementById('estrategiaFiscal');
     const baseFiscal = document.getElementById('baseFiscal').value;
     const inflacion = (parseFloat(document.getElementById('inflacion').value) || 0) / 100;
-    const ajustarAhorro = document.getElementById('ajusteAhorro').value === 'si';
     const gastosMes = getVal('gastos');
 
     if (tAños <= 0) return;
@@ -704,22 +544,27 @@ function runCalculationLogic() {
         labels.push("A" + año); dataP.push(inversionAcum); dataInt.push(totalBruto - inversionAcum);
         const riquezaFila = totalBruto - inversionAcum;
         rows.push(`<tr><td>A${año}</td><td>${fmt.format(ahorroEsteAño)}</td><td>${fmt.format(inversionAcum)}</td><td style="color:var(--green)">+${fmt.format(interesAñoBruto)}</td><td>-${fmt.format(feeAnual)}</td><td style="color:var(--red-tax)">${estrategia.value==='anual'?'-'+fmt.format(totalTaxAcum/año):'Diferido'}</td><td style="font-weight:bold">${fmt.format(totalBruto)}</td><td style="color:${riquezaFila>=0?'var(--gold-bright)':'var(--red-tax)'}; font-weight:bold;">${riquezaFila>=0?'+':''}${fmt.format(riquezaFila)}</td></tr>`);
-        if (ajustarAhorro) basePMT *= (1 + (inflacion || 0.045));
+        basePMT *= (1 + (inflacion || 0.045));
     }
 
+    // CORRECCIÓN LÓGICA: En Bolsa, los impuestos son diferidos. NO se descuentan del capital principal.
     const totalTaxDiferido = (baseFiscal === 'capital' ? totalBruto * taxRate : (totalBruto - inversionAcum) * taxRate);
-
+    
     document.getElementById('resInitial').textContent = fmt.format(P);
     document.getElementById('resAportTotal').textContent = fmt.format(inversionAcum - P);
     document.getElementById('resTotalInt').textContent = fmt.format(totalBruto - inversionAcum + totalFeeAcum);
     document.getElementById('resTotal').textContent = fmt.format(totalBruto);
     
-    const displayTaxValue = (estrategia.value === 'final') ? totalTaxDiferido : totalTaxAcum;
-    document.getElementById('resTax').textContent = fmt.format(displayTaxValue + totalFeeAcum);
+    // CAJA DE IMPUESTOS Y COMISIONES: Si es Bolsa, el capital es bruto, por lo tanto solo restamos comisiones.
+    const displayTaxValue = (estrategia.value === 'final') ? totalFeeAcum : (totalTaxAcum + totalFeeAcum);
+    document.getElementById('resTax').textContent = fmt.format(displayTaxValue);
+    document.getElementById('taxStatusBadge').innerHTML = (estrategia.value === 'final') ? `<span class="badge gold">ISR: DIFERIDO $${Math.floor(totalTaxDiferido).toLocaleString()}</span>` : `<span class="badge red">ISR: PAGADO</span>`;
+
     document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
+    document.getElementById('profitLabel').innerHTML = (estrategia.value === 'final') ? "Utilidad Bruta <i class='info-tip' data-tooltip='Ganancia total de mercado antes de vender.'>?</i>" : "Utilidad Real <i class='info-tip' data-tooltip='Ganancia libre tras impuestos.'>?</i>";
+
     document.getElementById('resNeto').textContent = fmt.format(totalBruto);
-    
-    document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital acumulado antes de vender tus activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
+    document.getElementById('finalLabel').innerHTML = (estrategia.value === 'final') ? "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital total sin vender activos.'>?</i>" : "Saldo Neto <i class='info-tip' data-tooltip='Capital libre de impuestos.'>?</i>";
     document.getElementById('finalBadge').textContent = (estrategia.value === 'final') ? "💰 PATRIMONIO" : "💰 CAPITAL NETO";
 
     document.getElementById('resReal').textContent = fmt.format(totalBruto / Math.pow(1 + (inflacion || 0.045), tAños));
@@ -728,6 +573,7 @@ function runCalculationLogic() {
 
     fitTextSizes();
 
+    // RETIRO (4%) - APLICAMOS EL IMPUESTO SOLO AQUÍ PARA BOLSA
     const metaFIRE = gastosMes * 12 * 25;
     document.getElementById('metaCapital').textContent = fmt.format(metaFIRE);
     document.getElementById('achievedCapital').textContent = fmt.format(totalBruto);
@@ -744,22 +590,18 @@ function runCalculationLogic() {
     }
 
     document.getElementById('retirementResultCard').style.display = 'flex';
-    const fireSection = document.getElementById('fireSection');
-    if (fireSection.classList.contains('visible')) {
+    if (document.getElementById('fireSection').classList.contains('visible')) {
         document.getElementById('progressBar').style.width = targetProgress + "%";
         animateRetirementValue(0, finalRetirementAmountNet, 2000); animationTriggered = true;
     }
-
     document.getElementById('simpleSummary').innerHTML = `Análisis patrimonio finalizado.`;
-
-    if (totalBruto >= metaFIRE) {
-        document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>!`;
-    } else {
+    if (totalBruto >= metaFIRE) document.getElementById('fireTxt').innerHTML = `¡Independencia financiera lograda en el <b>Año ${fireAño}</b>!`;
+    else {
         const extraAnual = Math.max(0, solvePMT(metaFIRE, P, rAnual - feeRate, tAños) - (getVal('aportacion') * freq));
         const extraPorFreq = extraAnual / freq;
         let fLabel = freq === 365 ? "diarios" : freq === 52 ? "semanales" : "mensuales";
-        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (totalBruto / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro neto de <b>${fmt.format(gastosMes)}/mes</b>.`;
-        document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Deberías aumentar tu ahorro en <strong>${fmt.format(extraPorFreq)} ${fLabel} adicionales</strong>.</div>`;
+        document.getElementById('fireTxt').innerHTML = `Te falta el ${(100 - (totalBruto / metaFIRE * 100)).toFixed(0)}% para tu meta de retiro de <b>${fmt.format(gastosMes)} netos</b>.`;
+        document.getElementById('adviceBox').innerHTML = `<div class="suggestion-box"><b>Consejo del Arquitecto:</b> Aumenta tu ahorro en <strong>${fmt.format(extraPorFreq)} ${fLabel}</strong> para lograr tu meta neta.</div>`;
     }
     document.querySelector("#tablaProyeccion tbody").innerHTML = rows.join('');
     updateCharts(labels, dataP, dataInt, inversionAcum, totalBruto, totalTaxAcum + totalFeeAcum);
