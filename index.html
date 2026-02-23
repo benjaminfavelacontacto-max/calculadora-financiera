@@ -47,7 +47,7 @@
             padding-top: 30px;
         }
 
-        /* Control de Audio */
+        /* Audio Toggle */
         .audio-toggle {
             position: fixed; top: 20px; right: 20px;
             background: rgba(0, 0, 0, 0.85); border: 1px solid var(--gold);
@@ -58,7 +58,7 @@
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
         }
 
-        /* Wizard Card */
+        /* Wizard App */
         .app-card {
             background: var(--bg-card);
             border: 2px solid var(--gold);
@@ -148,6 +148,14 @@
             opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); 
         }
 
+        /* Tooltip especial para la tabla para evitar cortes */
+        .info-tip.table-tip::after {
+            bottom: auto; top: calc(100% + 14px);
+        }
+        .info-tip.table-tip::before {
+            bottom: auto; top: calc(100% + 6px); border-width: 0 8px 8px 8px; border-color: transparent transparent var(--gold) transparent;
+        }
+
         .step-dots { display: flex; gap: 10px; margin-top: 40px; justify-content: center; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; transition: 0.3s; }
         .dot.active { background: var(--gold); box-shadow: 0 0 10px var(--gold); transform: scale(1.3); }
@@ -155,7 +163,6 @@
         /* RESULTS SECTION */
         #resultsPanel { display: none; margin-top: 40px; opacity: 0; }
         #resultsPanel.visible { display: block; opacity: 1; transition: opacity 1s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* GRID MÉTRICO SIMÉTRICO */
         .metrics-grid { 
@@ -301,7 +308,7 @@
         </div>
 
         <div class="step-container" id="step4">
-            <h2 class="step-title">El Horizonte <i class="info-tip" data-tooltip="Plazo total de tiempo que dejarás tu dinero trabajando.">?</i></h2>
+            <h2 class="step-title">El Horizonte <i class="info-tip" data-tooltip="Plazo de tiempo total en el que el dinero se mantendrá invertido.">?</i></h2>
             <p class="step-subtitle">¿Durante cuántos años dejaremos que el interés compuesto trabaje?</p>
             <div class="input-hero-wrapper">
                 <input type="number" id="wAños" class="input-hero" placeholder="Años" inputmode="numeric">
@@ -311,7 +318,7 @@
         </div>
 
         <div class="step-container" id="step5">
-            <h2 class="step-title">Estrategia Fiscal <i class="info-tip" data-tooltip="Bolsa: Impuesto diferido al retirar. Cetes: Retenciones automáticas anuales.">?</i></h2>
+            <h2 class="step-title">Estrategia Fiscal <i class="info-tip" data-tooltip="Bolsa: Impuesto diferido al retirar. Cetes: Retenciones automáticas cada año.">?</i></h2>
             <p class="step-subtitle">Elige tu instrumento para automatizar el cálculo de impuestos.</p>
             <div class="input-hero-wrapper">
                 <select id="wEstrategiaFiscal" class="input-hero" style="font-size: 1.3rem; background: #000;" onchange="autoSelectFiscal()">
@@ -332,8 +339,9 @@
             <button class="btn-next" onclick="nextStep(6)">Paso Final</button>
         </div>
 
+        <!-- Paso 6 -->
         <div class="step-container" id="step6">
-            <h2 class="step-title">Mercado Real <i class="info-tip" data-tooltip="SÍ: Tu ahorro sube cada año con la inflación para no perder poder de compra.">?</i></h2>
+            <h2 class="step-title">Mercado Real <i class="info-tip" data-tooltip="SÍ: Tu ahorro subirá anualmente al ritmo de la inflación para que tu esfuerzo no pierda valor real.">?</i></h2>
             <p class="step-subtitle">Consideremos la inflación y ajustemos tus aportaciones automáticamente.</p>
             <div class="input-hero-wrapper">
                 <input type="number" id="wInflacion" class="input-hero" placeholder="Inflación %" inputmode="decimal">
@@ -348,9 +356,10 @@
             <button class="btn-next" onclick="nextStep(7)">Meta de Vida</button>
         </div>
 
+        <!-- Paso 7 -->
         <div class="step-container" id="step7">
             <h2 class="step-title">Tu Libertad <i class="info-tip" data-tooltip="La renta mensual neta (libre de impuestos) que deseas recibir al jubilarte.">?</i></h2>
-            <p class="step-subtitle">¿Cuánto dinero quieres recibir (Netos) cada mes al retirarte?</p>
+            <p class="step-subtitle">¿Cuánto dinero quieres recibir (Netos) cada mes al jubilarte?</p>
             <div class="input-hero-wrapper">
                 <span class="currency-symbol">$</span>
                 <input type="text" id="wGastos" class="input-hero money-input" placeholder="0" inputmode="decimal">
@@ -361,7 +370,7 @@
         <div class="step-container" id="loadingScreen">
             <div class="loader-ring"></div>
             <div class="loading-text">Analizando Patrimonio</div>
-            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 15px;">Simulando escenarios fiscales...</p>
+            <p style="color: var(--text-dim); font-size: 0.85rem; margin-top: 15px;">Simulando escenarios fiscales y sostenibilidad...</p>
         </div>
 
         <div class="step-dots" id="stepDots">
@@ -388,10 +397,11 @@
             <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial logrado.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge-box green">🔥 Rendimiento</span></div></div>
             <div class="metric-card net"><div class="label" id="profitLabel">Utilidad Bruta <i class="info-tip" tabindex="0" data-tooltip="Ganancia antes de vender.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge-box green">📈 Ganancia Real</span></div></div>
             
+            <!-- Patrimonio Bruto/Neto Destacado -->
             <div class="metric-card final-result" id="finalResultCard">
                 <div class="label" id="finalLabel">Patrimonio Bruto <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado sin vender activos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
-                <div class="bottom-badge"><span class="badge-box gold">💰 PATRIMONIO</span></div>
+                <div class="bottom-badge"><span class="badge-box gold" id="finalBadge">💰 PATRIMONIO</span></div>
             </div>
 
             <div class="metric-card net"><div class="label">Poder Compra <i class="info-tip" tabindex="0" data-tooltip="Valor real a dinero de hoy.">?</i></div><div class="value-container"><div class="value auto-size" id="resReal">$0</div></div><div class="bottom-badge"><span class="badge-box green">🛒 Equiv. a hoy</span></div></div>
@@ -414,7 +424,7 @@
             </div>
             <div class="progress-track"><div class="progress-bar progress-fill" id="progressBar"></div></div>
             <div class="retirement-result-card" id="retirementResultCard" style="display:none;">
-                <p style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim);">Retiro mensual inicial (Regla del 4%):</p>
+                <p style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-dim);">Con este capital podrías retirar (Regla del 4%):</p>
                 <div id="fireAmountDisplay"></div>
                 <div id="taxBreakdownDisplay" class="tax-breakdown"></div>
                 <p id="fireTxt" style="margin-top:20px; font-size: 1.05rem; color: #fff;"></p>
@@ -428,7 +438,7 @@
         </div>
 
         <div class="table-section">
-            <span class="section-label">📅 Detalle Año por Año (Fase Acumulación)</span>
+            <span class="section-label">📅 Detalle Año por Año (Acumulación)</span>
             <div class="table-wrapper">
                 <table id="tablaProyeccion">
                     <thead>
@@ -459,7 +469,7 @@
                             <th>Año de Retiro</th>
                             <th>Saldo Inicial</th>
                             <th>Intereses (+)</th>
-                            <th>Retiro Bruto (-) <i class="info-tip" data-tooltip="Incluye el neto recibido ajustado a inflación + ISR.">?</i></th>
+                            <th>Retiro Bruto (-) <i class="info-tip table-tip" data-tooltip="Incluye el monto neto que recibes + el ISR pagado al SAT.">?</i></th>
                             <th>Monto Neto Recibido</th>
                             <th>Saldo Final</th>
                             <th>Estado</th>
@@ -629,7 +639,18 @@ function runCalculationLogic() {
     document.getElementById('taxStatusBadge').innerHTML = (estrategia === 'final') ? `<div class="isr-diferido-box">ISR DIFERIDO: $${Math.floor(totalTaxDiferido).toLocaleString()}</div>` : `<div class="badge-box red" style="margin-top:10px;">ISR: PAGADO</div>`;
 
     document.getElementById('resProfit').textContent = fmt.format(totalBruto - inversionAcum);
+    document.getElementById('profitLabel').innerHTML = (estrategia === 'final') ? "Utilidad Bruta <i class='info-tip' data-tooltip='Ganancia antes de vender.'>?</i>" : "Utilidad Real <i class='info-tip' data-tooltip='Ganancia libre de ISR.'>?</i>";
     document.getElementById('resNeto').textContent = fmt.format(totalBruto);
+    
+    // CORRECCIÓN CETES/BANCO: PATRIMONIO NETO
+    if (estrategia === 'anual') {
+        document.getElementById('finalLabel').innerHTML = "Patrimonio Neto <i class='info-tip' data-tooltip='Capital libre de impuestos ya pagados.'>?</i>";
+        document.getElementById('finalBadge').textContent = "💰 CAPITAL NETO";
+    } else {
+        document.getElementById('finalLabel').innerHTML = "Patrimonio Bruto <i class='info-tip' data-tooltip='Capital total acumulado sin vender activos.'>?</i>";
+        document.getElementById('finalBadge').textContent = "💰 PATRIMONIO";
+    }
+
     document.getElementById('resReal').textContent = fmt.format(totalBruto / Math.pow(1 + (inflacion || 0.045), tAños));
     document.getElementById('resLost').textContent = fmt.format(P + ((getVal('wAportacion') * freq) * tAños));
     document.getElementById('resMult').textContent = inversionAcum > 0 ? (totalBruto / inversionAcum).toFixed(1) + "x" : "1.0x";
@@ -650,11 +671,11 @@ function runCalculationLogic() {
     document.getElementById('retirementResultCard').style.display = 'block';
     document.querySelector("#tablaProyeccion tbody").innerHTML = rows.join('');
     
-    // LONGEVITY ANALYSIS CON RETIROS INCREMENTALES
     generateRetirementLongevity(totalBruto, rAnual - feeRate, finalRetirementAmountGross, finalRetirementAmountNet, (estrategia === 'anual' || baseFiscal === 'capital'), inflacion);
 
     animationTriggeredManual = false; 
     
+    // Motor de Gráficas V3.4 (reset/update)
     if (chartBarras) chartBarras.destroy();
     chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
         type: 'bar',
@@ -706,7 +727,7 @@ function generateRetirementLongevity(startingBalance, netRate, initialGrossMonth
         }
 
         rows.push(`<tr>
-            <td>Retiro Año ${año}</td>
+            <td>Año Retiro ${año}</td>
             <td>${fmt.format(saldoInicial)}</td>
             <td style="color:var(--green)">+${fmt.format(interesesGenerados)}</td>
             <td style="color:var(--red-tax)">-${fmt.format(annualFundDeduction)}</td>
@@ -717,7 +738,6 @@ function generateRetirementLongevity(startingBalance, netRate, initialGrossMonth
         
         if (currentBalance > 0) yearsDurability++;
         
-        // INCREMENTO POR INFLACIÓN
         currentGrossMonthly *= (1 + (inflationRate || 0.045));
         currentNetMonthly *= (1 + (inflationRate || 0.045));
 
@@ -725,7 +745,7 @@ function generateRetirementLongevity(startingBalance, netRate, initialGrossMonth
     }
 
     if (yearsDurability >= 100) {
-        summary.innerHTML = `Estatus: <span>PATRIMONIO PERPETUO</span>. Rendimientos superan los retiros ajustados a inflación.`;
+        summary.innerHTML = `Estatus: <span>PATRIMONIO PERPETUO</span>. Tus rendimientos superan los retiros ajustados a inflación.`;
     } else {
         summary.innerHTML = `Tu capital neto durará aproximadamente <span>${yearsDurability} AÑOS</span> con retiros ajustados a inflación.`;
     }
@@ -747,7 +767,7 @@ function animateRetirementValue(start, end, duration) {
         if (progress < 1) window.requestAnimationFrame(step);
         else {
             SFX.cashRegister();
-            if (est === 'anual') breakdownObj.innerHTML = `Monto neto inicial. Impuestos ya descontados año con año de tu capital.`;
+            if (est === 'anual') breakdownObj.innerHTML = `Monto neto inicial. Los impuestos ya han sido descontados año con año de tu capital.`;
             else breakdownObj.innerHTML = `Desglose inicial: ${fmt.format(finalRetirementAmountGross)} Brutos — Retención 10% s/ganancia = ${fmt.format(finalRetirementAmountNet)} Netos.`;
         }
     };
