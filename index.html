@@ -1,3 +1,4 @@
+v3.4 pregunta Golden
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -58,7 +59,7 @@
             box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
         }
 
-        /* App Wizard Structure */
+        /* Wizard App */
         .app-card {
             background: var(--bg-card);
             border: 2px solid var(--gold);
@@ -123,6 +124,7 @@
         }
         .btn-next:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212, 175, 55, 0.4); }
 
+        /* ICONO (?) Y TOOLTIP */
         .info-tip {
             display: inline-flex; align-items: center; justify-content: center;
             width: 22px; height: 22px; min-width: 22px;
@@ -143,12 +145,15 @@
             border-style: solid; border-color: var(--gold) transparent transparent transparent;
             opacity: 0; visibility: hidden; transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 999999;
         }
+        .info-tip:hover::after, .info-tip:focus::after, .info-tip:hover::before, .info-tip:focus::before { 
+            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); 
+        }
 
         .step-dots { display: flex; gap: 10px; margin-top: 40px; justify-content: center; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #333; transition: 0.3s; }
         .dot.active { background: var(--gold); box-shadow: 0 0 10px var(--gold); transform: scale(1.3); }
 
-        /* RESULTS SECTION */
+        /* RESULTS PANEL */
         #resultsPanel { display: none; margin-top: 40px; opacity: 0; }
         #resultsPanel.visible { display: block; opacity: 1; transition: opacity 1s; }
 
@@ -161,7 +166,7 @@
 
         .metric-card {
             background: #000; border: 1px solid #222; border-radius: 24px; padding: 18px; 
-            display: flex; flex-direction: column; min-height: 175px; cursor: pointer; position: relative;
+            display: flex; flex-direction: column; min-height: 170px; cursor: pointer; position: relative;
             transition: 0.3s;
         }
         .metric-card:hover { border-color: var(--gold-bright); box-shadow: var(--hover-glow); transform: translateY(-8px); z-index: 10; }
@@ -174,13 +179,13 @@
         
         .metric-card.final-result .value { color: #fff !important; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); font-weight: 950; }
 
-        .metric-card .label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; min-height: 32px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .metric-card .label { font-size: 0.62rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; min-height: 32px; display: flex; justify-content: space-between; align-items: flex-start; }
         .metric-card .value-container { display: flex; align-items: center; height: 42px; overflow: hidden; margin-top: 2px; }
         .metric-card .value { font-size: 1.6rem; font-weight: 800; color: var(--text-gold); white-space: nowrap; }
         .metric-card.net .value { color: var(--green) !important; }
         .metric-card.tax .value { color: var(--red-tax) !important; }
 
-        /* BADGES RECTANGULARES */
+        /* ESTILO DE SUBTÍTULOS (BADGES RECTANGULARES) */
         .badge-box { 
             display: inline-flex; align-items: center; justify-content: center;
             padding: 6px 12px; border-radius: 10px; font-size: 0.65rem; font-weight: 800; 
@@ -196,7 +201,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        /* SECCIÓN FIRE */
+        /* FIRE SECTION */
         .fire-status { background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%); border: 1px solid #333; border-radius: 32px; padding: clamp(20px, 5vw, 35px); margin-bottom: 30px; }
         .fire-header-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; align-items: stretch; }
         @media (max-width: 850px) { .fire-header-grid { grid-template-columns: 1fr; } }
@@ -229,12 +234,9 @@
         /* LOADING SCREEN */
         #loadingScreen { display: none; flex-direction: column; align-items: center; justify-content: center; }
         .loader-ring { 
-            width: 90px; height: 90px; 
-            border: 4px solid rgba(212, 175, 55, 0.1); 
-            border-top-color: var(--gold-bright); 
-            border-radius: 50%; 
-            animation: spin-premium 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; 
-            margin-bottom: 30px;
+            width: 90px; height: 90px; border: 4px solid rgba(212, 175, 55, 0.1); 
+            border-top-color: var(--gold-bright); border-radius: 50%; 
+            animation: spin-premium 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; margin-bottom: 30px;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
         }
         @keyframes spin-premium { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -369,7 +371,7 @@
         </div>
     </main>
 
-    <!-- RESULT PANEL -->
+    <!-- PANEL DE RESULTADOS -->
     <main class="glass-panel" id="resultsPanel" style="overflow: visible;">
         <div class="results-summary" id="simpleSummary">Arquitectura patrimonial finalizada.</div>
 
@@ -388,7 +390,6 @@
             <div class="metric-card net"><div class="label">Multiplicador <i class="info-tip" tabindex="0" data-tooltip="Factor de crecimiento patrimonial.">?</i></div><div class="value-container"><div class="value auto-size" id="resMult">1.0x</div></div><div class="bottom-badge"><span class="badge-box green">🔥 Rendimiento</span></div></div>
             <div class="metric-card net"><div class="label" id="profitLabel">Utilidad Bruta <i class="info-tip" tabindex="0" data-tooltip="Ganancia total libre de costos directos.">?</i></div><div class="value-container"><div class="value auto-size" id="resProfit">$0</div></div><div class="bottom-badge"><span class="badge-box green">📈 Ganancia Real</span></div></div>
             
-            <!-- Patrimonio Bruto Destacado -->
             <div class="metric-card final-result" id="finalResultCard">
                 <div class="label" id="finalLabel">Patrimonio Bruto <i class="info-tip" tabindex="0" data-tooltip="Capital total acumulado sin vender activos.">?</i></div>
                 <div class="value-container"><div class="value auto-size" id="resNeto">$0</div></div>
@@ -635,8 +636,23 @@ function runCalculationLogic() {
     
     animationTriggeredManual = false; 
     
-    // USAMOS LA LÓGICA DE TU BACKUP GOLDEN PARA ACTUALIZAR GRÁFICAS
-    updateCharts(labels, dataP, dataInt, inversionAcum, totalBruto, totalTaxAcum + totalFeeAcum);
+    // Preparar gráficas (basado en Backup Golden)
+    if (chartBarras) chartBarras.destroy();
+    chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Crecimiento', data: dataInt, backgroundColor: '#d4af37' }] },
+        options: { 
+            animation: { duration: 2500, easing: 'easeOutQuart' }, 
+            responsive: true, maintainAspectRatio: false, 
+            scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } 
+        }
+    });
+    if (chartPie) chartPie.destroy();
+    chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: ['Tu Dinero', 'Ganancia', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, totalWealth = totalBruto - inversionAcum), totalExpenses = totalTaxAcum + totalFeeAcum], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
+        options: { animation: { animateRotate: true, animateScale: true, duration: 2500 }, responsive: true, maintainAspectRatio: false, cutout: '70%' }
+    });
 }
 
 function animateRetirementValue(start, end, duration) {
@@ -661,30 +677,10 @@ function animateRetirementValue(start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-// RESTAURADO: updateCharts CON ANIMACIÓN SEGÚN BACKUP GOLDEN
-function updateCharts(labels, dataP, dataInt, inversionAcum, totalWealth, totalExpenses) {
-    if (chartBarras) chartBarras.destroy();
-    chartBarras = new Chart(document.getElementById('graficaBarras').getContext('2d'), {
-        type: 'bar',
-        data: { labels: labels, datasets: [{ label: 'Tu Dinero', data: dataP, backgroundColor: '#1a3a5f' }, { label: 'Crecimiento', data: dataInt, backgroundColor: '#d4af37' }] },
-        options: { 
-            animation: { duration: 2500, easing: 'easeOutQuart' }, 
-            responsive: true, maintainAspectRatio: false, 
-            scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, grid: { color: '#222' } } } 
-        }
-    });
-    if (chartPie) chartPie.destroy();
-    chartPie = new Chart(document.getElementById('graficaPie').getContext('2d'), {
-        type: 'doughnut',
-        data: { labels: ['Tu Dinero', 'Ganancia', 'Gastos/SAT'], datasets: [{ data: [inversionAcum, Math.max(0, totalWealth - inversionAcum), totalExpenses], backgroundColor: ['#3498db', '#d4af37', '#ff4d4d'], borderColor: '#121212', borderWidth: 3 }] },
-        options: { animation: { animateRotate: true, animateScale: true, duration: 2500 }, responsive: true, maintainAspectRatio: false, cutout: '70%' }
-    });
-}
-
+// SCROLL OBSERVER - DISPARO DE ANIMACIONES (Lógica Backup Golden)
 const scrollObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // DISPARAR ANIMACIÓN AL INTERSECTAR USANDO reset() y update() COMO EN EL BACKUP
             if (entry.target.id === 'chartBoxBars' && chartBarras) {
                 SFX.whoosh();
                 chartBarras.reset();
